@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
 
 jobs:
-  verify:
+  build:
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository
@@ -16,19 +16,14 @@ jobs:
           distribution: corretto
           java-version: 17
 
-    - name: Build the plugin using Gradle
-      run: ./gradlew buildPlugin
-
-    - name: Verify Plugin on IntelliJ Platforms
-      id: verify
-      uses: ChrisCarini/intellij-platform-plugin-verifier-action@latest
+    - name: Build rust plugin
+      uses: gradle/gradle-build-action@v2
       with:
-        ide-versions: |
-          ideaIU:2023.2
-          clion:2023.2
+          arguments: ":plugin:buildPlugin"
 
-    - name: Get log file path and print contents
-      run: |
-        echo "The verifier log file [${{steps.verify.outputs.verification-output-log-filename}}] contents : " ;
-        cat ${{steps.verify.outputs.verification-output-log-filename}}
+    - name: Save artifacts
+      uses: actions/upload-artifact@v3
+      with:
+          name: slint-idea-plugin
+          path: plugin/build/distributions/*.zip
     
