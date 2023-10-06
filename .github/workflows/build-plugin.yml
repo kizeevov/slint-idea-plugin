@@ -25,5 +25,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
           name: slint-idea-plugin
-          path: slint-idea-plugin/slint-idea-plugin/build/distributions/*.zip
+          path: /home/runner/work/slint-idea-plugin/slint-idea-plugin/build/distributions/*.zip
     
