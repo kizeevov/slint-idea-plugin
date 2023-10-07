@@ -1,4 +1,4 @@
-package dev.slint.ideaplugin.lsp
+package dev.slint.ideaplugin.ide.lsp
 
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest
 import org.eclipse.lsp4j.services.LanguageServer

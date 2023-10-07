@@ -1,4 +1,4 @@
-package dev.slint.ideaplugin.highlighting
+package dev.slint.ideaplugin.ide.highlighting
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey

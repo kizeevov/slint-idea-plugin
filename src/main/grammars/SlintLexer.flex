@@ -1,9 +1,11 @@
 package dev.slint.ideaplugin.lang.lexer;
 
+import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
+import static dev.slint.ideaplugin.lang.psi.SlintElementTypes.*;
 
 %%
 
@@ -35,7 +37,28 @@ DOC_COMMENT="/"\*.*\*"/"
   {WHITE_SPACE}           { return WHITE_SPACE; }
 
   "import"                { return IMPORT; }
+  "from"                  { return FROM; }
   "export"                { return EXPORT; }
+  "struct"                { return STRUCT; }
+  "enum"                  { return ENUM; }
+  "global"                { return GLOBAL; }
+  "component"             { return COMPONENT; }
+  "inherits"              { return INHERITS; }
+  "property"              { return PROPERTY; }
+  "callback"              { return CALLBACK; }
+  "animate"               { return ANIMATE; }
+  "states"                { return STATES; }
+  "transitions"           { return TRANSITIONS; }
+  "private"               { return PRIVATE; }
+  "public"                { return PUBLIC; }
+  "pure"                  { return PURE; }
+  "function"              { return FUNCTION; }
+  "in"                    { return IN; }
+  "out"                   { return OUT; }
+  "in-out"                { return IN_OUNT; }
+  "if"                    { return IF; }
+  "for"                   { return FOR; }
+  "return"                { return RETURN; }
   "{"                     { return LBRACE; }
   "}"                     { return RBRACE; }
   "("                     { return LPAREN; }

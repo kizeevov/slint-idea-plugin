@@ -1,4 +1,4 @@
-package dev.slint.ideaplugin.highlighting
+package dev.slint.ideaplugin.ide.highlighting
 
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
@@ -21,9 +21,14 @@ class SlintSyntaxHighlighter : SyntaxHighlighterBase() {
             put(SlintElementTypes.STRING_LITERAL, SlintColors.STRING_LITERAL)
 
             fillMap(this, SLINT_KEYWORDS, SlintColors.KEYWORD)
+            fillMap(this, SLINT_KEYWORDS_OTHER, SlintColors.KEYWORD)
+            fillMap(this, SLINT_KEYWORDS_CONTROL, SlintColors.KEYWORD)
+
             fillMap(this, SLINT_BRACKETS, SlintColors.BRACKETS)
             fillMap(this, SLINT_BRACES, SlintColors.BRACES)
             fillMap(this, SLINT_PARENTHESES, SlintColors.PARENTHESES)
+
+            fillMap(this, SLINT_NUMERIC_LITERAL, SlintColors.NUMBER)
 
 
 //            put(SlintParserDefinition.DOC_COMMENT, SlintColors.DOC_COMMENT)

@@ -1,4 +1,4 @@
-package dev.slint.ideaplugin.lsp
+package dev.slint.ideaplugin.ide.lsp
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile

@@ -1,4 +1,4 @@
-package dev.slint.ideaplugin.lsp
+package dev.slint.ideaplugin.ide.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project

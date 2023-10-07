@@ -1,4 +1,4 @@
-package dev.slint.ideaplugin.ui
+package dev.slint.ideaplugin.ide.ui
 
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurableProvider
