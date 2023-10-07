@@ -1,11 +1,11 @@
-package dev.slint.ideaplugin.lsp
+package dev.slint.ideaplugin.ide.lsp
 
 import com.intellij.platform.lsp.api.LspServerListener
 import org.eclipse.lsp4j.InitializeResult
 import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.project.Project
 import com.intellij.platform.lsp.api.LspServer
-import dev.slint.ideaplugin.lsp.requests.LoadFileRequest
+import dev.slint.ideaplugin.ide.lsp.requests.LoadFileRequest
 
 private val LOG = logger<SlintLspServerListener>()
 

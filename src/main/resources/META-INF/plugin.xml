@@ -33,7 +33,7 @@
 
          Syntax Highlighting
         <lang.syntaxHighlighter language="Slint"
-                                implementationClass="dev.slint.ideaplugin.highlighting.SlintSyntaxHighlighter"/>
+                                implementationClass="dev.slint.ideaplugin.ide.highlighting.SlintSyntaxHighlighter"/>
 <!--        <colorSettingsPage implementation="dev.slint.ideaplugin.highlighting.SlintColorSettingsPage"/>-->
 
         <!-- Settings -->
@@ -42,6 +42,6 @@
 <!--                                 bundle="messages.SlintBundle" key="settings.display.name"/>-->
 
         <!-- LSP -->
-        <platform.lsp.serverSupportProvider implementation="dev.slint.ideaplugin.lsp.SlintLspServerSupportProvider"/>
+        <platform.lsp.serverSupportProvider implementation="dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider"/>
     </extensions>
 </idea-plugin>

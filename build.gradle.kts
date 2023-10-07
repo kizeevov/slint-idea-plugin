@@ -1,9 +1,12 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.0"
     id("org.jetbrains.intellij") version "1.15.0"
+    id("org.jetbrains.grammarkit") version "2022.3.1"
 }
 
 group = properties("pluginGroup")
@@ -11,7 +14,7 @@ version = properties("pluginVersion")
 
 idea {
     module {
-        generatedSourceDirs.add(file("gen"))
+        generatedSourceDirs.add(file("src/gen"))
     }
 }
 
@@ -31,7 +34,7 @@ kotlin {
 java {
     sourceSets {
         main {
-            java.srcDir("gen")
+            java.srcDir("src/gen")
             resources.srcDir("resources")
         }
     }
@@ -51,13 +54,30 @@ intellij {
 }
 
 tasks {
+    generateLexer {
+        sourceFile.set(file("src/main/grammars/SlintLexer.flex"))
+        targetDir.set("src/gen/dev/slint/ideaplugin/lang/lexer")
+        targetClass.set("_SlintLexer")
+        purgeOldFiles.set(true)
+    }
+    generateParser {
+        sourceFile.set(file("src/main/grammars/SlintParser.bnf"))
+        targetRoot.set("src/gen")
+        pathToParser.set("dev/slint/ideaplugin/lang/parser/SlintParser.java")
+        pathToPsiRoot.set("dev/slint/ideaplugin/lang/psi")
+        purgeOldFiles.set(true)
+        // classpath(project(":$grammarKitFakePsiDeps").sourceSets.main.get().runtimeClasspath)
+    }
+
     // Set the JVM compatibility versions
     withType<JavaCompile> {
         sourceCompatibility = "17"
         targetCompatibility = "17"
+        dependsOn(generateLexer, generateParser)
     }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "17"
+        dependsOn(generateLexer, generateParser)
     }
 
     patchPluginXml {

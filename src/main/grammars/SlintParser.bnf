@@ -16,7 +16,30 @@
 
   tokens=[
     IMPORT          = 'import'
+    FROM            = 'from'
     EXPORT          = 'export'
+    STRUCT          = 'struct'
+    ENUM            = 'enum'
+    GLOBAL          = 'global'
+    COMPONENT       = 'component'
+    INHERITS        = 'inherits'
+
+    PROPERTY        = 'property'
+    CALLBACK        = 'callback'
+    ANIMATE         = 'animate'
+    STATES          = 'states'
+    TRANSITIONS     = 'transitions'
+    PRIVATE         = 'private'
+    PUBLIC          = 'public'
+    PURE            = 'pure'
+    FUNCTION        = 'function'
+    IN              = 'in'
+    OUT             = 'out'
+    IN_OUNT         = 'in-out'
+
+    IF              = 'if'
+    FOR             = 'for'
+    RETURN          = 'return'
 
     LBRACE          = '{'
     RBRACE          = '}'
