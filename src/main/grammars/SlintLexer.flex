@@ -29,58 +29,61 @@ STRING_LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 NUMERIC_LITERAL=-?[0-9]+(\.[0-9]+)?
 IDENTIFIER=[a-zA-Z][a-zA-Z0-9\-_]*
 WHITE_SPACE=[ \t\n\x0B\f\r]+
+PARAMETER_LITERAL=[a-zA-Z_][a-zA-Z_\-0-9]*[ \t\n\x0B\f\r]*:
+TYPE_LITERAL=[a-zA-Z_][a-zA-Z_\-0-9]*[ \t\n\x0B\f\r]*:=
 LINE_COMMENT="//".*
 DOC_COMMENT="/"\*.*\*"/"
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}           { return WHITE_SPACE; }
+  {WHITE_SPACE}             { return WHITE_SPACE; }
 
-  "import"                { return IMPORT; }
-  "from"                  { return FROM; }
-  "export"                { return EXPORT; }
-  "struct"                { return STRUCT; }
-  "enum"                  { return ENUM; }
-  "global"                { return GLOBAL; }
-  "component"             { return COMPONENT; }
-  "inherits"              { return INHERITS; }
-  "property"              { return PROPERTY; }
-  "callback"              { return CALLBACK; }
-  "animate"               { return ANIMATE; }
-  "states"                { return STATES; }
-  "transitions"           { return TRANSITIONS; }
-  "private"               { return PRIVATE; }
-  "public"                { return PUBLIC; }
-  "pure"                  { return PURE; }
-  "function"              { return FUNCTION; }
-  "in"                    { return IN; }
-  "out"                   { return OUT; }
-  "in-out"                { return IN_OUNT; }
-  "if"                    { return IF; }
-  "for"                   { return FOR; }
-  "return"                { return RETURN; }
-  "{"                     { return LBRACE; }
-  "}"                     { return RBRACE; }
-  "("                     { return LPAREN; }
-  ")"                     { return RPAREN; }
-  "["                     { return LBRACKET; }
-  "]"                     { return RBRACKET; }
-  "="                     { return EQ; }
-  "."                     { return DOT; }
-  ":"                     { return COLON; }
-  "?"                     { return QUEST; }
-  "!"                     { return EXCL; }
-  "@"                     { return AT; }
-  "@@"                    { return ATAT; }
-  ","                     { return COMMA; }
-  "Expression"            { return EXPRESSION; }
+  "import"                  { return IMPORT; }
+  "from"                    { return FROM; }
+  "export"                  { return EXPORT; }
+  "struct"                  { return STRUCT; }
+  "enum"                    { return ENUM; }
+  "global"                  { return GLOBAL; }
+  "component"               { return COMPONENT; }
+  "inherits"                { return INHERITS; }
+  "property"                { return PROPERTY; }
+  "callback"                { return CALLBACK; }
+  "animate"                 { return ANIMATE; }
+  "states"                  { return STATES; }
+  "transitions"             { return TRANSITIONS; }
+  "private"                 { return PRIVATE; }
+  "public"                  { return PUBLIC; }
+  "pure"                    { return PURE; }
+  "function"                { return FUNCTION; }
+  "in"                      { return IN; }
+  "out"                     { return OUT; }
+  "in-out"                  { return IN_OUNT; }
+  "if"                      { return IF; }
+  "for"                     { return FOR; }
+  "return"                  { return RETURN; }
+  "{"                       { return LBRACE; }
+  "}"                       { return RBRACE; }
+  "("                       { return LPAREN; }
+  ")"                       { return RPAREN; }
+  "["                       { return LBRACKET; }
+  "]"                       { return RBRACKET; }
+  "="                       { return EQ; }
+  "."                       { return DOT; }
+  ":"                       { return COLON; }
+  "?"                       { return QUEST; }
+  "!"                       { return EXCL; }
+  "@"                       { return AT; }
+  ","                       { return COMMA; }
+  ":="                      { return COLONEQ; }
 
-  {STRING_LITERAL}        { return STRING_LITERAL; }
-  {NUMERIC_LITERAL}       { return NUMERIC_LITERAL; }
-  {IDENTIFIER}            { return IDENTIFIER; }
-  {WHITE_SPACE}           { return WHITE_SPACE; }
-  {LINE_COMMENT}          { return LINE_COMMENT; }
-  {DOC_COMMENT}           { return DOC_COMMENT; }
+  {STRING_LITERAL}          { return STRING_LITERAL; }
+  {NUMERIC_LITERAL}         { return NUMERIC_LITERAL; }
+  {IDENTIFIER}              { return IDENTIFIER; }
+  {WHITE_SPACE}             { return WHITE_SPACE; }
+  {PARAMETER_LITERAL}       { return PARAMETER_LITERAL; }
+  {TYPE_LITERAL}            { return TYPE_LITERAL; }
+  {LINE_COMMENT}            { return LINE_COMMENT; }
+  {DOC_COMMENT}             { return DOC_COMMENT; }
 
 }
 

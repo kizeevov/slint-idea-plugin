@@ -6,7 +6,23 @@ import com.intellij.psi.PsiElementVisitor;
 
 public class SlintVisitor extends PsiElementVisitor {
 
-  public void visitKeyValue(@NotNull SlintKeyValue o) {
+  public void visitFieldDeclarationBlock(@NotNull SlintFieldDeclarationBlock o) {
+    visitElement(o);
+  }
+
+  public void visitFieldType(@NotNull SlintFieldType o) {
+    visitElement(o);
+  }
+
+  public void visitSingleType(@NotNull SlintSingleType o) {
+    visitElement(o);
+  }
+
+  public void visitStructDeclaration(@NotNull SlintStructDeclaration o) {
+    visitElement(o);
+  }
+
+  public void visitStructFieldDeclaration(@NotNull SlintStructFieldDeclaration o) {
     visitElement(o);
   }
 

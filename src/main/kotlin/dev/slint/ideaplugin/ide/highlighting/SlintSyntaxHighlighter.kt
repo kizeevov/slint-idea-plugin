@@ -20,6 +20,9 @@ class SlintSyntaxHighlighter : SyntaxHighlighterBase() {
             put(SlintElementTypes.LINE_COMMENT, SlintColors.LINE_COMMENT)
             put(SlintElementTypes.STRING_LITERAL, SlintColors.STRING_LITERAL)
 
+            put(SlintElementTypes.COLONEQ, SlintColors.OPERATION_SIGN)
+            put(SlintElementTypes.EQ, SlintColors.OPERATION_SIGN)
+
             fillMap(this, SLINT_KEYWORDS, SlintColors.KEYWORD)
             fillMap(this, SLINT_KEYWORDS_OTHER, SlintColors.KEYWORD)
             fillMap(this, SLINT_KEYWORDS_CONTROL, SlintColors.KEYWORD)
@@ -29,21 +32,7 @@ class SlintSyntaxHighlighter : SyntaxHighlighterBase() {
             fillMap(this, SLINT_PARENTHESES, SlintColors.PARENTHESES)
 
             fillMap(this, SLINT_NUMERIC_LITERAL, SlintColors.NUMBER)
-
-
-//            put(SlintParserDefinition.DOC_COMMENT, SlintColors.DOC_COMMENT)
-//            put(SlintParserDefinition.LINE_COMMENT, SlintColors.LINE_COMMENT)
-//            put(SlintElementTypes.IDENTIFIER, SlintColors.IDENTIFIER)
-//            put(PrismaElementTypes.NUMERIC_LITERAL, SlintColors.NUMBER)
-//            put(PrismaElementTypes.COMMA, SlintColors.COMMA)
-//            put(PrismaElementTypes.DOT, SlintColors.DOT)
-//            put(PrismaElementTypes.EQ, SlintColors.OPERATION_SIGN)
-//            put(PrismaElementTypes.COLON, SlintColors.OPERATION_SIGN)
-//            put(PrismaElementTypes.QUEST, SlintColors.OPERATION_SIGN)
-//            put(PrismaElementTypes.EXCL, SlintColors.OPERATION_SIGN)
-//            put(PrismaElementTypes.UNSUPPORTED, SlintColors.TYPE_REFERENCE)
-
-//            fillMap(this, PRISMA_PARENTHESES, SlintColors.PARENTHESES)
+            fillMap(this, SLINT_FIELD_LITERAL, SlintColors.FIELD_NAME)
         }
     }
 }

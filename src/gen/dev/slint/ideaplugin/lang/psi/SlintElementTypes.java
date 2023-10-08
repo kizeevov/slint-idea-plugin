@@ -8,13 +8,17 @@ import dev.slint.ideaplugin.lang.psi.impl.*;
 
 public interface SlintElementTypes {
 
-  IElementType KEY_VALUE = new SlintElementType("KEY_VALUE");
+  IElementType FIELD_DECLARATION_BLOCK = new SlintElementType("FIELD_DECLARATION_BLOCK");
+  IElementType FIELD_TYPE = new SlintElementType("FIELD_TYPE");
+  IElementType SINGLE_TYPE = new SlintElementType("SINGLE_TYPE");
+  IElementType STRUCT_DECLARATION = new SlintElementType("STRUCT_DECLARATION");
+  IElementType STRUCT_FIELD_DECLARATION = new SlintElementType("STRUCT_FIELD_DECLARATION");
 
   IElementType ANIMATE = new SlintTokenType("animate");
   IElementType AT = new SlintTokenType("@");
-  IElementType ATAT = new SlintTokenType("@@");
   IElementType CALLBACK = new SlintTokenType("callback");
   IElementType COLON = new SlintTokenType(":");
+  IElementType COLONEQ = new SlintTokenType(":=");
   IElementType COMMA = new SlintTokenType(",");
   IElementType COMPONENT = new SlintTokenType("component");
   IElementType DOC_COMMENT = new SlintTokenType("DOC_COMMENT");
@@ -23,7 +27,6 @@ public interface SlintElementTypes {
   IElementType EQ = new SlintTokenType("=");
   IElementType EXCL = new SlintTokenType("!");
   IElementType EXPORT = new SlintTokenType("export");
-  IElementType EXPRESSION = new SlintTokenType("Expression");
   IElementType FOR = new SlintTokenType("for");
   IElementType FROM = new SlintTokenType("from");
   IElementType FUNCTION = new SlintTokenType("function");
@@ -40,6 +43,7 @@ public interface SlintElementTypes {
   IElementType LPAREN = new SlintTokenType("(");
   IElementType NUMERIC_LITERAL = new SlintTokenType("NUMERIC_LITERAL");
   IElementType OUT = new SlintTokenType("out");
+  IElementType PARAMETER_LITERAL = new SlintTokenType("PARAMETER_LITERAL");
   IElementType PRIVATE = new SlintTokenType("private");
   IElementType PROPERTY = new SlintTokenType("property");
   IElementType PUBLIC = new SlintTokenType("public");
@@ -53,12 +57,25 @@ public interface SlintElementTypes {
   IElementType STRING_LITERAL = new SlintTokenType("STRING_LITERAL");
   IElementType STRUCT = new SlintTokenType("struct");
   IElementType TRANSITIONS = new SlintTokenType("transitions");
+  IElementType TYPE_LITERAL = new SlintTokenType("TYPE_LITERAL");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == KEY_VALUE) {
-        return new SlintKeyValueImpl(node);
+      if (type == FIELD_DECLARATION_BLOCK) {
+        return new SlintFieldDeclarationBlockImpl(node);
+      }
+      else if (type == FIELD_TYPE) {
+        return new SlintFieldTypeImpl(node);
+      }
+      else if (type == SINGLE_TYPE) {
+        return new SlintSingleTypeImpl(node);
+      }
+      else if (type == STRUCT_DECLARATION) {
+        return new SlintStructDeclarationImpl(node);
+      }
+      else if (type == STRUCT_FIELD_DECLARATION) {
+        return new SlintStructFieldDeclarationImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }
