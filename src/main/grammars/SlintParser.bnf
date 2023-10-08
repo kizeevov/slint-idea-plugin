@@ -56,7 +56,6 @@
     ATAT            = '@@'
     COMMA           = ','
 
-    // STRING_LITERAL  = 'regexp:\"([^\\\"\r\n]|\\[^\r\n])*\"?'
     STRING_LITERAL  = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
     NUMERIC_LITERAL = 'regexp:-?\d+(\.\d+)?'
     IDENTIFIER      = 'regexp:[a-zA-Z][a-zA-Z0-9\-_]*'
