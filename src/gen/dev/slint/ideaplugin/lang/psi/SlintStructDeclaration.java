@@ -5,7 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SlintKeyValue extends SlintElement {
+public interface SlintStructDeclaration extends SlintElement {
+
+  @NotNull
+  SlintFieldDeclarationBlock getFieldDeclarationBlock();
 
   @NotNull
   PsiElement getIdentifier();

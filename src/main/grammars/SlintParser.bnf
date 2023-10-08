@@ -53,212 +53,73 @@
     QUEST           = '?'
     EXCL            = '!'
     AT              = '@'
-    ATAT            = '@@'
     COMMA           = ','
+    COLONEQ          =  ':='
 
     STRING_LITERAL  = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
     NUMERIC_LITERAL = 'regexp:-?\d+(\.\d+)?'
     IDENTIFIER      = 'regexp:[a-zA-Z][a-zA-Z0-9\-_]*'
     WHITE_SPACE     = 'regexp:\s+'
 
+    PARAMETER_LITERAL   = 'regexp:[a-zA-Z_][a-zA-Z_\-0-9]*\s*:'
+    TYPE_LITERAL        = 'regexp:[a-zA-Z_][a-zA-Z_\-0-9]*\s*:='
+
     LINE_COMMENT = 'regexp://.*'
     DOC_COMMENT = 'regexp:/\*.*\*/'
   ]
-
-//  extends('FunctionCall|ArrayExpression|LiteralExpression|PathExpression')=Expression
-//  extends('LiteralExpression')=Expression
-
-
-//  implements('(Model|Type|View|Enum|Datasource|Generator)Declaration|TypeAlias')='dev.slint.ideaplugin.lang.psi.SlintDeclaration'
-//  implements('(Model|Type|View|Enum)Declaration|TypeAlias')='dev.slint.ideaplugin.lang.psi.SlintEntityDeclaration'
-//  implements('(Datasource|Generator)Declaration')='dev.slint.ideaplugin.lang.psi.SlintKeyValueDeclaration'
-//
-//  implements('(Model|Type|View)Declaration')='dev.slint.ideaplugin.lang.psi.SlintTableEntityDeclaration'
-//  mixin('(Model|Type|View)Declaration')='dev.slint.ideaplugin.lang.psi.impl.SlintTableEntityDeclarationMixin'
-//  pin('(Model|Type|View)Declaration')=1
-//
-//  implements('.*Block')='dev.slint.ideaplugin.lang.psi.SlintBlock'
-//  mixin('.*Block')='dev.slint.ideaplugin.lang.psi.impl.SlintBlockMixin'
-//
-//  implements('FieldDeclaration|EnumValueDeclaration|KeyValue')='dev.slint.ideaplugin.lang.psi.SlintMemberDeclaration'
-//  implements('(Field|Block)Attribute')='dev.slint.ideaplugin.lang.psi.SlintArgumentsOwner'
-//
-//  extends('NamedArgument|ValueArgument')=Argument
-//
-//  extends('UnsupportedOptionalListType|ListType|OptionalType|LegacyRequiredType|LegacyListType|SingleType')=FieldType
-//
-//  implements('FieldDeclaration')='dev.slint.ideaplugin.lang.psi.SlintTypeOwner'
-//  implements('FieldDeclaration|EnumValueDeclaration')='dev.slint.ideaplugin.lang.psi.SlintFieldAttributeOwner'
 }
 
-functionName ::= IDENTIFIER
+Schema ::= Declaration*
 
-//typeName ::= IDENTIFIER
-//
-//listType ::= typeName LBRACKET RBRACKET
+private Declaration ::=
+    StructDeclaration
+    {
+        pin=1
+        recoverWhile=Declaration_recover
+    }
+private Declaration_recover ::= !TopLevelKeywords
+private TopLevelKeywords ::= EXPORT | STRUCT | RBRACE
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Struct
+///////////////////////////////////////////////////////////////////////////////////////////////////
+StructDeclaration ::= EXPORT? STRUCT Identifier FieldDeclarationBlock
+FieldDeclarationBlock ::= '{' StructFieldDeclarationBlockItem* '}' {
+}
 
-// Schema ::= Declaration*
-//
-//private Declaration ::=
-//    ModelDeclaration
-//    | EnumDeclaration
-//    | ViewDeclaration
-//    | DatasourceDeclaration
-//    | GeneratorDeclaration
-//    | TypeAlias
-//    | TypeDeclaration
-//    {
-//        pin=1
-//        recoverWhile=Declaration_recover
-//    }
-//private Declaration_recover ::= !TopLevelKeywords
-//private TopLevelKeywords ::= MODEL | TYPE | VIEW | ENUM | GENERATOR | DATASOURCE
-//
-//ModelDeclaration ::= MODEL Identifier FieldDeclarationBlock
-//TypeDeclaration ::= TYPE Identifier FieldDeclarationBlock
-//ViewDeclaration ::= VIEW Identifier FieldDeclarationBlock
-//
-//FieldDeclarationBlock ::= '{' FieldDeclarationBlockItem* '}' {
-//}
-//
-//private FieldDeclarationBlockItem ::=
-//    FieldDeclaration
-//    | BlockAttribute
-//    | <<consumeWithError '@' "parser.unexpected.field.attr">>
-//    {
-//        consumeTokenMethod="consumeTokenFast"
-//    }
-//
-//FieldDeclaration ::= IDENTIFIER ':'? FieldType? FieldAttribute* {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintFieldDeclarationMixin"
-//    pin=1
-//    recoverWhile=UntilNewLine_recover
-//    methods=[getNativeType]
-//}
-//
-//EnumDeclaration ::= ENUM Identifier EnumDeclarationBlock {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintEnumDeclarationMixin"
-//    pin=1
-//}
-//EnumDeclarationBlock ::= '{' (EnumValueDeclaration | BlockAttribute)* '}' {
-//    pin=1
-//}
-//EnumValueDeclaration ::= Identifier FieldAttribute* {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintEnumValueDeclarationMixin"
-//    pin=1
-//    recoverWhile=UntilNewLine_recover
-//}
+private StructFieldDeclarationBlockItem ::=
+    StructFieldDeclaration
+    {
+        consumeTokenMethod="consumeTokenFast"
+    }
 
-//DatasourceDeclaration ::= DATASOURCE Identifier KeyValueBlock {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintKeyValueDeclarationMixin"
-//    pin=1
-//}
-//GeneratorDeclaration ::= GENERATOR Identifier KeyValueBlock {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintKeyValueDeclarationMixin"
-//    pin=1
-//}
-//
-//KeyValueBlock ::= '{' KeyValue* '}' {
-//    pin=1
-//}
-KeyValue ::= Identifier '=' Expression {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintKeyValueMixin"
+StructFieldDeclaration ::= PARAMETER_LITERAL FieldType ',' {
     pin=1
-//    recoverWhile=UntilNewLine_recover
+    recoverWhile=UntilNewLine_recover
+    methods=[getNativeType]
 }
 
-//TypeAlias ::= TYPE Identifier '=' FieldType FieldAttribute* {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintTypeAliasMixin"
-//    pin=3
-//}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Component
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//ComponentDeclaration ::= EXPORT COMPONENT Identifier INHERITS Identifier ComponentDeclarationBlock
 //
-///* Types */
-//FieldType ::=
-//    UnsupportedOptionalListType
-//    | ListType
-//    | OptionalType
-//    | LegacyRequiredType
-//    | LegacyListType
-//    | SingleType
-//    {
-//        implements="dev.slint.ideaplugin.lang.psi.SlintTypeSignature"
-//        mixin="dev.slint.ideaplugin.lang.psi.impl.SlintFieldTypeMixin"
-//        methods=[getTypeReference]
-//    }
-//
-//UnsupportedType ::= UNSUPPORTED '(' STRING_LITERAL ')' {
-//    pin=1
-//    recoverWhile=UnsupportedType_recover
-//    methods=[identifier="UNSUPPORTED"]
-//}
-//private UnsupportedType_recover ::= !(')' | '}' | '@' | '@@' | IDENTIFIER | '?' | '[' | ']' | TopLevelKeywords)
-//
-//TypeReference ::= UnsupportedType | Identifier {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintTypeReferenceMixin"
-//    implements="dev.slint.ideaplugin.lang.psi.SlintReferenceElement"
-//}
-//UnsupportedOptionalListType ::= TypeReference '[' ']' '?'
-//ListType ::= TypeReference '[' ']'
-//OptionalType ::= TypeReference '?'
-//LegacyRequiredType ::= TypeReference '!'
-//LegacyListType ::= '[' TypeReference ']'
-//SingleType ::= TypeReference
-//
-///* Attributes */
-//BlockAttribute ::= '@@' !<<isWhiteSpace>> PathExpression ArgumentsList? {
-//    pin=1
-//}
-//FieldAttribute ::= '@' !<<isWhiteSpace>> PathExpression ArgumentsList? {
-//    pin=1
-//}
-//
-///* Arguments */
-//ArgumentsList ::= '(' [Argument (',' Argument)*] ','? ')' {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintArgumentsListMixin"
-//    methods=[
-//        Arguments="Argument"
-//        findArgumentByName
-//    ]
-//}
-//Argument ::= NamedArgument | ValueArgument
-//NamedArgument ::= Identifier ':' Expression {
-//    pin=2
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintNamedArgumentMixin"
-//    implements="dev.slint.ideaplugin.lang.psi.SlintReferenceElement"
-//}
-//ValueArgument ::= Expression {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintValueArgumentMixin"
-//    methods=[isDefault]
-//}
+//ComponentDeclarationBlock ::= LBRACE FieldDeclarationBlockItem* RBRACE
 
-/* Expressions */
-//Expression ::=
-//    FunctionCall
-//    | ArrayExpression
-//    | LiteralExpression
-//    | PathExpression
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//// Types
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+FieldType ::=
+    SingleType
+    {
+        // implements="org.intellij.prisma.lang.psi.PrismaTypeSignature"
+        // mixin="org.intellij.prisma.lang.psi.impl.PrismaFieldTypeMixin"
+        methods=[getTypeReference]
+    }
+SingleType ::= Identifier
 
-//FunctionCall ::= PathExpression ArgumentsList {
-//    implements="dev.slint.ideaplugin.lang.psi.SlintArgumentsOwner"
-//}
-//ArrayExpression ::= '[' [Expression (',' Expression)* ','?] ']' {
-//    pin=1
-//}
-//LiteralExpression ::= NUMERIC_LITERAL | STRING_LITERAL {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintLiteralExpressionMixin"
-//    methods=[getValue]
-//}
-//PathExpression ::= !<<isNewLine>> Path PathMemberAccess* {
-//    mixin="dev.slint.ideaplugin.lang.psi.impl.SlintPathExpressionMixin"
-//    implements="dev.slint.ideaplugin.lang.psi.SlintQualifiedReferenceElement"
-//}
-
-///* Path */
-//Path ::= Identifier { elementType=PathExpression }
-//left PathMemberAccess ::= '.' Identifier? { elementType=PathExpression }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Utils
+///////////////////////////////////////////////////////////////////////////////////////////////////
 private Identifier ::= IDENTIFIER
-
-///* Utils */
-//private UntilNewLine_recover ::= !<<isNewLine>>
+private UntilNewLine_recover ::= !<<isNewLine>>
