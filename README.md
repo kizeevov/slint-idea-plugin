@@ -6,6 +6,10 @@
 
 **Unofficial! Slint-plugin is currently experimental plugin!**
 
+Tested with: 
+- CLion 2023.2
+- IDEA Ultimate 2023.2
+
 ## Dependencies
 
 Slint IntelliJ Plugin communicates with Slint Language Server Protocol (LSP). Install Slint-LSP before you can use the IntelliJ Plugin. To install Slint-LSP:
@@ -19,8 +23,12 @@ $ cargo install slint-lsp
 
 - Manually:
 
-  Download the [latest release]() and install it manually using
+  Download the [latest release](https://github.com/kizeevov/slint-idea-plugin/releases) and install it manually using
   <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+
+## Configuration
+
+Go to <kbd>Settings</kbd> > <kbd>Languages & Frameworks</kbd> > <kbd>Slint</kbd> > <kbd>Slint-lsp path</kbd> selected path
 
 ## Features
 
