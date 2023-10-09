@@ -24,6 +24,6 @@ jobs:
     - name: Save artifacts
       uses: actions/upload-artifact@v3
       with:
-          name: slint-idea-plugin
+          # name: slint-idea-plugin
           path: /home/runner/work/slint-idea-plugin/slint-idea-plugin/build/distributions/*.zip
     
