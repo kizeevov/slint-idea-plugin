@@ -43,9 +43,9 @@
                         implementationClass="dev.slint.ideaplugin.ide.editor.SlintCommenter"/>
 
         <!-- Settings -->
-<!--        <applicationConfigurable groupId="tools" id="slint.settings"-->
-<!--                                 provider="dev.slint.ideaplugin.ui.SlintSettingsConfigurableProvider"-->
-<!--                                 bundle="messages.SlintBundle" key="settings.display.name"/>-->
+        <applicationConfigurable groupId="language" id="slint.settings"
+                                 provider="dev.slint.ideaplugin.ide.settings.SlintSettingsConfigurableProvider"
+                                 bundle="messages.SlintBundle" key="settings.display.name"/>
 
         <!-- LSP -->
         <platform.lsp.serverSupportProvider implementation="dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider"/>
