@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SlintFieldDeclarationBlock extends SlintElement {
+public interface SlintOperators extends SlintElement {
 
   @NotNull
-  List<SlintStructFieldDeclaration> getStructFieldDeclarationList();
+  SlintMathematicalOperators getMathematicalOperators();
 
 }

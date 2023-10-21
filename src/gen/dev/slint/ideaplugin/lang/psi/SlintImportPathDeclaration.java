@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SlintStructFieldDeclaration extends SlintElement {
+public interface SlintImportPathDeclaration extends SlintElement {
 
   @NotNull
-  SlintFieldType getFieldType();
-
-  @NotNull
-  SlintStructFieldName getStructFieldName();
+  PsiElement getStringLiteral();
 
 }

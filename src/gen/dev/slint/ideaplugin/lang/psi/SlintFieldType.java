@@ -7,11 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface SlintFieldType extends SlintElement {
 
-  @NotNull
-  SlintSingleType getSingleType();
-
-  //WARNING: getTypeReference(...) is skipped
-  //matching getTypeReference(SlintFieldType, ...)
-  //methods are not found in null
-
 }

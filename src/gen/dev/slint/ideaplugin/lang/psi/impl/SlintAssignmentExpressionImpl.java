@@ -10,14 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static dev.slint.ideaplugin.lang.psi.SlintElementTypes.*;
 import dev.slint.ideaplugin.lang.psi.*;
 
-public class SlintStructFieldDeclarationImpl extends SlintElementImpl implements SlintStructFieldDeclaration {
+public class SlintAssignmentExpressionImpl extends SlintExpressionImpl implements SlintAssignmentExpression {
 
-  public SlintStructFieldDeclarationImpl(ASTNode node) {
+  public SlintAssignmentExpressionImpl(ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull SlintVisitor visitor) {
-    visitor.visitStructFieldDeclaration(this);
+    visitor.visitAssignmentExpression(this);
   }
 
   @Override
@@ -28,14 +29,8 @@ public class SlintStructFieldDeclarationImpl extends SlintElementImpl implements
 
   @Override
   @NotNull
-  public SlintFieldType getFieldType() {
-    return findNotNullChildByClass(SlintFieldType.class);
-  }
-
-  @Override
-  @NotNull
-  public SlintStructFieldName getStructFieldName() {
-    return findNotNullChildByClass(SlintStructFieldName.class);
+  public List<SlintExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SlintExpression.class);
   }
 
 }

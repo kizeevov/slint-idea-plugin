@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SlintSingleType extends SlintElement {
+public interface SlintImportDeclaration extends SlintElement {
+
+  @Nullable
+  SlintImportElementDeclarationBlock getImportElementDeclarationBlock();
 
   @NotNull
-  PsiElement getIdentifier();
+  SlintImportPathDeclaration getImportPathDeclaration();
 
 }

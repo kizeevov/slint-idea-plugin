@@ -50,14 +50,24 @@
     EQ              = '='
     DOT             = '.'
     COLON           = ':'
+    SEMICOLON       = ';'
     QUEST           = '?'
     EXCL            = '!'
     AT              = '@'
     COMMA           = ','
-    COLONEQ          =  ':='
+
+    ADDITION        = '+'
+    SUBTRACTION     = '-'
+    MULTIPLY        = '*'
+    DIVIDE          = '/'
+    MODULO          = '%'
+    FLOOR_DIVIDE    = '\'
 
     STRING_LITERAL  = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
     NUMERIC_LITERAL = 'regexp:-?\d+(\.\d+)?'
+    COLOR_LITERAL   = 'regexp:#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})'
+    LENGTH_LITERAL  = 'regexp:-?\d+(\.\d+)?(px|pt|in|mm|cm|%)'
+    DURATION_LITERAL= 'regexp:-?\d+(\.\d+)?(ms|s)'
     IDENTIFIER      = 'regexp:[a-zA-Z][a-zA-Z0-9\-_]*'
     WHITE_SPACE     = 'regexp:\s+'
 
@@ -65,27 +75,37 @@
     TYPE_LITERAL        = 'regexp:[a-zA-Z_][a-zA-Z_\-0-9]*\s*:='
 
     LINE_COMMENT = 'regexp://.*'
-    DOC_COMMENT = 'regexp:/\*.*\*/'
+    DOC_COMMENT = 'regexp:/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/'
   ]
+
+  extends(".*Expression")=Expression
 }
 
 Schema ::= Declaration*
 
 private Declaration ::=
-    StructDeclaration
+    ImportDeclaration
+    | StructDeclaration
+    | ComponentDeclaration
     {
         pin=1
         recoverWhile=Declaration_recover
     }
 private Declaration_recover ::= !TopLevelKeywords
-private TopLevelKeywords ::= EXPORT | STRUCT | RBRACE
+private TopLevelKeywords ::= EXPORT | IMPORT | STRUCT | COMPONENT
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Import
+///////////////////////////////////////////////////////////////////////////////////////////////////
+ImportDeclaration ::= IMPORT ImportElementDeclarationBlock? ImportPathDeclaration ';'
+ImportPathDeclaration ::= STRING_LITERAL
+ImportElementDeclarationBlock ::= LBRACE (Identifier ','?)* RBRACE FROM
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Struct
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-StructDeclaration ::= EXPORT? STRUCT Identifier FieldDeclarationBlock
-FieldDeclarationBlock ::= '{' StructFieldDeclarationBlockItem* '}' {
-}
+StructDeclaration ::= EXPORT? STRUCT Identifier StructFieldDeclarationBlock
+StructFieldDeclarationBlock ::= LBRACE StructFieldDeclarationBlockItem* RBRACE
 
 private StructFieldDeclarationBlockItem ::=
     StructFieldDeclaration
@@ -93,33 +113,138 @@ private StructFieldDeclarationBlockItem ::=
         consumeTokenMethod="consumeTokenFast"
     }
 
-StructFieldDeclaration ::= PARAMETER_LITERAL FieldType ',' {
-    pin=1
-    recoverWhile=UntilNewLine_recover
-    methods=[getNativeType]
-}
+StructFieldDeclaration ::= StructFieldName FieldType ','
+StructFieldName ::= PARAMETER_LITERAL
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Component
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-//ComponentDeclaration ::= EXPORT COMPONENT Identifier INHERITS Identifier ComponentDeclarationBlock
-//
-//ComponentDeclarationBlock ::= LBRACE FieldDeclarationBlockItem* RBRACE
+ComponentDeclaration ::= EXPORT? COMPONENT? Identifier (INHERITS Identifier)? ComponentFieldDeclarationBlock
+ComponentFieldDeclarationBlock ::= LBRACE ComponentFieldDeclarationBlockItem* RBRACE
+
+private ComponentFieldDeclarationBlockItem ::=
+    ComponentPropertyDeclaration
+    | ComponentCallbackPropertyDeclaration
+    | ComponentCallbackDeclaration
+    | ElementFieldDeclaration
+    | ComponentElementDeclaration
+    | ComponentAnimateDeclaration
+    | ComponentStatesDeclaration
+    {
+        consumeTokenMethod="consumeTokenFast"
+    }
+
+private ComponentPropertyDeclaration ::= (PRIVATE | IN | OUT | IN_OUNT)? PROPERTY '<' Identifier  '>' PropertyName ';'
+
+private ComponentCallbackPropertyDeclaration ::= CALLBACK Identifier (ComponentCallbackPropertyReturnDeclaration | ComponentCallbackPropertyBindingDeclaration)? ';'
+private ComponentCallbackPropertyReturnDeclaration ::= ComponentCallbackPropertyParametersDeclaration ('->' FieldType)?
+private ComponentCallbackPropertyParametersDeclaration ::= LPAREN (FieldType ','?)* RPAREN
+private ComponentCallbackPropertyBindingDeclaration ::= '<=>' PropertyExpression
+
+private ElementFieldDeclaration ::= ComponentFieldName Expression SEMICOLON
+
+private ComponentElementDeclaration ::= TYPE_LITERAL? ComponentDeclaration
+
+private ComponentAnimateDeclaration ::= ANIMATE ComponentDeclaration
+
+private ComponentCallbackDeclaration ::= Identifier '=>' ComponentCallbackDeclarationBlock
+private ComponentCallbackDeclarationBlock ::= LBRACE ComponentCallbackDeclarationBlockItems* RBRACE
+private ComponentCallbackDeclarationBlockItems ::= Expression SEMICOLON
+
+private ComponentStatesDeclaration ::= STATES LBRACKET
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//// Expressions
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+Expression ::=
+    TernaryExpression
+    | BinaryExpression
+    | UnaryExpression
+    | AssignmentExpression
+    | PropertyExpression
+    | ColorExpression
+    | LengthExpression
+    | DurationExpression
+    | NumericExpression
+    | BooleanExpression
+    | StringExpression
+    | AlignmentExpression
+    | CallExpression
+
+MathematicalOperators ::=
+    ADDITION
+    | SUBTRACTION
+    | MULTIPLY
+    | DIVIDE
+    | MODULO
+    | FLOOR_DIVIDE
+
+Operators ::=
+    MathematicalOperators
+//    | LogicalOperators
+//    | RelationalOperators
+//    | UNWRAP_OR
+
+BinaryExpression ::= Expression Operators Expression
+
+UnaryOperators ::=
+    EXCL
+    | SUBTRACTION
+
+UnaryExpression ::=
+    UnaryOperators Expression
+
+AssignmentExpression ::= PropertyExpression EQ Expression
+TernaryExpression ::= Expression QUEST Expression ':' Expression
+CallExpression ::= PropertyExpression LPAREN Expression RPAREN
+BooleanExpression ::= 'true' | 'false'
+StringExpression ::= STRING_LITERAL
+PropertyExpression ::= Identifier '.' Identifier
+ColorExpression ::= COLOR_LITERAL | BasicColors
+NumericExpression ::= NUMERIC_LITERAL
+LengthExpression ::= LENGTH_LITERAL
+DurationExpression ::= DURATION_LITERAL
+AlignmentExpression ::= 'stretch' | 'start' | 'center' | 'end' | 'space-between' | 'space-around'
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Types
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 FieldType ::=
-    SingleType
-    {
-        // implements="org.intellij.prisma.lang.psi.PrismaTypeSignature"
-        // mixin="org.intellij.prisma.lang.psi.impl.PrismaFieldTypeMixin"
-        methods=[getTypeReference]
-    }
-SingleType ::= Identifier
+    'int'
+    | 'float'
+    | 'bool'
+    | 'string'
+    | 'color'
+    | 'brush'
+    | 'physical-length'
+    | 'length'
+    | 'duration'
+    | 'angle'
+    | 'easing'
+    | 'percent'
+    | 'image'
+    | 'relative-font-size'
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Utils
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 private Identifier ::= IDENTIFIER
-private UntilNewLine_recover ::= !<<isNewLine>>
+private PropertyName ::= Identifier
+private ComponentFieldName ::= PARAMETER_LITERAL
+private BasicColors ::=
+    'black'
+    | 'silver'
+    | 'gray'
+    | 'white'
+    | 'maroon'
+    | 'red'
+    | 'purple'
+    | 'fuchsia'
+    | 'green'
+    | 'lime'
+    | 'olive'
+    | 'yellow'
+    | 'navy'
+    | 'blue'
+    | 'teal'
+    | 'aqua'

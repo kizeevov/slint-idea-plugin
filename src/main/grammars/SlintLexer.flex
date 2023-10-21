@@ -27,12 +27,15 @@ WHITE_SPACE=\s+
 
 STRING_LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 NUMERIC_LITERAL=-?[0-9]+(\.[0-9]+)?
+COLOR_LITERAL=#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})
+LENGTH_LITERAL=-?[0-9]+(\.[0-9]+)?(px|pt|in|mm|cm|%)
+DURATION_LITERAL=-?[0-9]+(\.[0-9]+)?(ms|s)
 IDENTIFIER=[a-zA-Z][a-zA-Z0-9\-_]*
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 PARAMETER_LITERAL=[a-zA-Z_][a-zA-Z_\-0-9]*[ \t\n\x0B\f\r]*:
 TYPE_LITERAL=[a-zA-Z_][a-zA-Z_\-0-9]*[ \t\n\x0B\f\r]*:=
 LINE_COMMENT="//".*
-DOC_COMMENT="/"\*.*\*"/"
+DOC_COMMENT="/"\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+"/"
 
 %%
 <YYINITIAL> {
@@ -70,14 +73,23 @@ DOC_COMMENT="/"\*.*\*"/"
   "="                       { return EQ; }
   "."                       { return DOT; }
   ":"                       { return COLON; }
+  ";"                       { return SEMICOLON; }
   "?"                       { return QUEST; }
   "!"                       { return EXCL; }
   "@"                       { return AT; }
   ","                       { return COMMA; }
-  ":="                      { return COLONEQ; }
+  "+"                       { return ADDITION; }
+  "-"                       { return SUBTRACTION; }
+  "*"                       { return MULTIPLY; }
+  "/"                       { return DIVIDE; }
+  "%"                       { return MODULO; }
+  "\\"                      { return FLOOR_DIVIDE; }
 
   {STRING_LITERAL}          { return STRING_LITERAL; }
   {NUMERIC_LITERAL}         { return NUMERIC_LITERAL; }
+  {COLOR_LITERAL}           { return COLOR_LITERAL; }
+  {LENGTH_LITERAL}          { return LENGTH_LITERAL; }
+  {DURATION_LITERAL}        { return DURATION_LITERAL; }
   {IDENTIFIER}              { return IDENTIFIER; }
   {WHITE_SPACE}             { return WHITE_SPACE; }
   {PARAMETER_LITERAL}       { return PARAMETER_LITERAL; }

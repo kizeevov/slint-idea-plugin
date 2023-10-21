@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface SlintStructDeclaration extends SlintElement {
 
   @NotNull
-  SlintFieldDeclarationBlock getFieldDeclarationBlock();
+  SlintStructFieldDeclarationBlock getStructFieldDeclarationBlock();
 
   @NotNull
   PsiElement getIdentifier();

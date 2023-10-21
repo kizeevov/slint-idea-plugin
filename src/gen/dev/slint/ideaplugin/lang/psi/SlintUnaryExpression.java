@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SlintStructFieldDeclaration extends SlintElement {
+public interface SlintUnaryExpression extends SlintExpression {
+
+  @Nullable
+  SlintExpression getExpression();
 
   @NotNull
-  SlintFieldType getFieldType();
-
-  @NotNull
-  SlintStructFieldName getStructFieldName();
+  SlintUnaryOperators getUnaryOperators();
 
 }
