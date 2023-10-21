@@ -10,14 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static dev.slint.ideaplugin.lang.psi.SlintElementTypes.*;
 import dev.slint.ideaplugin.lang.psi.*;
 
-public class SlintStructFieldDeclarationImpl extends SlintElementImpl implements SlintStructFieldDeclaration {
+public class SlintUnaryExpressionImpl extends SlintExpressionImpl implements SlintUnaryExpression {
 
-  public SlintStructFieldDeclarationImpl(ASTNode node) {
+  public SlintUnaryExpressionImpl(ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull SlintVisitor visitor) {
-    visitor.visitStructFieldDeclaration(this);
+    visitor.visitUnaryExpression(this);
   }
 
   @Override
@@ -27,15 +28,15 @@ public class SlintStructFieldDeclarationImpl extends SlintElementImpl implements
   }
 
   @Override
-  @NotNull
-  public SlintFieldType getFieldType() {
-    return findNotNullChildByClass(SlintFieldType.class);
+  @Nullable
+  public SlintExpression getExpression() {
+    return findChildByClass(SlintExpression.class);
   }
 
   @Override
   @NotNull
-  public SlintStructFieldName getStructFieldName() {
-    return findNotNullChildByClass(SlintStructFieldName.class);
+  public SlintUnaryOperators getUnaryOperators() {
+    return findNotNullChildByClass(SlintUnaryOperators.class);
   }
 
 }

@@ -24,6 +24,7 @@ class SlintParserDefinition : ParserDefinition {
     override fun getCommentTokens(): TokenSet = SLINT_COMMENTS
 
     override fun getStringLiteralElements(): TokenSet = SLINT_STRINGS
+
     override fun createElement(node: ASTNode?): PsiElement = SlintElementTypes.Factory.createElement(node)
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile = SlintFile(viewProvider)

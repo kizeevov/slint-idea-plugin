@@ -10,14 +10,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static dev.slint.ideaplugin.lang.psi.SlintElementTypes.*;
 import dev.slint.ideaplugin.lang.psi.*;
 
-public class SlintStructFieldDeclarationImpl extends SlintElementImpl implements SlintStructFieldDeclaration {
+public class SlintComponentFieldDeclarationBlockImpl extends SlintElementImpl implements SlintComponentFieldDeclarationBlock {
 
-  public SlintStructFieldDeclarationImpl(ASTNode node) {
+  public SlintComponentFieldDeclarationBlockImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SlintVisitor visitor) {
-    visitor.visitStructFieldDeclaration(this);
+    visitor.visitComponentFieldDeclarationBlock(this);
   }
 
   @Override
@@ -28,14 +28,20 @@ public class SlintStructFieldDeclarationImpl extends SlintElementImpl implements
 
   @Override
   @NotNull
-  public SlintFieldType getFieldType() {
-    return findNotNullChildByClass(SlintFieldType.class);
+  public List<SlintComponentDeclaration> getComponentDeclarationList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SlintComponentDeclaration.class);
   }
 
   @Override
   @NotNull
-  public SlintStructFieldName getStructFieldName() {
-    return findNotNullChildByClass(SlintStructFieldName.class);
+  public List<SlintExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SlintExpression.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SlintFieldType> getFieldTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SlintFieldType.class);
   }
 
 }

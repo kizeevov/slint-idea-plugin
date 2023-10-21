@@ -10,26 +10,20 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static dev.slint.ideaplugin.lang.psi.SlintElementTypes.*;
 import dev.slint.ideaplugin.lang.psi.*;
 
-public class SlintSingleTypeImpl extends SlintElementImpl implements SlintSingleType {
+public abstract class SlintExpressionImpl extends SlintElementImpl implements SlintExpression {
 
-  public SlintSingleTypeImpl(ASTNode node) {
+  public SlintExpressionImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SlintVisitor visitor) {
-    visitor.visitSingleType(this);
+    visitor.visitExpression(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SlintVisitor) accept((SlintVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
   }
 
 }

@@ -10,14 +10,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static dev.slint.ideaplugin.lang.psi.SlintElementTypes.*;
 import dev.slint.ideaplugin.lang.psi.*;
 
-public class SlintFieldDeclarationBlockImpl extends SlintElementImpl implements SlintFieldDeclarationBlock {
+public class SlintImportDeclarationImpl extends SlintElementImpl implements SlintImportDeclaration {
 
-  public SlintFieldDeclarationBlockImpl(ASTNode node) {
+  public SlintImportDeclarationImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SlintVisitor visitor) {
-    visitor.visitFieldDeclarationBlock(this);
+    visitor.visitImportDeclaration(this);
   }
 
   @Override
@@ -27,9 +27,15 @@ public class SlintFieldDeclarationBlockImpl extends SlintElementImpl implements 
   }
 
   @Override
+  @Nullable
+  public SlintImportElementDeclarationBlock getImportElementDeclarationBlock() {
+    return findChildByClass(SlintImportElementDeclarationBlock.class);
+  }
+
+  @Override
   @NotNull
-  public List<SlintStructFieldDeclaration> getStructFieldDeclarationList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SlintStructFieldDeclaration.class);
+  public SlintImportPathDeclaration getImportPathDeclaration() {
+    return findNotNullChildByClass(SlintImportPathDeclaration.class);
   }
 
 }

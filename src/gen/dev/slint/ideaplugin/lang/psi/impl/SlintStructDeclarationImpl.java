@@ -28,8 +28,8 @@ public class SlintStructDeclarationImpl extends SlintElementImpl implements Slin
 
   @Override
   @NotNull
-  public SlintFieldDeclarationBlock getFieldDeclarationBlock() {
-    return findNotNullChildByClass(SlintFieldDeclarationBlock.class);
+  public SlintStructFieldDeclarationBlock getStructFieldDeclarationBlock() {
+    return findNotNullChildByClass(SlintStructFieldDeclarationBlock.class);
   }
 
   @Override

@@ -26,10 +26,4 @@ public class SlintFieldTypeImpl extends SlintElementImpl implements SlintFieldTy
     else super.accept(visitor);
   }
 
-  @Override
-  @NotNull
-  public SlintSingleType getSingleType() {
-    return findNotNullChildByClass(SlintSingleType.class);
-  }
-
 }
