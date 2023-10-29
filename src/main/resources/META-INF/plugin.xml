@@ -49,5 +49,17 @@
 
         <!-- LSP -->
         <platform.lsp.serverSupportProvider implementation="dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider"/>
+
+        <!-- Line Marker Providers -->
+        <runLineMarkerContributor language="Slint"
+                                  implementationClass="dev.slint.ideaplugin.ide.lineMarkers.PreviewRunLineMarkerContributor"/>
     </extensions>
+    <actions>
+        <group id="SlintGroupedActions">
+            <separator/>
+            <add-to-group group-id="ProjectViewPopupMenu"/>
+
+            <action id="Slint.Preview" class="dev.slint.ideaplugin.ide.actions.PreviewAction"/>
+        </group>
+    </actions>
 </idea-plugin>

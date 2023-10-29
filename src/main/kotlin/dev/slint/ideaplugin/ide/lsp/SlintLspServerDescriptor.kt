@@ -3,6 +3,9 @@ package dev.slint.ideaplugin.ide.lsp
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.platform.lsp.api.Lsp4jClient
+import com.intellij.platform.lsp.api.LspServerListener
+import com.intellij.platform.lsp.api.LspServerNotificationsHandler
 import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
 import dev.slint.ideaplugin.ide.settings.SlintState
 import dev.slint.ideaplugin.lang.SlintFileType
@@ -20,10 +23,10 @@ class SlintLspServerDescriptor(project: Project) : ProjectWideLspServerDescripto
         }
     }
 
-    override fun createInitializationOptions(): Any {
-        return SlintState.getInstance().lspSettings
-    }
+    override fun createInitializationOptions(): Any = SlintState.getInstance().lspSettings
+
+    override fun createLsp4jClient(handler: LspServerNotificationsHandler): Lsp4jClient = LspLanguageClient(handler)
 
     override val lsp4jServerClass: Class<out LanguageServer> = SlintLanguageServer::class.java
-//    override val lspServerListener: LspServerListener = SlintLspServerListener(project)
+    override val lspServerListener: LspServerListener = SlintLspServerListener(project)
 }

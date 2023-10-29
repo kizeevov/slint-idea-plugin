@@ -6,7 +6,6 @@ import java.util.concurrent.CompletableFuture
 
 class LoadFileRequest(private val server: SlintLspServer, private val path: String) : LspRequest<String, String>(server) {
     override fun preprocessResponse(serverResponse: String): String {
-        System.out.println("----234234")
         return serverResponse
     }
 
