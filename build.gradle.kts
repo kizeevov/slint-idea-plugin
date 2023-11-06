@@ -25,10 +25,6 @@ kotlin {
             resources.srcDir("resources")
         }
     }
-
-//    jvmToolchain {
-//        languageVersion.set(JavaLanguageVersion.of(properties("jvmVersion")))
-//    }
 }
 
 java {
@@ -81,7 +77,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("222")
+        sinceBuild.set("232.2")
         untilBuild.set("232.*")
     }
 

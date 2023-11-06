@@ -2,17 +2,16 @@
 
 ## Description
 
-[Slint](https://slint.dev) support for IDEs based on IntelliJ Platform.
-
-**Unofficial! Slint-plugin is currently experimental plugin!**
+[Slint](https://slint.dev) support for IDEs based on IntelliJ Platform. **Unofficial! Plugin is currently experimental plugin!**
 
 Tested with: 
 - CLion 2023.2
 - IDEA Ultimate 2023.2
+- RustRover 2023.3 EAP
 
 ## Dependencies
 
-Slint IntelliJ Plugin communicates with Slint Language Server Protocol (LSP). Install Slint-LSP before you can use the IntelliJ Plugin. To install Slint-LSP:
+Slint IntelliJ Plugin communicates with Slint-LSP. Install before you can use the IntelliJ Plugin. To install:
 ```sh
 $ cargo install slint-lsp
 ```
@@ -32,6 +31,7 @@ Go to <kbd>Settings</kbd> > <kbd>Languages & Frameworks</kbd> > <kbd>Slint</kbd>
 
 ## Features
 
-- [ ] highlighting
-- [x] support slint-lsp
-- [ ] plugin configuration
+- [x] highlighting
+- [x] slint-lsp support
+- [x] preview support
+- [x] plugin configuration
