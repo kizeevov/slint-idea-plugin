@@ -2,7 +2,7 @@
 
 ## Description
 
-[Slint](https://slint.dev) support for IDEs based on IntelliJ Platform. **Unofficial! Plugin is currently experimental plugin!**
+[Slint](https://slint.dev) support for IDEs based on IntelliJ Platform. **Plugin is experimental and unofficial!**
 
 Tested with: 
 - CLion 2023.2
