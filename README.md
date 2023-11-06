@@ -20,6 +20,11 @@ $ cargo install slint-lsp
 
 ## Installation
 
+- Using IDE built-in plugin system:
+  
+  <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "slint"</kbd> >
+  <kbd>Install Plugin</kbd>
+
 - Manually:
 
   Download the [latest release](https://github.com/kizeevov/slint-idea-plugin/releases) and install it manually using
