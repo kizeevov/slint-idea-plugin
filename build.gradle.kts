@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.intellij.tasks.PatchPluginXmlTask
 
 fun properties(key: String) = project.findProperty(key).toString()
 
@@ -76,9 +77,10 @@ tasks {
         dependsOn(generateLexer, generateParser)
     }
 
-    patchPluginXml {
-        sinceBuild.set("232.2")
-        untilBuild.set("232.*")
+    withType<PatchPluginXmlTask> {
+        version.set(properties("pluginVersion"))
+        sinceBuild.set(properties("pluginSinceBuild"))
+        untilBuild.set(properties("pluginUntilBuild"))
     }
 
     signPlugin {
