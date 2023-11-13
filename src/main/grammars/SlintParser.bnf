@@ -31,6 +31,7 @@
     TRANSITIONS     = 'transitions'
     PRIVATE         = 'private'
     PUBLIC          = 'public'
+    PROTECTED       = 'protected'
     PURE            = 'pure'
     FUNCTION        = 'function'
     IN              = 'in'
@@ -38,6 +39,8 @@
     IN_OUNT         = 'in-out'
 
     IF              = 'if'
+    ELSE            = 'else'
+    ELSE_IF         = 'else if'
     FOR             = 'for'
     RETURN          = 'return'
 
@@ -48,12 +51,8 @@
     LBRACKET        = '['
     RBRACKET        = ']'
     EQ              = '='
-    DOT             = '.'
-    COLON           = ':'
     SEMICOLON       = ';'
     QUEST           = '?'
-    EXCL            = '!'
-    AT              = '@'
     COMMA           = ','
 
     ADDITION        = '+'
@@ -62,17 +61,28 @@
     DIVIDE          = '/'
     MODULO          = '%'
     FLOOR_DIVIDE    = '\'
+    MINUS_EQ        = "-="
+    PLUS_EQ         = "+="
+    DIV_EQ          = "/="
+    MUL_EQ          = "*="
+
+    AND             = '&&'
+    OR              = '||'
+    NOT             = '!'
+
+    EQUAL = '=='
+    NOT_EQUAL = '!='
+    LESS_THAN = '<'
+    LESS_THAN_OR_EQUAL = '<='
+    GREATER_THAN = '>'
+    GREATER_THAN_OR_EQUAL = '>='
 
     STRING_LITERAL  = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
     NUMERIC_LITERAL = 'regexp:-?\d+(\.\d+)?'
-    COLOR_LITERAL   = 'regexp:#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})'
-    LENGTH_LITERAL  = 'regexp:-?\d+(\.\d+)?(px|pt|in|mm|cm|%)'
-    DURATION_LITERAL= 'regexp:-?\d+(\.\d+)?(ms|s)'
+    COLOR_LITERAL   = 'regexp:#([A-Fa-f0-9]{6,8}|[A-Fa-f0-9]{3,4})'
     IDENTIFIER      = 'regexp:[a-zA-Z][a-zA-Z0-9\-_]*'
+    PROPERTY_IDENTIFIER     = 'regexp:([a-zA-Z][a-zA-Z0-9\-_]*[\\.])+[a-zA-Z0-9\-_]*'
     WHITE_SPACE     = 'regexp:\s+'
-
-    PARAMETER_LITERAL   = 'regexp:[a-zA-Z_][a-zA-Z_\-0-9]*\s*:'
-    TYPE_LITERAL        = 'regexp:[a-zA-Z_][a-zA-Z_\-0-9]*\s*:='
 
     LINE_COMMENT = 'regexp://.*'
     DOC_COMMENT = 'regexp:/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/'
@@ -84,92 +94,260 @@
 Schema ::= Declaration*
 
 private Declaration ::=
-    ImportDeclaration
-    | StructDeclaration
-    | ComponentDeclaration
+    ImportDefinition
+    | ExportDefinition
+    | GlobalDefinition
+    | ComponentDefinition
+    | EnumDefinition
+    | StructDefinition
     {
         pin=1
         recoverWhile=Declaration_recover
     }
 private Declaration_recover ::= !TopLevelKeywords
-private TopLevelKeywords ::= EXPORT | IMPORT | STRUCT | COMPONENT
+private TopLevelKeywords ::= EXPORT | IMPORT | STRUCT | COMPONENT | GLOBAL | ENUM
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// Import
+// Import/Export
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ImportDeclaration ::= IMPORT ImportElementDeclarationBlock? ImportPathDeclaration ';'
-ImportPathDeclaration ::= STRING_LITERAL
-ImportElementDeclarationBlock ::= LBRACE (Identifier ','?)* RBRACE FROM
+private ExportDefinition ::= EXPORT (ComponentDefinition | EnumDefinition | StructDefinition | GlobalDefinition)
+
+private ImportDefinition ::= IMPORT ImportElementDefinitionBlock? ImportPathDeclaration ';'
+private ImportPathDeclaration ::= STRING_LITERAL
+private ImportElementDefinitionBlock ::= '{' (ComponentName ','?)* '}' FROM
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// Struct
+// Global
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-StructDeclaration ::= EXPORT? STRUCT Identifier StructFieldDeclarationBlock
-StructFieldDeclarationBlock ::= LBRACE StructFieldDeclarationBlockItem* RBRACE
-
-private StructFieldDeclarationBlockItem ::=
-    StructFieldDeclaration
-    {
-        consumeTokenMethod="consumeTokenFast"
-    }
-
-StructFieldDeclaration ::= StructFieldName FieldType ','
-StructFieldName ::= PARAMETER_LITERAL
+GlobalDefinition ::= GLOBAL ComponentName GlobalBody {
+    pin=2
+}
+private GlobalBody ::= '{' ComponentMembers '}' {
+   pin=1
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Component
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-ComponentDeclaration ::= EXPORT? COMPONENT? Identifier (INHERITS Identifier)? ComponentFieldDeclarationBlock
-ComponentFieldDeclarationBlock ::= LBRACE ComponentFieldDeclarationBlockItem* RBRACE
+ComponentDefinition ::= COMPONENT ComponentName ComponentInheritsDeclaration? ComponentBody {
+    pin=2
+}
+private ComponentInheritsDeclaration ::= INHERITS ComponentName {
+    pin=2
+}
+private ComponentBody ::= '{' ComponentMembers '}' {
+    pin=1
+}
+private ComponentMembers ::= ComponentMemberDefinition* {
+    recoverWhile="simple_scope_recover"
+}
+private ComponentMemberDefinition ::=
+    InternalComponentDeclaration
+    | PropertyDeclaration
+    | PropertyInitDeclaration
+    | PropertyBindingDeclaration
+    | PropertyDefinition
+    | CallbackDefinition
+    | CallbackDeclaration
+    | AnimateDeclaration
+    | StatesDefinition
+    | FunctionDefinition
+    | ChildrenFunction
+{
+    recoverWhile="ComponentMember_recover"
+}
+private ComponentMember_recover ::=
+!(
+    Identifier
+    | PropertyDefinitionModifiers
+    | PROPERTY
+    | PURE
+    | CALLBACK
+    | ANIMATE
+    | STATES
+    | PUBLIC
+    | PRIVATE
+    | PROTECTED
+    | FUNCTION
+    | ChildrenFunction
+    | '}'
+)
 
-private ComponentFieldDeclarationBlockItem ::=
-    ComponentPropertyDeclaration
-    | ComponentCallbackPropertyDeclaration
-    | ComponentCallbackDeclaration
-    | ElementFieldDeclaration
-    | ComponentElementDeclaration
-    | ComponentAnimateDeclaration
-    | ComponentStatesDeclaration
-    {
-        consumeTokenMethod="consumeTokenFast"
-    }
+private InternalComponentDeclaration ::= ComponentName InternalComponentBody
+private InternalComponentBody ::= '{' ComponentMembers '}' {
+    pin=1
+}
 
-private ComponentPropertyDeclaration ::= (PRIVATE | IN | OUT | IN_OUNT)? PROPERTY '<' Identifier  '>' PropertyName ';'
+// Property
+private PropertyDeclaration ::= FieldIdentifier Expression ';'
+private PropertyInitDeclaration ::= FieldIdentifier '=' InternalComponentDeclaration {
+    pin=2
+}
+private PropertyBindingDeclaration ::= Identifier '<=>' Expression ';' { pin=2 }
 
-private ComponentCallbackPropertyDeclaration ::= CALLBACK Identifier (ComponentCallbackPropertyReturnDeclaration | ComponentCallbackPropertyBindingDeclaration)? ';'
-private ComponentCallbackPropertyReturnDeclaration ::= ComponentCallbackPropertyParametersDeclaration ('->' FieldType)?
-private ComponentCallbackPropertyParametersDeclaration ::= LPAREN (FieldType ','?)* RPAREN
-private ComponentCallbackPropertyBindingDeclaration ::= '<=>' PropertyExpression
+private PropertyDefinition ::= PropertyDefinitionModifiers? PROPERTY PropertyDefinitionType? Identifier PropertyDefinitionInit? ';' {
+    pin=4
+}
+private PropertyDefinitionModifiers ::= PRIVATE | IN | OUT | IN_OUNT
+private PropertyDefinitionType ::= '<' (Identifier | Type) '>'
+private PropertyDefinitionInit::= (':' | '<=>') Expression
 
-private ElementFieldDeclaration ::= ComponentFieldName Expression SEMICOLON
+// Callback
+private CallbackDefinition ::= PURE? CALLBACK Identifier (CallbackParametersDeclaration | CallbackBindingDeclaration)? ';' {
+    pin=3
+}
+private CallbackParametersDeclaration ::= '(' Type? (',' (Type | &')'))* ')' CallbackReturnDeclaration? {
+    pin(".*")=1
+}
+private CallbackReturnDeclaration ::= '->' Type { pin=2 }
+private CallbackBindingDeclaration ::= '<=>' PropertyExpression
 
-private ComponentElementDeclaration ::= TYPE_LITERAL? ComponentDeclaration
 
-private ComponentAnimateDeclaration ::= ANIMATE ComponentDeclaration
+private CallbackDeclaration ::= Identifier CallArgumentList? '=>' CallbackBody {
+    pin=3
+}
+private CallbackBody ::= '{' CallbackMembers '}'
+private CallbackMembers ::= FunctionMemberDefinition* {
+    recoverWhile="simple_scope_recover"
+}
 
-private ComponentCallbackDeclaration ::= Identifier '=>' ComponentCallbackDeclarationBlock
-private ComponentCallbackDeclarationBlock ::= LBRACE ComponentCallbackDeclarationBlockItems* RBRACE
-private ComponentCallbackDeclarationBlockItems ::= Expression SEMICOLON
+// Animate
+private AnimateDeclaration ::= ANIMATE AnimatePropertyName AnimateBody {
+    pin=2
+}
+private AnimatePropertyName ::= (PropertyExpression | '*' ) (',' Expression)* {
+    pin(".*")=1
+}
+private AnimateBody ::= '{' AnimateMembers '}' {
+    pin=1
+}
+private AnimateMembers ::= AnimateMemberDefinition* {
+   recoverWhile="simple_scope_recover"
+}
+private AnimateMemberDefinition ::=
+    PropertyDeclaration
+{
+    recoverWhile="AnimateMember_recover"
+}
+private AnimateMember_recover ::= !(Identifier | '}')
 
-private ComponentStatesDeclaration ::= STATES LBRACKET
+// States
+private StatesDefinition ::= STATES StatesBody
+private StatesBody ::= '[' StateMembers ']' {
+    pin=1
+}
+private StateMembers ::= StateMemberDefinition* {
+    recoverWhile="StateMembers_recover"
+}
+private StateMembers_recover  ::= !']'
+private StateMemberDefinition ::=
+    StateDeclaration
+{
+    recoverWhile="StateMember_recover"
+}
+private StateMember_recover ::= !(Identifier | ']')
+private StateDeclaration ::= Identifier 'when' Expression ':' StateDeclarationBlock {
+    pin=4
+}
+private StateDeclarationBlock ::= '{' StateDeclarationBlockItems* '}' {
+    pin=1
+}
+private StateDeclarationBlockItems ::=
+    StatePropertyDeclaration
+    | StateTransitionDeclaration
+{
+    recoverWhile="StateDeclarationBlockItems_recover"
+}
+private StateDeclarationBlockItems_recover ::=
+!(
+    Identifier
+    | PropertyExpression
+    | IN
+    | OUT
+    | '}'
+    | ']'
+)
+private StatePropertyDeclaration ::= PropertyExpression ':' Expression SEMICOLON
+private StateTransitionDeclaration ::= (IN | OUT) StateTransitionDeclarationBlock
+private StateTransitionDeclarationBlock ::= LBRACE StateTransitionDeclarationBlockItems* RBRACE
+private StateTransitionDeclarationBlockItems ::= AnimateDeclaration
+
+// Functions
+private FunctionDefinition ::= FunctionDefinitionModifiers? PURE? FUNCTION Identifier FunctionDefinitionArgumentList FunctionReturnDefinition? FunctionBody {
+    pin=4
+}
+private FunctionDefinitionModifiers ::= PUBLIC | PROTECTED
+private FunctionReturnDefinition ::= '->' Type { pin=2 }
+private FunctionDefinitionArgumentList ::= '(' FunctionArgument? (',' (FunctionArgument | &')'))* ')' {
+    pin(".*")=1
+}
+private FunctionArgument ::= Identifier ':' Type
+
+private FunctionBody ::=  '{' FunctionMembers '}' {
+    pin=1
+}
+private FunctionMembers ::=  FunctionMemberDefinition* {
+    recoverWhile="simple_scope_recover"
+}
+
+private FunctionMemberDefinition ::=
+    FunctionReturnDeclaration
+    | FunctionExpressionDeclaration
+    | IfDeclaration
+{
+    recoverWhile="FunctionMember_recover"
+}
+private FunctionMember_recover ::=
+!(
+    RETURN
+    | IF
+    | Expression
+    | '}'
+)
+private FunctionReturnDeclaration ::= RETURN Expression SEMICOLON?
+private FunctionExpressionDeclaration ::= Expression SEMICOLON?
+
+private IfDeclaration ::= IF '(' Expression ')' IfBody ElIfBlock* (ELSE IfBody)? { pin=2 }
+private IfBody ::= '{' FunctionMembers '}'
+private ElIfBlock ::= ELSE_IF '(' Expression ')' IfBody
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Enum
+///////////////////////////////////////////////////////////////////////////////////////////////////
+EnumDefinition ::= ENUM ComponentName '{' Identifier (',' Identifier)* '}' {
+    pin=2
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Struct
+///////////////////////////////////////////////////////////////////////////////////////////////////
+StructDefinition ::= STRUCT ComponentName StructBody
+private StructBody ::= '{' StructMembers '}' { pin=1 }
+private StructMembers ::= StructMemberDefinition* {
+    recoverWhile="simple_scope_recover"
+}
+
+private StructMemberDefinition ::=
+    StructFieldDeclaration
+{
+    recoverWhile="StructMember_recover"
+}
+private StructMember_recover ::= !(Identifier | '}')
+
+private StructFieldDeclaration ::= FieldIdentifier Type ',' { pin=3 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Expressions
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 Expression ::=
-    TernaryExpression
+    AssignmentExpression
     | BinaryExpression
     | UnaryExpression
-    | AssignmentExpression
-    | PropertyExpression
-    | ColorExpression
-    | LengthExpression
-    | DurationExpression
-    | NumericExpression
-    | BooleanExpression
-    | StringExpression
-    | AlignmentExpression
+    | TernaryExpression
     | CallExpression
+    | PropertyExpression
+    | LiteralExpression
+    | ParenthesizedExpression
 
 MathematicalOperators ::=
     ADDITION
@@ -179,37 +357,78 @@ MathematicalOperators ::=
     | MODULO
     | FLOOR_DIVIDE
 
+LogicalOperators ::=
+    AND
+    | OR
+    | NOT
+
+RelationalOperators ::=
+    EQUAL
+    | NOT_EQUAL
+    | LESS_THAN
+    | LESS_THAN_OR_EQUAL
+    | GREATER_THAN
+    | GREATER_THAN_OR_EQUAL
+
+AssignmentOperators ::=
+    MINUS_EQ
+    | PLUS_EQ
+    | DIV_EQ
+    | MUL_EQ
+
 Operators ::=
     MathematicalOperators
-//    | LogicalOperators
-//    | RelationalOperators
-//    | UNWRAP_OR
-
-BinaryExpression ::= Expression Operators Expression
+    | LogicalOperators
+    | RelationalOperators
+    | AssignmentOperators
 
 UnaryOperators ::=
-    EXCL
+    NOT
     | SUBTRACTION
 
-UnaryExpression ::=
-    UnaryOperators Expression
+AssignmentExpression ::= PropertyExpression EQ Expression { pin=3 }
+BinaryExpression ::= Expression Operators Expression { pin=3 }
+UnaryExpression ::= UnaryOperators Expression { pin=1 }
+TernaryExpression ::= Expression '?' Expression ':' Expression { pin=3 }
+CallExpression ::= (PropertyExpression | BuiltinFunctions) CallArgumentList { pin=2 }
+ParenthesizedExpression ::= '(' Expression ')' { pin=1 }
 
-AssignmentExpression ::= PropertyExpression EQ Expression
-TernaryExpression ::= Expression QUEST Expression ':' Expression
-CallExpression ::= PropertyExpression LPAREN Expression RPAREN
-BooleanExpression ::= 'true' | 'false'
-StringExpression ::= STRING_LITERAL
-PropertyExpression ::= Identifier '.' Identifier
-ColorExpression ::= COLOR_LITERAL | BasicColors
-NumericExpression ::= NUMERIC_LITERAL
-LengthExpression ::= LENGTH_LITERAL
-DurationExpression ::= DURATION_LITERAL
-AlignmentExpression ::= 'stretch' | 'start' | 'center' | 'end' | 'space-between' | 'space-around'
+PropertyExpression ::= IDENTIFIER | PROPERTY_IDENTIFIER
+LiteralExpression ::=
+    LengthLiteral
+    | DurationLiteral
+    | AngleLiteral
+    | NumericLiteral
+    | StringLiteral
+    | ColorLiteral
+    | BooleanLiteral
+    | AlignmentLiteral
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//// Functions
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+BuiltinFunctions ::=
+    ImageUrlFunction
+    | GradientFunction
+    | ChildrenFunction
+
+private ImageUrlFunction ::= '@image-url' '(' StringLiteral ')' {
+    pin=4
+}
+private GradientFunction ::= ('@linear-gradient' | '@radial-gradient') '(' Expression ',' GradientColorPercentageArgumentList ')' {
+    pin=2
+}
+private GradientColorPercentageArgumentList ::= Expression Expression (',' Expression Expression)* {
+    pin(".*")=2
+}
+private ChildrenFunction ::= '@children'
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Types
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-FieldType ::=
+Type ::= BuiltinType | Identifier
+
+BuiltinType ::=
     'int'
     | 'float'
     | 'bool'
@@ -225,12 +444,9 @@ FieldType ::=
     | 'image'
     | 'relative-font-size'
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Utils
-///////////////////////////////////////////////////////////////////////////////////////////////////
-private Identifier ::= IDENTIFIER
-private PropertyName ::= Identifier
-private ComponentFieldName ::= PARAMETER_LITERAL
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//// Colors
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 private BasicColors ::=
     'black'
     | 'silver'
@@ -248,3 +464,26 @@ private BasicColors ::=
     | 'blue'
     | 'teal'
     | 'aqua'
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Utils
+///////////////////////////////////////////////////////////////////////////////////////////////////
+private simple_scope_recover ::= !'}'
+
+FieldIdentifier ::= Identifier ':'
+ComponentName ::= IDENTIFIER
+private Identifier ::= IDENTIFIER
+
+
+LengthLiteral ::= NUMERIC_LITERAL ('px' | 'pt' | 'in' | 'mm' | 'cm' | '%') { pin=2 }
+DurationLiteral ::= NUMERIC_LITERAL ('ms' | 's') { pin=2 }
+AngleLiteral ::= NUMERIC_LITERAL 'deg' { pin=2 }
+BooleanLiteral ::= 'true' | 'false'
+AlignmentLiteral ::= 'stretch' | 'start' | 'center' | 'end' | 'space-between' | 'space-around'
+private NumericLiteral ::= NUMERIC_LITERAL
+private StringLiteral ::= STRING_LITERAL
+private ColorLiteral ::= COLOR_LITERAL | BasicColors
+
+private CallArgumentList ::= '(' Expression? (',' (Expression | &')'))* ')' {
+    pin(".*")=1
+}
