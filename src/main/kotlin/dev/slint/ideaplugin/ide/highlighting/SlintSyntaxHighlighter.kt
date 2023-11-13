@@ -20,7 +20,6 @@ class SlintSyntaxHighlighter : SyntaxHighlighterBase() {
             put(SlintElementTypes.LINE_COMMENT, SlintColors.LINE_COMMENT)
             put(SlintElementTypes.STRING_LITERAL, SlintColors.STRING_LITERAL)
             put(SlintElementTypes.COLOR_LITERAL, SlintColors.NUMBER)
-            put(SlintElementTypes.LENGTH_EXPRESSION, SlintColors.NUMBER)
 
             // put(SlintElementTypes.COLONEQ, SlintColors.OPERATION_SIGN)
             put(SlintElementTypes.EQ, SlintColors.OPERATION_SIGN)
@@ -34,7 +33,6 @@ class SlintSyntaxHighlighter : SyntaxHighlighterBase() {
             fillMap(this, SLINT_PARENTHESES, SlintColors.PARENTHESES)
 
             fillMap(this, SLINT_NUMERIC_LITERAL, SlintColors.NUMBER)
-            fillMap(this, SLINT_FIELD_LITERAL, SlintColors.FIELD_NAME)
         }
     }
 }

@@ -8,26 +8,54 @@
     <name>Slint</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="kizeev.ov@gmail.com" url="https://github.com/kizeevov/slint-idea-plugin">github repo</vendor>
+    <vendor email="kizeev.ov@gmail.com" url="https://github.com/kizeevov/slint-idea-plugin">kizeev</vendor>
     <resource-bundle>messages.SlintBundle</resource-bundle>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    <p>Support for <a href="https://slint.dev/">Slint</a>. Plugin is experimental and unofficial</p>
-    <p>Features:</p>
+    Support for <a href="https://slint.dev/">Slint</a>. Plugin is experimental and unofficial<br>
+    Features:<br>
     <ul>
-    <li>highlighting</li>
-    <li>slint-lsp support</li>
-    <li>preview support</li>
-    <li>plugin configuration</li>
+        <li>highlighting</li>
+        <li>slint-lsp support</li>
+        <li>preview support</li>
+        <li>plugin configuration</li>
     </ul>
   ]]></description>
 
+    <change-notes><![CDATA[
+<ul>
+  <li>Fixed:
+    <ul>
+      <li>color error for hex colors with alpha channel;</li>
+      <li>state declaration error;</li>
+      <li>export error;</li>
+      <li>error declaring global singletons;</li>
+      <li>property binding error;</li>
+      <li>element declaration error;</li>
+      <li>error declaring an animation block;</li>
+      <li>image declaration error;</li>
+      <li>gradient declaration error;</li>
+    </ul>
+  </li>
+  <li>Not fixed:
+    <ul>
+      <li>repetition;</li>
+      <li>complex expressions;</li>
+    </ul>
+  </li>
+  <li>Enhancement:
+    <ul>
+      <li>added highlighting of numeric values with units;</li>
+    </ul>
+  </li>
+</ul>
+    ]]></change-notes>
+
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.ultimate</depends>
-<!--    <depends>com.intellij.modules.clion</depends>-->
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Language -->
@@ -38,6 +66,7 @@
                   fieldName="INSTANCE"/>
         <lang.parserDefinition language="Slint"
                                implementationClass="dev.slint.ideaplugin.lang.parser.SlintParserDefinition"/>
+        <annotator language="Slint" implementationClass="dev.slint.ideaplugin.ide.annotator.SlintAnnotator"/>
 
         <!--Syntax Highlighting-->
         <lang.syntaxHighlighter language="Slint"
