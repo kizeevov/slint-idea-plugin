@@ -110,7 +110,14 @@ private TopLevelKeywords ::= EXPORT | IMPORT | STRUCT | COMPONENT | GLOBAL | ENU
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Import/Export
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-private ExportDefinition ::= EXPORT (ComponentDefinition | EnumDefinition | StructDefinition | GlobalDefinition)
+private ExportDefinition ::= EXPORT (ComponentDefinition | EnumDefinition | StructDefinition | GlobalDefinition | ExportComponentDefinition) {
+    pin=2
+
+}
+private ExportComponentDefinition ::= '{' Expression (',' (Expression | &'}'))* '}' {
+    recoverWhile=Declaration_recover
+}
+
 
 private ImportDefinition ::= IMPORT ImportElementDefinitionBlock? ImportPathDeclaration ';'
 private ImportPathDeclaration ::= STRING_LITERAL
@@ -153,6 +160,8 @@ private ComponentMemberDefinition ::=
     | StatesDefinition
     | FunctionDefinition
     | ChildrenFunction
+    | RepetitionDefinition
+    | ConditionalDefinition
 {
     recoverWhile="ComponentMember_recover"
 }
@@ -170,6 +179,8 @@ private ComponentMember_recover ::=
     | PROTECTED
     | FUNCTION
     | ChildrenFunction
+    | FOR
+    | IF
     | '}'
 )
 
@@ -186,10 +197,10 @@ private PropertyInitDeclaration ::= FieldIdentifier '=' InternalComponentDeclara
 private PropertyBindingDeclaration ::= Identifier '<=>' Expression ';' { pin=2 }
 
 private PropertyDefinition ::= PropertyDefinitionModifiers? PROPERTY PropertyDefinitionType? Identifier PropertyDefinitionInit? ';' {
-    pin=4
+    pin=2
 }
 private PropertyDefinitionModifiers ::= PRIVATE | IN | OUT | IN_OUNT
-private PropertyDefinitionType ::= '<' (Identifier | Type) '>'
+private PropertyDefinitionType ::= '<' Type '>'
 private PropertyDefinitionInit::= (':' | '<=>') Expression
 
 // Callback
@@ -311,6 +322,16 @@ private IfDeclaration ::= IF '(' Expression ')' IfBody ElIfBlock* (ELSE IfBody)?
 private IfBody ::= '{' FunctionMembers '}'
 private ElIfBlock ::= ELSE_IF '(' Expression ')' IfBody
 
+// Repetition
+private RepetitionDefinition ::= FOR Expression IN Expression ':' {
+    pin=3
+}
+
+// Conditional
+private ConditionalDefinition ::= IF Expression ':' {
+    pin=1
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Enum
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -334,7 +355,23 @@ private StructMemberDefinition ::=
 }
 private StructMember_recover ::= !(Identifier | '}')
 
-private StructFieldDeclaration ::= FieldIdentifier Type ',' { pin=3 }
+private StructFieldDeclaration ::= FieldIdentifier Type ','? { pin=2 }
+
+private AnonymousStructDefinition ::= StructBody
+
+private AnonymousStructDeclaration ::= AnonymousStructBody
+private AnonymousStructBody ::= '{' AnonymousStructMembers '}' { pin=1 }
+private AnonymousStructMembers ::= AnonymousStructMemberDefinition* {
+    recoverWhile="simple_scope_recover"
+}
+private AnonymousStructMemberDefinition ::=
+    AnonymousStructFieldDeclaration
+{
+    recoverWhile="AnonymousStructMember_recover"
+}
+private AnonymousStructMember_recover ::= !(Identifier | '}')
+private AnonymousStructFieldDeclaration ::= FieldIdentifier Expression ','? { pin=2 }
+private ArrayAnonymousStruct ::= '[' AnonymousStructDeclaration? (',' (AnonymousStructDeclaration | &']'))* ']'
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Expressions
@@ -344,10 +381,15 @@ Expression ::=
     | BinaryExpression
     | UnaryExpression
     | TernaryExpression
+    | CallBuiltinExpression
     | CallExpression
     | PropertyExpression
     | LiteralExpression
     | ParenthesizedExpression
+    | ArrayExpression
+    | AnonymousStructExpression
+    | ArrayAnonymousStructExpression
+    | ArrayValExpression
 
 MathematicalOperators ::=
     ADDITION
@@ -390,8 +432,13 @@ AssignmentExpression ::= PropertyExpression EQ Expression { pin=3 }
 BinaryExpression ::= Expression Operators Expression { pin=3 }
 UnaryExpression ::= UnaryOperators Expression { pin=1 }
 TernaryExpression ::= Expression '?' Expression ':' Expression { pin=3 }
-CallExpression ::= (PropertyExpression | BuiltinFunctions) CallArgumentList { pin=2 }
+CallExpression ::= PropertyExpression CallArgumentList { pin=1 }
+CallBuiltinExpression ::= BuiltinFunctions
 ParenthesizedExpression ::= '(' Expression ')' { pin=1 }
+ArrayExpression ::= PropertyExpression '[' Expression ']'
+ArrayAnonymousStructExpression ::= ArrayAnonymousStruct
+AnonymousStructExpression ::= AnonymousStructDeclaration
+ArrayValExpression ::= '[' Expression? (',' (Expression | &']'))* ']'
 
 PropertyExpression ::= IDENTIFIER | PROPERTY_IDENTIFIER
 LiteralExpression ::=
@@ -409,24 +456,32 @@ LiteralExpression ::=
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 BuiltinFunctions ::=
     ImageUrlFunction
-    | GradientFunction
+    | RadialGradientFunction
+    | LinearGradientFunction
     | ChildrenFunction
 
 private ImageUrlFunction ::= '@image-url' '(' StringLiteral ')' {
-    pin=4
+    pin=2
 }
-private GradientFunction ::= ('@linear-gradient' | '@radial-gradient') '(' Expression ',' GradientColorPercentageArgumentList ')' {
+private RadialGradientFunction ::= '@radial-gradient' '(' Expression ',' GradientColorPercentageArgumentList ')' {
+    pin=2
+}
+private LinearGradientFunction ::= '@linear-gradient' '(' Expression ',' GradientColorPercentageArgumentList ')' {
     pin=2
 }
 private GradientColorPercentageArgumentList ::= Expression Expression (',' Expression Expression)* {
-    pin(".*")=2
+    pin(".*")=1
 }
 private ChildrenFunction ::= '@children'
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Types
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-Type ::= BuiltinType | Identifier
+Type ::=
+    BuiltinType
+    | Identifier
+    | ArrayType
+    | AnonymousStructDefinition
 
 BuiltinType ::=
     'int'
@@ -443,6 +498,8 @@ BuiltinType ::=
     | 'percent'
     | 'image'
     | 'relative-font-size'
+
+ArrayType ::= '[' Type ']'
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Colors
@@ -473,8 +530,6 @@ private simple_scope_recover ::= !'}'
 FieldIdentifier ::= Identifier ':'
 ComponentName ::= IDENTIFIER
 private Identifier ::= IDENTIFIER
-
-
 LengthLiteral ::= NUMERIC_LITERAL ('px' | 'pt' | 'in' | 'mm' | 'cm' | '%') { pin=2 }
 DurationLiteral ::= NUMERIC_LITERAL ('ms' | 's') { pin=2 }
 AngleLiteral ::= NUMERIC_LITERAL 'deg' { pin=2 }
