@@ -26,31 +26,12 @@
   ]]></description>
 
     <change-notes><![CDATA[
+Fixed:
 <ul>
-  <li>Fixed:
-    <ul>
-      <li>color error for hex colors with alpha channel;</li>
-      <li>state declaration error;</li>
-      <li>export error;</li>
-      <li>error declaring global singletons;</li>
-      <li>property binding error;</li>
-      <li>element declaration error;</li>
-      <li>error declaring an animation block;</li>
-      <li>image declaration error;</li>
-      <li>gradient declaration error;</li>
-    </ul>
-  </li>
-  <li>Not fixed:
-    <ul>
-      <li>repetition;</li>
-      <li>complex expressions;</li>
-    </ul>
-  </li>
-  <li>Enhancement:
-    <ul>
-      <li>added highlighting of numeric values with units;</li>
-    </ul>
-  </li>
+  <li>export error;</li>
+  <li>repetition error;</li>
+  <li>conditional element error;</li>
+  <li>model declaration error;</li>
 </ul>
     ]]></change-notes>
 
