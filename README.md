@@ -1,8 +1,19 @@
 # Slint plugin for the IntelliJ Platform
 
+[![Build](https://github.com/kizeevov/slint-idea-plugin/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/kizeevov/slint-idea-plugin/actions/workflows/build.yml)
+[![Version](https://img.shields.io/jetbrains/plugin/v/23065.svg)](https://plugins.jetbrains.com/plugin/23065)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/23065.svg)](https://plugins.jetbrains.com/plugin/23065)
+
 ## Description
 
+<!-- Plugin description -->
 [Slint](https://slint.dev) support for IDEs based on IntelliJ Platform. **Plugin is experimental and unofficial!**
+
+The following features are supported:
+- Syntax highlighting
+- Slint-LSP support
+- Preview support
+<!-- Plugin description end -->
 
 Tested with: 
 - CLion 2023.2
@@ -16,16 +27,14 @@ Slint IntelliJ Plugin communicates with Slint-LSP. Install before you can use th
 $ cargo install slint-lsp
 ```
 
-> need version 1.2.2 and above
-
 ## Installation
 
-- Using IDE built-in plugin system:
+Using IDE built-in plugin system:
   
   <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "slint"</kbd> >
   <kbd>Install Plugin</kbd>
 
-- Manually:
+Manually:
 
   Download the [latest release](https://github.com/kizeevov/slint-idea-plugin/releases) and install it manually using
   <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
@@ -33,10 +42,3 @@ $ cargo install slint-lsp
 ## Configuration
 
 Go to <kbd>Settings</kbd> > <kbd>Languages & Frameworks</kbd> > <kbd>Slint</kbd> > <kbd>Slint-lsp path</kbd> selected path
-
-## Features
-
-- [x] highlighting
-- [x] slint-lsp support
-- [x] preview support
-- [x] plugin configuration

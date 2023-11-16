@@ -11,30 +11,6 @@
     <vendor email="kizeev.ov@gmail.com" url="https://github.com/kizeevov/slint-idea-plugin">kizeev</vendor>
     <resource-bundle>messages.SlintBundle</resource-bundle>
 
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
-    <description><![CDATA[
-    Support for <a href="https://slint.dev/">Slint</a>. Plugin is experimental and unofficial<br>
-    Features:<br>
-    <ul>
-        <li>highlighting</li>
-        <li>slint-lsp support</li>
-        <li>preview support</li>
-        <li>plugin configuration</li>
-    </ul>
-  ]]></description>
-
-    <change-notes><![CDATA[
-Fixed:
-<ul>
-  <li>export error;</li>
-  <li>repetition error;</li>
-  <li>conditional element error;</li>
-  <li>model declaration error;</li>
-</ul>
-    ]]></change-notes>
-
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.ultimate</depends>
 

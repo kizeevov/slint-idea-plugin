@@ -1,17 +1,21 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
+import org.jetbrains.changelog.Changelog
+import org.jetbrains.changelog.markdownToHTML
 
-fun properties(key: String) = project.findProperty(key).toString()
+fun properties(key: String) = providers.gradleProperty(key)
+fun environment(key: String) = providers.environmentVariable(key)
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.0"
-    id("org.jetbrains.intellij") version "1.16.0"
-    id("org.jetbrains.grammarkit") version "2022.3.1"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.intellij)
+    alias(libs.plugins.grammarkit)
+    alias(libs.plugins.changelog)
 }
 
-group = properties("pluginGroup")
-version = properties("pluginVersion")
+group = properties("pluginGroup").get()
+version = properties("pluginVersion").get()
 
 idea {
     module {
@@ -44,25 +48,30 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    pluginName.set(properties("pluginName"))
-    version.set(properties("platformVersion"))
-    type.set(properties("platformType"))
-    plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
+    pluginName = properties("pluginName")
+    version = properties("platformVersion")
+    type = properties("platformType")
+    plugins = properties("platformPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) }
+}
+
+changelog {
+    groups.empty()
+    repositoryUrl = properties("pluginRepositoryUrl")
 }
 
 tasks {
     generateLexer {
-        sourceFile.set(file("src/main/grammars/SlintLexer.flex"))
-        targetDir.set("src/gen/dev/slint/ideaplugin/lang/lexer")
-        targetClass.set("_SlintLexer")
-        purgeOldFiles.set(true)
+        sourceFile = file("src/main/grammars/SlintLexer.flex")
+        targetDir = "src/gen/dev/slint/ideaplugin/lang/lexer"
+        targetClass = "_SlintLexer"
+        purgeOldFiles = true
     }
     generateParser {
-        sourceFile.set(file("src/main/grammars/SlintParser.bnf"))
-        targetRoot.set("src/gen")
-        pathToParser.set("dev/slint/ideaplugin/lang/parser/SlintParser.java")
-        pathToPsiRoot.set("dev/slint/ideaplugin/lang/psi")
-        purgeOldFiles.set(true)
+        sourceFile = file("src/main/grammars/SlintParser.bnf")
+        targetRoot = "src/gen"
+        pathToParser = "dev/slint/ideaplugin/lang/parser/SlintParser.java"
+        pathToPsiRoot = "dev/slint/ideaplugin/lang/psi"
+        purgeOldFiles = true
         // classpath(project(":$grammarKitFakePsiDeps").sourceSets.main.get().runtimeClasspath)
     }
 
@@ -78,18 +87,49 @@ tasks {
     }
 
     withType<PatchPluginXmlTask> {
-        version.set(properties("pluginVersion"))
-        sinceBuild.set(properties("pluginSinceBuild"))
-        untilBuild.set(properties("pluginUntilBuild"))
+        version = properties("pluginVersion")
+        sinceBuild = properties("pluginSinceBuild")
+        untilBuild = properties("pluginUntilBuild")
+
+        // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
+        pluginDescription = providers.fileContents(layout.projectDirectory.file("README.md")).asText.map {
+            val start = "<!-- Plugin description -->"
+            val end = "<!-- Plugin description end -->"
+
+            with (it.lines()) {
+                if (!containsAll(listOf(start, end))) {
+                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                }
+                subList(indexOf(start) + 1, indexOf(end)).joinToString("\n").let(::markdownToHTML)
+            }
+        }
+
+        val changelog = project.changelog // local variable for configuration cache compatibility
+        // Get the latest available change notes from the changelog file
+        changeNotes = properties("pluginVersion").map { pluginVersion ->
+            with(changelog) {
+                renderItem(
+                    (getOrNull(pluginVersion) ?: getUnreleased())
+                        .withHeader(false)
+                        .withEmptySections(false),
+                    Changelog.OutputType.HTML,
+                )
+            }
+        }
     }
 
     signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+        certificateChain = environment("CERTIFICATE_CHAIN")
+        privateKey = environment("PRIVATE_KEY")
+        password = environment("PRIVATE_KEY_PASSWORD")
     }
 
     publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
+        dependsOn("patchChangelog")
+        token = environment("PUBLISH_TOKEN")
+        // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
+        // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
+        // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
+        channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
     }
 }
