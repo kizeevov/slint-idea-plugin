@@ -24,6 +24,7 @@
         <lang.parserDefinition language="Slint"
                                implementationClass="dev.slint.ideaplugin.lang.parser.SlintParserDefinition"/>
         <annotator language="Slint" implementationClass="dev.slint.ideaplugin.ide.annotator.SlintAnnotator"/>
+        <internalFileTemplate name="Slint File"/>
 
         <!--Syntax Highlighting-->
         <lang.syntaxHighlighter language="Slint"
@@ -47,6 +48,11 @@
                                   implementationClass="dev.slint.ideaplugin.ide.lineMarkers.PreviewRunLineMarkerContributor"/>
     </extensions>
     <actions>
+        <action id="Slint.NewSlintFile"
+                class="dev.slint.ideaplugin.ide.actions.SlintCreateFileAction">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
+        </action>
+
         <group id="SlintGroupedActions">
             <separator/>
             <add-to-group group-id="ProjectViewPopupMenu"/>

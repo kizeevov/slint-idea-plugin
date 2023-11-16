@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+### Added
+- Added an action to create a new empty file
+
+### Fixed
+- Fixed linear marker preview
+
 ## [0.2.7] - 2023-11-15
 
 ### Fixed
