@@ -32,8 +32,16 @@
 <!--        <colorSettingsPage implementation="dev.slint.ideaplugin.highlighting.SlintColorSettingsPage"/>-->
 
         <!-- Editor -->
+        <lang.braceMatcher language="Slint"
+                           implementationClass="dev.slint.ideaplugin.ide.editor.SlintBraceMatcher"/>
         <lang.commenter language="Slint"
                         implementationClass="dev.slint.ideaplugin.ide.editor.SlintCommenter"/>
+        <lang.quoteHandler language="Slint"
+                           implementationClass="dev.slint.ideaplugin.ide.editor.SlintQuoteHandler"/>
+        <lang.foldingBuilder language="Slint"
+                             implementationClass="dev.slint.ideaplugin.ide.folding.SlintBlockFoldingBuilder"/>
+        <lang.foldingBuilder language="Slint"
+                             implementationClass="dev.slint.ideaplugin.ide.folding.SlintImportFoldingBuilder"/>
 
         <!-- Settings -->
         <applicationConfigurable groupId="language" id="slint.settings"

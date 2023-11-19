@@ -119,7 +119,7 @@ private ExportComponentDefinition ::= '{' Expression (',' (Expression | &'}'))* 
 }
 
 
-private ImportDefinition ::= IMPORT ImportElementDefinitionBlock? ImportPathDeclaration ';'
+ImportDefinition ::= IMPORT ImportElementDefinitionBlock? ImportPathDeclaration ';'
 private ImportPathDeclaration ::= STRING_LITERAL
 private ImportElementDefinitionBlock ::= '{' (ComponentName ','?)* '}' FROM
 
@@ -142,7 +142,7 @@ ComponentDefinition ::= COMPONENT ComponentName ComponentInheritsDeclaration? Co
 private ComponentInheritsDeclaration ::= INHERITS ComponentName {
     pin=2
 }
-private ComponentBody ::= '{' ComponentMembers '}' {
+ComponentBody ::= '{' ComponentMembers '}' {
     pin=1
 }
 private ComponentMembers ::= ComponentMemberDefinition* {
@@ -185,7 +185,7 @@ private ComponentMember_recover ::=
 )
 
 private InternalComponentDeclaration ::= ComponentName InternalComponentBody
-private InternalComponentBody ::= '{' ComponentMembers '}' {
+InternalComponentBody ::= '{' ComponentMembers '}' {
     pin=1
 }
 
@@ -217,7 +217,7 @@ private CallbackBindingDeclaration ::= '<=>' PropertyExpression
 private CallbackDeclaration ::= Identifier CallArgumentList? '=>' CallbackBody {
     pin=3
 }
-private CallbackBody ::= '{' CallbackMembers '}'
+CallbackBody ::= '{' CallbackMembers '}'
 private CallbackMembers ::= FunctionMemberDefinition* {
     recoverWhile="simple_scope_recover"
 }
@@ -229,7 +229,7 @@ private AnimateDeclaration ::= ANIMATE AnimatePropertyName AnimateBody {
 private AnimatePropertyName ::= (PropertyExpression | '*' ) (',' Expression)* {
     pin(".*")=1
 }
-private AnimateBody ::= '{' AnimateMembers '}' {
+AnimateBody ::= '{' AnimateMembers '}' {
     pin=1
 }
 private AnimateMembers ::= AnimateMemberDefinition* {
@@ -244,7 +244,7 @@ private AnimateMember_recover ::= !(Identifier | '}')
 
 // States
 private StatesDefinition ::= STATES StatesBody
-private StatesBody ::= '[' StateMembers ']' {
+StatesBody ::= '[' StateMembers ']' {
     pin=1
 }
 private StateMembers ::= StateMemberDefinition* {
@@ -294,7 +294,7 @@ private FunctionDefinitionArgumentList ::= '(' FunctionArgument? (',' (FunctionA
 }
 private FunctionArgument ::= Identifier ':' Type
 
-private FunctionBody ::=  '{' FunctionMembers '}' {
+FunctionBody ::=  '{' FunctionMembers '}' {
     pin=1
 }
 private FunctionMembers ::=  FunctionMemberDefinition* {
@@ -343,7 +343,7 @@ EnumDefinition ::= ENUM ComponentName '{' Identifier (',' Identifier)* '}' {
 // Struct
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 StructDefinition ::= STRUCT ComponentName StructBody
-private StructBody ::= '{' StructMembers '}' { pin=1 }
+StructBody ::= '{' StructMembers '}' { pin=1 }
 private StructMembers ::= StructMemberDefinition* {
     recoverWhile="simple_scope_recover"
 }
@@ -360,7 +360,7 @@ private StructFieldDeclaration ::= FieldIdentifier Type ','? { pin=2 }
 private AnonymousStructDefinition ::= StructBody
 
 private AnonymousStructDeclaration ::= AnonymousStructBody
-private AnonymousStructBody ::= '{' AnonymousStructMembers '}' { pin=1 }
+AnonymousStructBody ::= '{' AnonymousStructMembers '}' { pin=1 }
 private AnonymousStructMembers ::= AnonymousStructMemberDefinition* {
     recoverWhile="simple_scope_recover"
 }

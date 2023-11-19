@@ -6,6 +6,8 @@
 
 ### Added
 - Added an action to create a new empty file
+- Added folding imports
+- Added a handler for brackets and buckets
 
 ### Fixed
 - Fixed linear marker preview
