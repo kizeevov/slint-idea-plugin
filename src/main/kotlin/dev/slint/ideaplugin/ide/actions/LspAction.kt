@@ -14,6 +14,7 @@ import javax.swing.Icon
 abstract class LspAction(text: String, description: String?, icon: Icon?) : AnAction(text, description, icon) {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
+
         val servers = SlintLspServer.getInstances(project)
         if (servers.isEmpty()) {
             return
