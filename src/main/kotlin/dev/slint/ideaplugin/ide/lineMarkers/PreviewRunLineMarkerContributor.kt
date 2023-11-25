@@ -13,6 +13,7 @@ class PreviewRunLineMarkerContributor : RunLineMarkerContributor() {
                 val componentName = getComponentName(element) ?: return null
                 Info(PreviewComponentAction(componentName))
             }
+
             else -> {
                 null
             }

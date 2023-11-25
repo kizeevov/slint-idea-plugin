@@ -7,6 +7,7 @@ import com.intellij.platform.lsp.api.LspServerManager
 import com.intellij.platform.lsp.api.LspServerNotificationsHandler
 import com.intellij.platform.lsp.api.requests.LspRequestExecutor
 
+@Suppress("UnstableApiUsage")
 class SlintLspServer(private val server: LspServer) : LspServer {
     companion object {
         // These should probably be split off into SlintLspManager or something
@@ -31,14 +32,9 @@ class SlintLspServer(private val server: LspServer) : LspServer {
         }
     }
 
-    override val descriptor: LspServerDescriptor
-        get() = server.descriptor
-    override val lsp4jServer: SlintLanguageServer
-        get() = server.lsp4jServer as SlintLanguageServer
-    override val project: Project
-        get() = server.project
-    override val requestExecutor: LspRequestExecutor
-        get() = server.requestExecutor
-    override val serverNotificationsHandler: LspServerNotificationsHandler
-        get() = server.serverNotificationsHandler
+    override val descriptor: LspServerDescriptor = server.descriptor
+    override val lsp4jServer: SlintLanguageServer = server.lsp4jServer as SlintLanguageServer
+    override val project: Project = server.project
+    override val requestExecutor: LspRequestExecutor = server.requestExecutor
+    override val serverNotificationsHandler: LspServerNotificationsHandler = server.serverNotificationsHandler
 }

@@ -8,6 +8,7 @@
 - Added an action to create a new empty file
 - Added folding imports
 - Added a handler for brackets and buckets
+- Added property autocomplete
 
 ### Fixed
 - Fixed linear marker preview
