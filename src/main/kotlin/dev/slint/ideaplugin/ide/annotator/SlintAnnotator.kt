@@ -18,9 +18,11 @@ class SlintAnnotator : Annotator {
         {
             annotateWithInfo(element, holder, SlintColors.FIELD_NAME)
         } else if (element.elementType == SlintElementTypes.DURATION_LITERAL
-                || element.elementType == SlintElementTypes.LENGTH_LITERAL
-                || element.elementType == SlintElementTypes.ANGLE_LITERAL
-                || element.elementType == SlintElementTypes.COLOR_LITERAL)
+            || element.elementType == SlintElementTypes.LENGTH_LITERAL
+            || element.elementType == SlintElementTypes.PHYSICAL_LENGTH_LITERAL
+            || element.elementType == SlintElementTypes.ANGLE_LITERAL
+            || element.elementType == SlintElementTypes.COLOR_LITERAL
+            || element.elementType == SlintElementTypes.RELATIVE_FONT_SIZE_LITERAL)
         {
             annotateWithInfo(element, holder, SlintColors.NUMBER)
         }

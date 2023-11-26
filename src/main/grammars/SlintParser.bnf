@@ -443,13 +443,16 @@ ArrayValExpression ::= '[' Expression? (',' (Expression | &']'))* ']'
 PropertyExpression ::= IDENTIFIER | PROPERTY_IDENTIFIER
 LiteralExpression ::=
     LengthLiteral
+    | PhysicalLengthLiteral
     | DurationLiteral
     | AngleLiteral
+    | RelativeFontSizeLiteral
     | NumericLiteral
     | StringLiteral
     | ColorLiteral
     | BooleanLiteral
     | AlignmentLiteral
+    | EasingLiteral
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Functions
@@ -531,13 +534,16 @@ FieldIdentifier ::= Identifier ':'
 ComponentName ::= IDENTIFIER
 private Identifier ::= IDENTIFIER
 LengthLiteral ::= NUMERIC_LITERAL ('px' | 'pt' | 'in' | 'mm' | 'cm' | '%') { pin=2 }
+PhysicalLengthLiteral ::= NUMERIC_LITERAL 'phx' { pin=2 }
 DurationLiteral ::= NUMERIC_LITERAL ('ms' | 's') { pin=2 }
-AngleLiteral ::= NUMERIC_LITERAL 'deg' { pin=2 }
+AngleLiteral ::= NUMERIC_LITERAL ('deg' | 'rad' | 'turn') { pin=2 }
+RelativeFontSizeLiteral ::= NUMERIC_LITERAL 'rem' { pin=2 }
 BooleanLiteral ::= 'true' | 'false'
 AlignmentLiteral ::= 'stretch' | 'start' | 'center' | 'end' | 'space-between' | 'space-around'
 private NumericLiteral ::= NUMERIC_LITERAL
 private StringLiteral ::= STRING_LITERAL
 private ColorLiteral ::= COLOR_LITERAL | BasicColors
+private EasingLiteral ::= 'linear' | 'ease' | 'ease_in' | 'ease_in_out' | 'ease_out'
 
 private CallArgumentList ::= '(' Expression? (',' (Expression | &')'))* ')' {
     pin(".*")=1
