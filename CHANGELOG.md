@@ -9,6 +9,7 @@
 - Added folding imports
 - Added a handler for brackets and buckets
 - Added property autocomplete
+- Support relative-font-size (rem) 
 
 ### Fixed
 - Fixed linear marker preview
