@@ -44,9 +44,10 @@
                              implementationClass="dev.slint.ideaplugin.ide.folding.SlintImportFoldingBuilder"/>
 
         <!-- Settings -->
-        <applicationConfigurable groupId="language" id="slint.settings"
-                                 provider="dev.slint.ideaplugin.ide.settings.SlintSettingsConfigurableProvider"
-                                 bundle="messages.SlintBundle" key="settings.display.name"/>
+        <projectConfigurable groupId="language" id="slint.settings"
+                             bundle="messages.SlintBundle" key="settings.display.name"
+                             nonDefaultProject="false"
+                             instance="dev.slint.ideaplugin.ide.settings.SlintSettingsConfigurable"/>
 
         <!-- LSP -->
         <platform.lsp.serverSupportProvider implementation="dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider"/>
@@ -54,6 +55,10 @@
         <!-- Line Marker Providers -->
         <runLineMarkerContributor language="Slint"
                                   implementationClass="dev.slint.ideaplugin.ide.lineMarkers.PreviewRunLineMarkerContributor"/>
+
+        <notificationGroup id="Slint" displayType="BALLOON"/>
+<!--        <statusBarWidgetFactory implementation="dev.slint.ideaplugin.ide.widgets.SlintStatusBarWidgetFactory"-->
+<!--                                id="SlintWidget"/>-->
     </extensions>
     <actions>
         <action id="Slint.NewSlintFile"

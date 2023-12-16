@@ -9,7 +9,10 @@
 - Added folding imports
 - Added a handler for brackets and buckets
 - Added property autocomplete
-- Support relative-font-size (rem) 
+- Support relative-font-size (rem)
+- Added settings for import paths
+- Added lsp-server settings
+- Restarting the lsp-server after changing the settings
 
 ### Fixed
 - Fixed linear marker preview

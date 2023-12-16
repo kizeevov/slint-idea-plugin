@@ -1,12 +1,14 @@
 package dev.slint.ideaplugin.ide.settings
 
+import com.intellij.openapi.components.service
 import com.intellij.openapi.options.Configurable
-import com.intellij.openapi.options.ConfigurableProvider
 import com.intellij.openapi.options.SearchableConfigurable
+import com.intellij.openapi.project.Project
 import dev.slint.ideaplugin.SlintBundle
+import dev.slint.ideaplugin.ide.services.SlintServerService
 import javax.swing.JComponent
 
-class SlintSettingsConfigurable : Configurable, SearchableConfigurable {
+class SlintSettingsConfigurable(internal val project: Project) : Configurable, SearchableConfigurable {
 
     private var settingsComponent: SlintSettingsComponent? = null
 
@@ -26,6 +28,10 @@ class SlintSettingsConfigurable : Configurable, SearchableConfigurable {
 
     override fun apply() {
         settingsComponent?.getPanel()?.apply()
+
+        val slintServerService = project.service<SlintServerService>()
+        slintServerService.restartServer()
+        slintServerService.notifyRestart()
     }
 
     override fun reset() {
@@ -35,8 +41,4 @@ class SlintSettingsConfigurable : Configurable, SearchableConfigurable {
     override fun disposeUIResources() {
         settingsComponent = null
     }
-}
-
-class SlintSettingsConfigurableProvider : ConfigurableProvider() {
-    override fun createConfigurable(): Configurable = SlintSettingsConfigurable()
 }
