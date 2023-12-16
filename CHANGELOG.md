@@ -4,7 +4,10 @@
 
 ## [Unreleased]
 
+## [0.3.1] - 2023-12-16
+
 ### Added
+
 - Added an action to create a new empty file
 - Added folding imports
 - Added a handler for brackets and buckets
@@ -15,12 +18,14 @@
 - Restarting the lsp-server after changing the settings
 
 ### Fixed
+
 - Fixed linear marker preview
 - Fixed line marker performance warning
 
 ## [0.2.7] - 2023-11-15
 
 ### Fixed
+
 - export error; 
 - repetition error; 
 - conditional element error; 
@@ -29,6 +34,7 @@
 ## [0.2.6] - 2023-11-13
 
 ### Fixed
+
 - color error for hex colors with alpha channel;
 - state declaration error;
 - export error;
@@ -40,4 +46,10 @@
 - gradient declaration error;
 
 ### Added
+
 - added highlighting of numeric values with units;
+
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.2.7...v0.3.1
+[0.2.7]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.2.6...v0.2.7
+[0.2.6]: https://github.com/kizeevov/slint-idea-plugin/commits/v0.2.6
