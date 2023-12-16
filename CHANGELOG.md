@@ -16,6 +16,7 @@
 
 ### Fixed
 - Fixed linear marker preview
+- Fixed line marker performance warning
 
 ## [0.2.7] - 2023-11-15
 
