@@ -9,7 +9,7 @@ import com.intellij.openapi.wm.StatusBarWidget
 import com.intellij.openapi.wm.StatusBarWidget.WidgetPresentation
 import com.intellij.openapi.wm.impl.status.EditorBasedWidget
 import com.intellij.platform.lsp.api.LspServerManager
-import com.intellij.platform.lsp.impl.LspServerImpl
+//import com.intellij.platform.lsp.impl.LspServerImpl
 import dev.slint.ideaplugin.SlintBundle
 import dev.slint.ideaplugin.SlintIcons
 import dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider
@@ -59,7 +59,7 @@ class SlintWidget(project: Project) : EditorBasedWidget(project), StatusBarWidge
         return this
     }
 
-    override fun getSelectedValue(): String? {
+    override fun getSelectedValue(): String {
         return if (isShowWidget) "slint-lsp" else ""
     }
 
@@ -67,19 +67,20 @@ class SlintWidget(project: Project) : EditorBasedWidget(project), StatusBarWidge
         val lspServerManager = LspServerManager.getInstance(project)
         val lspServer = lspServerManager.getServersForProvider(SlintLspServerSupportProvider::class.java).firstOrNull()
 
-        return when (lspServer) {
-            is LspServerImpl -> {
-                if (lspServer.isRunning) {
-                    SlintBundle.message("slint.language.server.is.running")
-                } else {
-                    SlintBundle.message("slint.language.server.is.stopped")
-                }
-            }
-
-            else -> {
-                SlintBundle.message("slint.language.server.is.stopped")
-            }
-        }
+//        return when (lspServer) {
+//            is LspServerImpl -> {
+//                if (lspServer.isRunning) {
+//                    SlintBundle.message("slint.language.server.is.running")
+//                } else {
+//                    SlintBundle.message("slint.language.server.is.stopped")
+//                }
+//            }
+//
+//            else -> {
+//                SlintBundle.message("slint.language.server.is.stopped")
+//            }
+//        }
+        return ""
     }
 
     private fun update() {
