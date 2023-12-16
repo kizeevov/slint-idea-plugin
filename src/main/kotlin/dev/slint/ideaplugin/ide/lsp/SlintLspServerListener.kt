@@ -7,10 +7,5 @@ import com.intellij.openapi.project.Project
 class SlintLspServerListener(val project: Project) : LspServerListener {
     override fun serverInitialized(params: InitializeResult) {
         super.serverInitialized(params)
-
-        val servers = SlintLspServer.getInstances(project)
-        if (servers.isEmpty()) {
-            return
-        }
     }
 }

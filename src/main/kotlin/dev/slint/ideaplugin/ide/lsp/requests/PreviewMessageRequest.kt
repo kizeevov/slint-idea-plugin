@@ -1,11 +1,11 @@
 package dev.slint.ideaplugin.ide.lsp.requests
 
+import com.intellij.platform.lsp.api.LspServer
 import com.intellij.platform.lsp.api.requests.LspRequest
-import dev.slint.ideaplugin.ide.lsp.SlintLspServer
 import org.eclipse.lsp4j.ExecuteCommandParams
 import java.util.concurrent.CompletableFuture
 
-class PreviewMessageRequest(private val server: SlintLspServer, private val path: String, private val component: String) : LspRequest<Any, Any>(server) {
+class PreviewMessageRequest(private val server: LspServer, private val path: String, private val component: String) : LspRequest<Any, Any>(server) {
     override fun preprocessResponse(serverResponse: Any): Any {
         return serverResponse
     }
