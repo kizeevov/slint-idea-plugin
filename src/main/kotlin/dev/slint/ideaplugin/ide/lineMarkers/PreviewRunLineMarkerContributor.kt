@@ -9,22 +9,13 @@ import dev.slint.ideaplugin.lang.psi.SlintElementTypes.*
 class PreviewRunLineMarkerContributor : RunLineMarkerContributor() {
     override fun getInfo(element: PsiElement): Info? {
         return when (element.elementType) {
-            COMPONENT_DEFINITION -> {
-                val componentName = getComponentName(element) ?: return null
-                Info(PreviewComponentAction(componentName))
+            COMPONENT -> {
+                Info(PreviewComponentAction(""))
             }
 
             else -> {
                 null
             }
         }
-    }
-
-    private fun getComponentName(element: PsiElement): String? {
-        val componentName = element.children.firstOrNull() ?: return null
-        if (componentName.elementType != COMPONENT_NAME) {
-            return null
-        }
-        return componentName.text
     }
 }
