@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.3.1] - 2023-12-17
+
 ### Added
 - Added an action to create a new empty file
 - Added folding imports
