@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed ternary expressions
+
 ## [0.3.1] - 2023-12-16
 
 ### Added
