@@ -17,7 +17,7 @@ class SlintSettingsConfigurable(internal val project: Project) : Configurable, S
     override fun getId(): String = "slint.settings"
 
     override fun createComponent(): JComponent? {
-        val settings = SlintState.getInstance().lspSettings
+        val settings = SlintSettingsState.getInstance().lspSettings
         settingsComponent = SlintSettingsComponent(settings)
         return settingsComponent?.getPanel()
     }
