@@ -31,7 +31,6 @@ class SlintSettingsConfigurable(internal val project: Project) : Configurable, S
 
         val slintServerService = project.service<SlintServerService>()
         slintServerService.restartServer()
-        slintServerService.notifyRestart()
     }
 
     override fun reset() {

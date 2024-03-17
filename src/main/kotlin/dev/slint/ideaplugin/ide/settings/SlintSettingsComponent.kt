@@ -9,18 +9,21 @@ class SlintSettingsComponent(lspSettings: SlintLspSettings) {
 
     init {
         panel = panel {
-            group("Lsp Settings") {
+            group("LSP Settings") {
                 lateinit var useExternalLspCheckBox: Cell<JBCheckBox>
 
                 row {
-                    useExternalLspCheckBox = checkBox("Use external lsp")
+                    useExternalLspCheckBox = checkBox("Use external LSP server")
                         .bindSelected(lspSettings::useExternalLsp)
                 }
-                row("Lsp path:") {
-                    textFieldWithBrowseButton()
-                        .bindText(lspSettings::path)
-                        .enabledIf(useExternalLspCheckBox.selected)
-                        .align(AlignX.FILL)
+                indent {
+                    row {
+                        textFieldWithBrowseButton()
+                            .label("LSP path:")
+                            .bindText(lspSettings::path)
+                            .enabledIf(useExternalLspCheckBox.selected)
+                            .align(AlignX.FILL)
+                    }
                 }
                 row("Args:") {
                     expandableTextField()
@@ -37,6 +40,15 @@ class SlintSettingsComponent(lspSettings: SlintLspSettings) {
                         .onIsModified { pathsTablePanel.onModified(lspSettings.includePaths) }
                         .onApply { pathsTablePanel.onApply(lspSettings.includePaths) }
                         .onReset { pathsTablePanel.onReset(lspSettings.includePaths) }
+                }
+                row {
+                    checkBox("Restart LSP server")
+                        .comment(
+                            "Restarting the LSP server after a crash or shutdown. " +
+                                    "If there are critical errors in the LSP server, the server will restart indefinitely." +
+                                    "<br>Manually restart the server: 'Tools -> Restart Slint LSP'"
+                        )
+                        .bindSelected(lspSettings::isRestartLsp)
                 }
             }
             group("Preview") {

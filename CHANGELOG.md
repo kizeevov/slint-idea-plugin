@@ -6,12 +6,18 @@
 
 ### Attention
 
-- The current version is not compatible with previous plugin settings
+- The current version is not compatible with previous plugin settings!
+
+### Added
+
+- Binary executable files of lsp-server are embedded
+- Automatic restart of the LSP-server if it crashed or shutdown
+- New action for manually restarting the LSP-server
+- Widget for indicating the LSP-server current status
 
 ### Fixed
 
 - Fixed ternary expressions
-- Binary executable files of lsp-server are embedded
 
 ## [0.3.1] - 2023-12-16
 
