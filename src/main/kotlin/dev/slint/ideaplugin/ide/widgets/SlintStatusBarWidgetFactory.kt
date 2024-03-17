@@ -1,7 +1,6 @@
 package dev.slint.ideaplugin.ide.widgets
 
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.wm.StatusBar
 import com.intellij.openapi.wm.StatusBarWidget
 import com.intellij.openapi.wm.StatusBarWidgetFactory
 
@@ -15,6 +14,6 @@ class SlintStatusBarWidgetFactory : StatusBarWidgetFactory {
     }
 
     override fun createWidget(project: Project): StatusBarWidget {
-        return SlintWidget(project)
+        return SlintStatusBarWidget(project)
     }
 }

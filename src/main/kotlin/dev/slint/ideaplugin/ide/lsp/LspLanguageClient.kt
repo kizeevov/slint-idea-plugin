@@ -18,33 +18,34 @@ class LspLanguageClient(
     private val project: Project
 ) : Lsp4jClient(serverNotificationsHandler)
 {
-    @JsonNotification("experimental/serverStatus")
-    fun serverStatus(status: ServerStatus) {
-        when (status.health) {
-            Health.WARNING -> {
-                NotificationGroupManager.getInstance()
-                    .getNotificationGroup("Slint")
-                    .createNotification(
-                        SlintBundle.message("slint.language.server.status"),
-                        status.message,
-                        NotificationType.WARNING
-                    )
-                    .notify(project)
-            }
-            Health.ERROR -> {
-                NotificationGroupManager.getInstance()
-                    .getNotificationGroup("Slint")
-                    .createNotification(
-                        SlintBundle.message("slint.language.server.status"),
-                        status.message,
-                        NotificationType.ERROR
-                    )
-                    .notify(project)
-            }
-
-            Health.OK -> {}
-        }
-    }
+    // when editing, it flaps with notifications
+//    @JsonNotification("experimental/serverStatus")
+//    fun serverStatus(status: ServerStatus) {
+//        when (status.health) {
+//            Health.WARNING -> {
+//                NotificationGroupManager.getInstance()
+//                    .getNotificationGroup("Slint")
+//                    .createNotification(
+//                        SlintBundle.message("slint.language.server.status"),
+//                        status.message,
+//                        NotificationType.WARNING
+//                    )
+//                    .notify(project)
+//            }
+//            Health.ERROR -> {
+//                NotificationGroupManager.getInstance()
+//                    .getNotificationGroup("Slint")
+//                    .createNotification(
+//                        SlintBundle.message("slint.language.server.status"),
+//                        status.message,
+//                        NotificationType.ERROR
+//                    )
+//                    .notify(project)
+//            }
+//
+//            Health.OK -> {}
+//        }
+//    }
 
     data class ServerStatus(
         @JsonAdapter(EnumDeserializer::class)
