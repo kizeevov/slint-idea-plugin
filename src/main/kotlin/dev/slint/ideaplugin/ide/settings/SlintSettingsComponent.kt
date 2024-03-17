@@ -1,6 +1,7 @@
 package dev.slint.ideaplugin.ide.settings
 
 import com.intellij.openapi.ui.DialogPanel
+import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.dsl.builder.*
 
 class SlintSettingsComponent(lspSettings: SlintLspSettings) {
@@ -9,9 +10,16 @@ class SlintSettingsComponent(lspSettings: SlintLspSettings) {
     init {
         panel = panel {
             group("Lsp Settings") {
+                lateinit var useExternalLspCheckBox: Cell<JBCheckBox>
+
+                row {
+                    useExternalLspCheckBox = checkBox("Use external lsp")
+                        .bindSelected(lspSettings::useExternalLsp)
+                }
                 row("Lsp path:") {
                     textFieldWithBrowseButton()
                         .bindText(lspSettings::path)
+                        .enabledIf(useExternalLspCheckBox.selected)
                         .align(AlignX.FILL)
                 }
                 row("Args:") {

@@ -7,8 +7,10 @@ import org.jetbrains.annotations.PropertyKey
 @NonNls
 const val SLINT_BUNDLE = "messages.SlintBundle"
 
-object SlintBundle : DynamicBundle(SLINT_BUNDLE) {
+@NonNls
+const val SLINT_PLUGIN_ID = "dev.slint.ideaplugin"
 
+object SlintBundle : DynamicBundle(SLINT_BUNDLE) {
     @Suppress("SpreadOperator")
     @JvmStatic
     fun message(@PropertyKey(resourceBundle = SLINT_BUNDLE) key: String, vararg params: Any) =

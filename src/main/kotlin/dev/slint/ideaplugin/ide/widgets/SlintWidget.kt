@@ -9,8 +9,6 @@ import com.intellij.openapi.wm.StatusBarWidget
 import com.intellij.openapi.wm.StatusBarWidget.WidgetPresentation
 import com.intellij.openapi.wm.impl.status.EditorBasedWidget
 import com.intellij.platform.lsp.api.LspServerManager
-//import com.intellij.platform.lsp.impl.LspServerImpl
-import dev.slint.ideaplugin.SlintBundle
 import dev.slint.ideaplugin.SlintIcons
 import dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider
 import dev.slint.ideaplugin.lang.SlintFileType

@@ -2,13 +2,14 @@ package dev.slint.ideaplugin.ide.settings
 
 import java.util.*
 
-data class  SlintLspSettings (
+data class SlintLspSettings (
     var path: String = "slint-lsp",
     var args: String = "",
     var style: SlintStyle = SlintStyle.DEFAULT,
     var backend: SlintBackend = SlintBackend.DEFAULT,
     var noToolbar: Boolean = false,
     var includePaths: MutableList<String> = mutableListOf(),
+    var useExternalLsp: Boolean = false
 )
 
 enum class SlintStyle {

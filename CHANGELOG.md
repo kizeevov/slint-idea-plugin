@@ -4,9 +4,14 @@
 
 ## [Unreleased]
 
+### Attention
+
+- The current version is not compatible with previous plugin settings
+
 ### Fixed
 
 - Fixed ternary expressions
+- Binary executable files of lsp-server are embedded
 
 ## [0.3.1] - 2023-12-16
 
