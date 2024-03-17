@@ -18,6 +18,16 @@ class LspLanguageClient(
     private val project: Project
 ) : Lsp4jClient(serverNotificationsHandler)
 {
+    @JsonNotification("slint/lsp_to_preview")
+    fun lspToPreview(message: Any) {
+        println("==== $message")
+    }
+
+    @JsonNotification("slint/preview_to_lsp")
+    fun previewToLsp(message: Any) {
+        println("==== $message")
+    }
+
     @JsonNotification("experimental/serverStatus")
     fun serverStatus(status: ServerStatus) {
         when (status.health) {

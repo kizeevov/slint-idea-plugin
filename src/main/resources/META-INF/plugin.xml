@@ -59,6 +59,10 @@
         <notificationGroup id="Slint" displayType="BALLOON"/>
 <!--        <statusBarWidgetFactory implementation="dev.slint.ideaplugin.ide.widgets.SlintStatusBarWidgetFactory"-->
 <!--                                id="SlintWidget"/>-->
+        <toolWindow id="Slint"
+                    anchor="right"
+                    factoryClass="dev.slint.ideaplugin.ide.ui.preview.PreviewToolWindowFactory"
+                    icon="/icons/slint.svg"/>
     </extensions>
     <actions>
         <action id="Slint.NewSlintFile"

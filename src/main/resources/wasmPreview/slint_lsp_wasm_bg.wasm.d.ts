@@ -1,0 +1,31 @@
+/* tslint:disable */
+/* eslint-disable */
+export const memory: WebAssembly.Memory;
+export function slint_mock_elapsed_time(a: number): void;
+export function slint_get_mocked_time(): number;
+export function slint_send_mouse_click(a: number, b: number, c: number): void;
+export function slint_send_keyboard_char(a: number, b: number, c: number): void;
+export function send_keyboard_string_sequence(a: number, b: number): void;
+export function run_event_loop(a: number): void;
+export function __wbg_previewconnector_free(a: number): void;
+export function previewconnector_create(a: number, b: number, c: number, d: number, e: number, f: number): void;
+export function previewconnector_current_style(a: number): number;
+export function previewconnector_show_ui(a: number, b: number): void;
+export function previewconnector_process_lsp_to_preview_message(a: number, b: number, c: number): void;
+export function __wbg_slintserver_free(a: number): void;
+export function create(a: number, b: number, c: number, d: number, e: number): void;
+export function slintserver_process_preview_to_lsp_message(a: number, b: number): number;
+export function slintserver_server_initialize_result(a: number, b: number, c: number): void;
+export function slintserver_reload_document(a: number, b: number, c: number, d: number, e: number): number;
+export function slintserver_handle_request(a: number, b: number, c: number, d: number, e: number): number;
+export function slintserver_reload_config(a: number): number;
+export function __wbindgen_malloc(a: number, b: number): number;
+export function __wbindgen_realloc(a: number, b: number, c: number, d: number): number;
+export const __wbindgen_export_2: WebAssembly.Table;
+export function wasm_bindgen__convert__closures__invoke1_mut__h0803eefb7ecbc5f2(a: number, b: number, c: number): void;
+export function wasm_bindgen__convert__closures__invoke0_mut__h3dcef5cc69de8702(a: number, b: number): void;
+export function wasm_bindgen__convert__closures__invoke2_mut__h41a87842d4be8cb9(a: number, b: number, c: number, d: number): void;
+export function wasm_bindgen__convert__closures__invoke1__h2e71c1b7aca74692(a: number, b: number, c: number): void;
+export function __wbindgen_free(a: number, b: number, c: number): void;
+export function __wbindgen_exn_store(a: number): void;
+export function __wbindgen_add_to_stack_pointer(a: number): number;
