@@ -14,6 +14,8 @@
 - Automatic restart of the LSP-server if it crashed or shutdown
 - New action for manually restarting the LSP-server
 - Widget for indicating the LSP-server current status
+- Pick elements with your mouse by enabling the "Design Mode"
+- Drag and Drop on Live-Preview
 
 ### Fixed
 
