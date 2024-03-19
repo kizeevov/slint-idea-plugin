@@ -11,7 +11,7 @@ import org.eclipse.lsp4j.CompletionItemKind
 import javax.swing.Icon
 
 @Suppress("UnstableApiUsage")
-class SlintLspCompletionSupport: LspCompletionSupport() {
+class SlintLspCompletionSupport : LspCompletionSupport() {
     override fun getIcon(item: CompletionItem): Icon {
         return super.getIcon(item) ?: SlintIcons.SLINT
     }

@@ -1,10 +1,7 @@
 package dev.slint.ideaplugin.ide.settings
 
-import com.intellij.ide.util.DirectoryChooser
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
-import com.intellij.openapi.fileChooser.FileChooserDialog
-import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.ui.MessageDialogBuilder
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.table.TableView
@@ -14,7 +11,6 @@ import com.intellij.util.ui.ListTableModel
 import dev.slint.ideaplugin.SlintBundle
 import javax.swing.table.DefaultTableCellRenderer
 import javax.swing.table.TableCellRenderer
-import kotlin.io.path.Path
 
 internal class PathsTablePanel {
     val component: JComponent
@@ -63,7 +59,8 @@ internal class PathsTablePanel {
     private fun removeData() {
         val dialog = MessageDialogBuilder.okCancel(
             SlintBundle.message("settings.paths.table.remove.dialog.title"),
-            SlintBundle.message("settings.paths.table.remove.dialog.message"))
+            SlintBundle.message("settings.paths.table.remove.dialog.message")
+        )
 
         if (dialog.guessWindowAndAsk()) {
             model.removeRow(table.selectedRow)

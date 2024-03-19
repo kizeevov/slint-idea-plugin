@@ -11,8 +11,7 @@ import dev.slint.ideaplugin.lang.SlintLanguage
 import kotlin.io.path.Path
 
 internal class PreviewAction(private val notification: Notification? = null) :
-        LspAction("Show All Preview", null, AllIcons.Actions.Preview)
-{
+    LspAction("Show All Preview", null, AllIcons.Actions.Preview) {
     override fun update(e: AnActionEvent) {
         val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: return
         e.presentation.isEnabledAndVisible = psiFile.language.isKindOf(SlintLanguage.INSTANCE)

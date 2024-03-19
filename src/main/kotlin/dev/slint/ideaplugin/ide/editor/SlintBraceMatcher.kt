@@ -6,7 +6,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import dev.slint.ideaplugin.lang.psi.SlintElementTypes
 
-class SlintBraceMatcher: PairedBraceMatcher {
+class SlintBraceMatcher : PairedBraceMatcher {
     override fun getPairs(): Array<BracePair> = braces
 
     override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?): Boolean = true

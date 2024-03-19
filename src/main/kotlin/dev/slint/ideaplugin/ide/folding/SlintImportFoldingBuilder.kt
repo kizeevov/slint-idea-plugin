@@ -65,5 +65,5 @@ private fun PsiElement.nextImport(): SlintImportDefinition? {
         return next.nextImport()
     }
 
-    return next  as? SlintImportDefinition
+    return next as? SlintImportDefinition
 }

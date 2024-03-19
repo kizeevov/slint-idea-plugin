@@ -46,28 +46,35 @@ class SlintStatusBarWidget(project: Project) : EditorBasedStatusBarPopup(project
         group.add(ActionManager.getInstance().getAction(RestartLspAction.ID))
 
         return JBPopupFactory.getInstance()
-            .createActionGroupPopup("Slint Actions", group, context, JBPopupFactory.ActionSelectionAid.SPEEDSEARCH, true)
+            .createActionGroupPopup(
+                "Slint Actions",
+                group,
+                context,
+                JBPopupFactory.ActionSelectionAid.SPEEDSEARCH,
+                true
+            )
     }
 
     override fun getWidgetState(file: VirtualFile?): WidgetState {
         if (file?.fileType !is SlintFileType) return WidgetState.HIDDEN
 
         val project = ProjectLocator.getInstance().guessProjectForFile(file)
-        project?: return WidgetState.HIDDEN
+        project ?: return WidgetState.HIDDEN
         val module = ModuleUtil.findModuleForFile(file, this.project)
-        module?: return WidgetState.HIDDEN
+        module ?: return WidgetState.HIDDEN
 
         val slintServerService = project.service<SlintServerService>()
 
-        return when(slintServerService.isRunning) {
+        return when (slintServerService.isRunning) {
             true -> {
                 val state = WidgetState(SlintBundle.message("slint.language.server.is.running"), "Slint", false)
                 state.icon = SlintIcons.SLINT
                 state
             }
+
             false -> {
                 val state = WidgetState(SlintBundle.message("slint.language.server.is.stopped"), "Slint", true)
-                state.icon = AnimatedIcon(1000,  SlintIcons.SLINT, getDisabledIcon( SlintIcons.SLINT))
+                state.icon = AnimatedIcon(1000, SlintIcons.SLINT, getDisabledIcon(SlintIcons.SLINT))
                 state
             }
         }

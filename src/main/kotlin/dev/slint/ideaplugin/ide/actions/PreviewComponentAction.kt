@@ -9,11 +9,10 @@ import dev.slint.ideaplugin.ide.lsp.requests.PreviewMessageRequest
 import kotlin.io.path.Path
 
 internal class PreviewComponentAction(
-        private val componentName: String,
-        private val notification: Notification? = null,
+    private val componentName: String,
+    private val notification: Notification? = null,
 ) :
-        LspAction("Show Component Preview", null, AllIcons.Actions.ShowCode)
-{
+    LspAction("Show Component Preview", null, AllIcons.Actions.ShowCode) {
     override fun actionPerformed(e: AnActionEvent, servers: List<LspServer>) {
         val virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
         val uriFile = Path(virtualFile.path).toUri()
