@@ -2,7 +2,7 @@ package dev.slint.ideaplugin.ide.settings
 
 import java.util.*
 
-data class SlintLspSettings (
+data class SlintLspSettings(
     var path: String = "slint-lsp",
     var args: String = "",
     var style: SlintStyle = SlintStyle.DEFAULT,

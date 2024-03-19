@@ -14,10 +14,10 @@ object SlintBundle : DynamicBundle(SLINT_BUNDLE) {
     @Suppress("SpreadOperator")
     @JvmStatic
     fun message(@PropertyKey(resourceBundle = SLINT_BUNDLE) key: String, vararg params: Any) =
-            getMessage(key, *params)
+        getMessage(key, *params)
 
     @Suppress("SpreadOperator", "unused")
     @JvmStatic
     fun messagePointer(@PropertyKey(resourceBundle = SLINT_BUNDLE) key: String, vararg params: Any) =
-            getLazyMessage(key, *params)
+        getLazyMessage(key, *params)
 }

@@ -7,7 +7,11 @@ import dev.slint.ideaplugin.lang.SlintFileType
 
 @Suppress("UnstableApiUsage")
 class SlintLspServerSupportProvider : LspServerSupportProvider {
-    override fun fileOpened(project: Project, file: VirtualFile, serverStarter: LspServerSupportProvider.LspServerStarter) {
+    override fun fileOpened(
+        project: Project,
+        file: VirtualFile,
+        serverStarter: LspServerSupportProvider.LspServerStarter
+    ) {
         if (file.fileType != SlintFileType) return
         serverStarter.ensureServerStarted(SlintLspServerDescriptor(project))
     }

@@ -6,7 +6,6 @@ import com.intellij.formatting.service.FormattingService
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
 import com.intellij.openapi.fileEditor.FileEditorManager
-import com.intellij.openapi.progress.util.ProgressIndicatorBase
 import com.intellij.psi.PsiFile
 import com.jetbrains.rd.util.enumSetOf
 import dev.slint.ideaplugin.ide.services.FileEditorService
@@ -17,7 +16,7 @@ import org.eclipse.lsp4j.FormattingOptions
 import org.eclipse.lsp4j.TextDocumentIdentifier
 import kotlin.io.path.Path
 
-class SlintLspFormattingService: AsyncDocumentFormattingService() {
+class SlintLspFormattingService : AsyncDocumentFormattingService() {
     override fun getFeatures(): Set<FormattingService.Feature> = FEATURES
 
     override fun canFormat(file: PsiFile): Boolean = file is SlintFile
@@ -40,7 +39,7 @@ class SlintLspFormattingService: AsyncDocumentFormattingService() {
 
         return object : FormattingTask {
             override fun run() {
-                val edits  = server.lsp4jServer.textDocumentService.formatting(params).join()
+                val edits = server.lsp4jServer.textDocumentService.formatting(params).join()
                 edits.forEach { textEdit ->
                     WriteCommandAction.runWriteCommandAction(project) {
                         FileEditorService.applyTextChanges(textEdit, editor)

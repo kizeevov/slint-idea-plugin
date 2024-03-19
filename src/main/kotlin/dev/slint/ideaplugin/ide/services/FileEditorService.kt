@@ -25,44 +25,36 @@ class FileEditorService(private val project: Project) {
     }
 
     fun showDocument(params: ShowDocumentParams) {
-        fileEditorManager.openFiles
-            .find {
-                it.url == params.uri
-            }
-            ?.let {
-                val startPosition = params.selection.start.run {
-                    LogicalPosition(line, character)
-                }
-                val endPosition = params.selection.end.run {
-                    LogicalPosition(line, character)
-                }
+        val file = fileEditorManager.openFiles.find { it.url == params.uri } ?: return
 
-                WriteCommandAction.runWriteCommandAction(project) {
-                    fileEditorManager
-                        .openTextEditor(OpenFileDescriptor(project, it), true)
-                        ?.selectionModel
-                        ?.setBlockSelection(startPosition, endPosition)
-                }
-            }
+        val startPosition = params.selection.start.run {
+            LogicalPosition(line, character)
+        }
+        val endPosition = params.selection.end.run {
+            LogicalPosition(line, character)
+        }
+
+        WriteCommandAction.runWriteCommandAction(project) {
+            fileEditorManager
+                .openTextEditor(OpenFileDescriptor(project, file), true)
+                ?.selectionModel
+                ?.setBlockSelection(startPosition, endPosition)
+        }
     }
 
     private fun applyDocumentChanges(documentChanges: TextDocumentEdit) {
         val fileUrl = documentChanges.textDocument.uri
-        fileEditorManager.openFiles
-            .find {
-                it.url == fileUrl
-            }
-            ?.let { virtualFile ->
-                WriteCommandAction.runWriteCommandAction(project) {
-                    fileEditorManager
-                        .openTextEditor(OpenFileDescriptor(project, virtualFile), true)
-                        ?.let { editor: Editor ->
-                            documentChanges.edits.forEach {
-                                applyTextChanges(it, editor)
-                            }
-                        }
+        val file = fileEditorManager.openFiles.find { it.url == fileUrl } ?: return
+
+        WriteCommandAction.runWriteCommandAction(project) {
+            fileEditorManager
+                .openTextEditor(OpenFileDescriptor(project, file), true)
+                ?.let { editor: Editor ->
+                    documentChanges.edits.forEach {
+                        applyTextChanges(it, editor)
+                    }
                 }
-            }
+        }
     }
 
     companion object {
@@ -75,7 +67,7 @@ class FileEditorService(private val project: Project) {
             }
 
             val startOffset = editor.logicalPositionToOffset(startPosition)
-            val endOffset= editor.logicalPositionToOffset(endPosition)
+            val endOffset = editor.logicalPositionToOffset(endPosition)
 
             editor.document.replaceString(startOffset, endOffset, textEdit.newText)
         }

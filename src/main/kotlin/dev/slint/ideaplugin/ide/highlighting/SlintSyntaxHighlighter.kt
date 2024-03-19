@@ -12,7 +12,7 @@ class SlintSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer = SlintLexer()
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> =
-            pack(attributes[tokenType])
+        pack(attributes[tokenType])
 
     companion object {
         private val attributes = buildMap<IElementType, TextAttributesKey> {

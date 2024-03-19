@@ -7,25 +7,22 @@
 ## Description
 
 <!-- Plugin description -->
-[Slint](https://slint.dev) support for IDEs based on IntelliJ Platform. **Plugin is experimental and unofficial!**
+[Slint](https://slint.dev) support for IDEs based on IntelliJ Platform. **Plugin is unofficial!**
 
 The following features are supported:
 - Syntax highlighting
-- Slint-LSP support
 - Preview support
+- Code completion
+- Document formatting
+- Pick elements
+- Drag and Drop elements on Live-Preview
 <!-- Plugin description end -->
-
-Tested with: 
-- CLion 2023.2
-- IDEA Ultimate 2023.2
-- RustRover 2023.3 EAP
 
 ## Dependencies
 
-Slint IntelliJ Plugin communicates with Slint-LSP. Install before you can use the IntelliJ Plugin. To install:
-```sh
-$ cargo install slint-lsp
-```
+Slint IntelliJ Plugin communicates with Slint LSP. Language server are included in plugin assembly (in version 1.0.0 and later).
+
+But you can use an external dependency. Go to <kbd>Settings</kbd> > <kbd>Languages & Frameworks</kbd> > <kbd>Slint</kbd> > <kbd>Slint-lsp path</kbd> selected path
 
 ## Installation
 
@@ -38,7 +35,3 @@ Manually:
 
   Download the [latest release](https://github.com/kizeevov/slint-idea-plugin/releases) and install it manually using
   <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
-## Configuration
-
-Go to <kbd>Settings</kbd> > <kbd>Languages & Frameworks</kbd> > <kbd>Slint</kbd> > <kbd>Slint-lsp path</kbd> selected path

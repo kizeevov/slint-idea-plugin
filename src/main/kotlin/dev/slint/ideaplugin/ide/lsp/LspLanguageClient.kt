@@ -1,16 +1,10 @@
 package dev.slint.ideaplugin.ide.lsp
 
-import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
-import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.editor.LogicalPosition
-import com.intellij.openapi.fileEditor.FileEditorManager
-import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.platform.lsp.api.Lsp4jClient
 import com.intellij.platform.lsp.api.LspServerNotificationsHandler
 import dev.slint.ideaplugin.ide.services.FileEditorService
-import dev.slint.ideaplugin.ide.services.SlintServerService
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.services.JsonNotification
 import java.util.concurrent.CompletableFuture
@@ -31,8 +25,6 @@ class LspServerNotificationsMiddleware(
 
     override fun applyEdit(params: ApplyWorkspaceEditParams): CompletableFuture<ApplyWorkspaceEditResponse> {
         fileEditorService.applyEdit(params)
-
-        // return serverNotificationsHandler.applyEdit(params)
         return CompletableFuture.supplyAsync {
             null
         }
@@ -88,8 +80,6 @@ class LspServerNotificationsMiddleware(
 
     override fun showDocument(params: ShowDocumentParams): CompletableFuture<ShowDocumentResult> {
         fileEditorService.showDocument(params)
-
-        // return serverNotificationsHandler.showDocument(params)
         return CompletableFuture.supplyAsync {
             null
         }

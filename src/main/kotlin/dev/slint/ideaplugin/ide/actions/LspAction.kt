@@ -7,7 +7,6 @@ import com.intellij.platform.lsp.api.LspServer
 import dev.slint.ideaplugin.ide.services.SlintServerService
 import javax.swing.Icon
 
-
 abstract class LspAction(text: String, description: String?, icon: Icon?) : AnAction(text, description, icon) {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
@@ -16,6 +15,7 @@ abstract class LspAction(text: String, description: String?, icon: Icon?) : AnAc
         if (servers.isEmpty()) {
             return
         }
+
         actionPerformed(e, servers)
     }
 
