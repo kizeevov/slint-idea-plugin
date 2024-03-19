@@ -56,6 +56,9 @@
         <runLineMarkerContributor language="Slint"
                                   implementationClass="dev.slint.ideaplugin.ide.lineMarkers.PreviewRunLineMarkerContributor"/>
 
+        <!-- Formatter -->
+        <formattingService implementation="dev.slint.ideaplugin.ide.formatter.SlintLspFormattingService"/>
+
         <notificationGroup id="Slint" displayType="BALLOON"/>
         <statusBarWidgetFactory implementation="dev.slint.ideaplugin.ide.widgets.SlintStatusBarWidgetFactory"
                                 id="SlintWidget"/>
