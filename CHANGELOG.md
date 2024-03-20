@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2024-03-20
+
 ### Attention
 
 - The current version is not compatible with previous plugin settings!
@@ -67,7 +69,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.3.1...v1.0.1
 [0.3.1]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.2.7...v0.3.1
 [0.2.7]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.2.6...v0.2.7
 [0.2.6]: https://github.com/kizeevov/slint-idea-plugin/commits/v0.2.6
