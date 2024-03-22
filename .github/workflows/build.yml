@@ -36,6 +36,13 @@ jobs:
       - name: Fetch Sources
         uses: actions/checkout@v4
 
+      - name: Dowload lsp artifacts
+        run: |
+          curl ${{ vars.VSCODE_PLUGIN_URL }} -o plugin.zip
+          unzip plugin.zip -d plugin
+          mv ./plugin/extension/bin/ ./language-server
+          rm -rf ./plugin
+          
       # Validate wrapper
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.1.0
