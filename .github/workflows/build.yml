@@ -37,10 +37,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Dowload lsp artifacts
-        env:
-          VSCODE_PLUGIN_URL: ${{ env.VSCODE_PLUGIN_URL }}
         run: |
-          curl $VSCODE_PLUGIN_URL -o plugin.zip
+          curl "$VSCODE_PLUGIN_URL" -o plugin.zip
           unzip plugin.zip -d plugin
           mv ./plugin/extension/bin/ ./language-server
           rm -rf ./plugin
