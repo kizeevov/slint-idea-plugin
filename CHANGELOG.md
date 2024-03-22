@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2024-03-22
+
 ### Fixed
 
 - Fixed ternary expressions again
@@ -74,7 +76,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.3.1...v1.0.1
 [0.3.1]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.2.7...v0.3.1
 [0.2.7]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.2.6...v0.2.7
