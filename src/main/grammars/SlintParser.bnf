@@ -378,9 +378,9 @@ private ArrayAnonymousStruct ::= '[' AnonymousStructDeclaration? (',' (Anonymous
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 Expression ::=
     AssignmentExpression
-    | TernaryExpression
     | BinaryExpression
     | UnaryExpression
+    | TernaryExpression
     | CallBuiltinExpression
     | CallExpression
     | PropertyExpression
@@ -431,14 +431,19 @@ UnaryOperators ::=
 AssignmentExpression ::= PropertyExpression EQ Expression { pin=3 }
 BinaryExpression ::= Expression Operators Expression { pin=3 }
 UnaryExpression ::= UnaryOperators Expression { pin=1 }
-TernaryExpression ::= Expression '?' Expression ':' Expression { pin=4 }
 CallExpression ::= PropertyExpression CallArgumentList { pin=1 }
 CallBuiltinExpression ::= BuiltinFunctions
-ParenthesizedExpression ::= '(' Expression ')' { pin=3 }
 ArrayExpression ::= PropertyExpression '[' Expression ']'
 ArrayAnonymousStructExpression ::= ArrayAnonymousStruct
 AnonymousStructExpression ::= AnonymousStructDeclaration
 ArrayValExpression ::= '[' Expression? (',' (Expression | &']'))* ']'
+
+ParenthesizedExpression ::= '(' ParenthesizedExpressionEnd { pin=1 }
+private ParenthesizedExpressionEnd ::= Expression ')'
+
+TernaryExpression ::= Expression '?' TernaryExpressionThen { pin=2 }
+private TernaryExpressionThen ::= Expression ':' TernaryExpressionElse
+private TernaryExpressionElse ::= Expression
 
 PropertyExpression ::= IDENTIFIER | PROPERTY_IDENTIFIER
 LiteralExpression ::=
