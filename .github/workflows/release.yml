@@ -24,6 +24,13 @@ jobs:
         with:
           ref: ${{ github.event.release.tag_name }}
 
+      - name: Dowload lsp artifacts
+        run: |
+          curl ${{ vars.VSCODE_PLUGIN_URL }} -o plugin.zip
+          unzip plugin.zip -d plugin
+          mv ./plugin/extension/bin/ ./language-server
+          rm -rf ./plugin
+
       # Set up Java environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v3
