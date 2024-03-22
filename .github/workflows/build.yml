@@ -38,8 +38,7 @@ jobs:
 
       - name: Dowload lsp artifacts
         run: |
-          echo "Test ${{ vars.VSCODE_PLUGIN_URL }}"
-          curl "$VSCODE_PLUGIN_URL" -o plugin.zip
+          curl ${{ vars.VSCODE_PLUGIN_URL }} -o plugin.zip
           unzip plugin.zip -d plugin
           mv ./plugin/extension/bin/ ./language-server
           rm -rf ./plugin
