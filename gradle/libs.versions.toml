@@ -7,6 +7,7 @@ kotlin = "1.9.10"
 changelog = "2.2.0"
 intellij = "1.16.0"
 grammarkit = "2022.3.1"
+download = "5.6.0"
 
 #gradleIntelliJPlugin = "1.15.0"
 #qodana = "0.1.13"
@@ -20,10 +21,4 @@ kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
 intellij = { id = "org.jetbrains.intellij", version.ref = "intellij" }
 grammarkit = { id = "org.jetbrains.grammarkit", version.ref = "grammarkit" }
-
-
-# gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
-
-#kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-#kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-#qodana = { id = "org.jetbrains.qodana", version.ref = "qodana" }
+download = { id = "de.undercouch.download", version.ref = "download"}
