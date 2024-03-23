@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import de.undercouch.gradle.tasks.download.Download
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
@@ -12,10 +13,13 @@ plugins {
     alias(libs.plugins.intellij)
     alias(libs.plugins.grammarkit)
     alias(libs.plugins.changelog)
+    alias(libs.plugins.download)
 }
 
 group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
+
+val slintLspVersion = properties("slintLspVersion").get()
 
 idea {
     module {
@@ -133,9 +137,23 @@ tasks {
         channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
     }
 
+    task("downloadSlintLspVscodePlugin", type = Download::class) {
+        src("https://Slint.gallery.vsassets.io/_apis/public/gallery/publisher/Slint/extension/slint/${slintLspVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage")
+        dest("${project.buildDir}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")
+        onlyIfModified(true)
+    }
+
+    task("extractSlintLspVscodePlugin", type = Copy::class) {
+        dependsOn("downloadSlintLspVscodePlugin")
+        from(zipTree("${project.buildDir}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")) {
+            destinationDir = file("${project.buildDir}/tmp/slint-vscode-plugin")
+        }
+    }
+
     prepareSandbox {
-        from("${project.projectDir}/language-server") {
-            into("${intellij.pluginName.get()}/language-server/")
+        dependsOn("extractSlintLspVscodePlugin")
+        from("${project.buildDir}/tmp/slint-vscode-plugin/extension/bin") {
+            into("${intellij.pluginName.get()}/language-server/bin")
         }
     }
 }

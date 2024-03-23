@@ -7,6 +7,7 @@
 ### Fixed
 
 - Fixed ternary expressions again
+- Fixed starting of lsp-server
 
 ## [1.0.1] - 2024-03-20
 

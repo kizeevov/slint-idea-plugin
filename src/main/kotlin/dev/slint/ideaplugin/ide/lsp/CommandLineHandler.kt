@@ -8,6 +8,10 @@ import dev.slint.ideaplugin.ide.settings.SlintBackend
 import dev.slint.ideaplugin.ide.settings.SlintSettingsState
 import dev.slint.ideaplugin.ide.settings.SlintStyle
 import java.nio.file.Path
+import java.nio.file.attribute.PosixFilePermission
+import kotlin.io.path.getPosixFilePermissions
+import kotlin.io.path.isExecutable
+import kotlin.io.path.setPosixFilePermissions
 
 object CommandLineHandler {
     fun createCommandLine(): GeneralCommandLine {
@@ -54,10 +58,10 @@ object CommandLineHandler {
     }
 
     private fun getEmbeddedLspPath(): Path? {
-        val pluginPath = PluginManager
+        val pluginManager = PluginManager
             .getInstance()
             .findEnabledPlugin(PluginId.getId(dev.slint.ideaplugin.SLINT_PLUGIN_ID))
-            ?.pluginPath
+            ?: return null
 
         val programName: String
 
@@ -87,8 +91,18 @@ object CommandLineHandler {
             return null
         }
 
-        return pluginPath
-            ?.resolve("language-server/bin")
-            ?.resolve(programName)
+        val lspPath = pluginManager
+            .pluginPath
+            .resolve("language-server/bin")
+            .resolve(programName)
+
+        if (!lspPath.isExecutable()) {
+            lspPath.setPosixFilePermissions(
+                lspPath.getPosixFilePermissions()
+                    .plus(PosixFilePermission.OWNER_EXECUTE)
+            )
+        }
+
+        return lspPath
     }
 }
