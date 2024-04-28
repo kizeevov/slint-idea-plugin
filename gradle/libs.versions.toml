@@ -3,10 +3,10 @@
 annotations = "24.0.1"
 
 # plugins
-kotlin = "1.9.10"
+kotlin = "1.9.23"
 changelog = "2.2.0"
-intellij = "1.16.0"
-grammarkit = "2022.3.1"
+intellij = "1.17.2"
+grammarkit = "2022.3.2.2"
 download = "5.6.0"
 
 #gradleIntelliJPlugin = "1.15.0"

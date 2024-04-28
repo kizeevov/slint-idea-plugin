@@ -66,13 +66,12 @@ changelog {
 tasks {
     generateLexer {
         sourceFile = file("src/main/grammars/SlintLexer.flex")
-        targetDir = "src/gen/dev/slint/ideaplugin/lang/lexer"
-        targetClass = "_SlintLexer"
+        targetOutputDir = file("src/gen/dev/slint/ideaplugin/lang/lexer")
         purgeOldFiles = true
     }
     generateParser {
         sourceFile = file("src/main/grammars/SlintParser.bnf")
-        targetRoot = "src/gen"
+        targetRootOutputDir = file("src/gen")
         pathToParser = "dev/slint/ideaplugin/lang/parser/SlintParser.java"
         pathToPsiRoot = "dev/slint/ideaplugin/lang/psi"
         purgeOldFiles = true
@@ -137,21 +136,21 @@ tasks {
         channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
     }
 
-    task("downloadSlintLspVscodePlugin", type = Download::class) {
-        src("https://Slint.gallery.vsassets.io/_apis/public/gallery/publisher/Slint/extension/slint/${slintLspVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage")
-        dest("${project.buildDir}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")
-        onlyIfModified(true)
-    }
-
-    task("extractSlintLspVscodePlugin", type = Copy::class) {
-        dependsOn("downloadSlintLspVscodePlugin")
-        from(zipTree("${project.buildDir}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")) {
-            destinationDir = file("${project.buildDir}/tmp/slint-vscode-plugin")
-        }
-    }
+//    task("downloadSlintLspVscodePlugin", type = Download::class) {
+//        src("https://Slint.gallery.vsassets.io/_apis/public/gallery/publisher/Slint/extension/slint/${slintLspVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage")
+//        dest("${project.buildDir}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")
+//        onlyIfModified(true)
+//    }
+//
+//    task("extractSlintLspVscodePlugin", type = Copy::class) {
+//        dependsOn("downloadSlintLspVscodePlugin")
+//        from(zipTree("${project.buildDir}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")) {
+//            destinationDir = file("${project.buildDir}/tmp/slint-vscode-plugin")
+//        }
+//    }
 
     prepareSandbox {
-        dependsOn("extractSlintLspVscodePlugin")
+        // dependsOn("extractSlintLspVscodePlugin")
         from("${project.buildDir}/tmp/slint-vscode-plugin/extension/bin") {
             into("${intellij.pluginName.get()}/language-server/bin")
         }

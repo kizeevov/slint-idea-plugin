@@ -73,7 +73,11 @@
             <separator/>
             <add-to-group group-id="ProjectViewPopupMenu"/>
 
-            <action id="Slint.Preview" class="dev.slint.ideaplugin.ide.actions.PreviewAction"/>
+            <action id="Slint.Preview"
+                    class="dev.slint.ideaplugin.ide.actions.PreviewAction"
+                    text="Show All Preview"
+                    icon="AllIcons.Actions.Preview"
+            />
         </group>
 
         <action id="Slint.RestartLspAction"
