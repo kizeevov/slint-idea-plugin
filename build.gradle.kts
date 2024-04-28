@@ -19,7 +19,7 @@ plugins {
 group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
 
-val slintLspVersion = properties("slintLspVersion").get()
+val slintLspVersion: String = properties("slintLspVersion").get()
 
 idea {
     module {

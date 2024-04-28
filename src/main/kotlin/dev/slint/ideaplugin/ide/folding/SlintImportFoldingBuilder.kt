@@ -11,6 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
+import com.jetbrains.rd.generator.nova.PredefinedType
 import dev.slint.ideaplugin.lang.psi.SlintFile
 import dev.slint.ideaplugin.lang.psi.SlintImportDefinition
 import dev.slint.ideaplugin.util.parser.childrenOfType
@@ -26,23 +27,18 @@ class SlintImportFoldingBuilder : CustomFoldingBuilder(), DumbAware {
             return
         }
 
-        val covered = HashSet<SlintImportDefinition>()
         val imports = root.allImports()
+        var startOffset = 0
+        var startImport: SlintImportDefinition? = null
 
         for (import in imports) {
-            if (import in covered) {
-                continue
+            if (import.isPrevImport().not()) {
+                startOffset = import.startOffset;
+                startImport = import
             }
-
-            var next: SlintImportDefinition? = import
-            var last: SlintImportDefinition = import
-            while (next != null) {
-                covered += next
-                last = next
-                next = next.nextImport()
+            if (import.isNextImport().not() && startImport != null) {
+                descriptors += FoldingDescriptor(startImport, TextRange(startOffset, import.endOffset))
             }
-
-            descriptors += FoldingDescriptor(import, TextRange(import.startOffset, last.endOffset))
         }
     }
 
@@ -54,16 +50,30 @@ class SlintImportFoldingBuilder : CustomFoldingBuilder(), DumbAware {
 
 private fun PsiElement.allImports() = childrenOfType(SlintImportDefinition::class).toList()
 
-private fun PsiElement.nextImport(): SlintImportDefinition? {
-    val next = this.nextSibling
+private fun PsiElement.isPrevImport(): Boolean {
+    val next = this.prevSibling
 
     if (next is PsiWhiteSpace) {
-        return next.nextImport()
+        return next.isPrevImport()
     }
 
     if (next is PsiComment) {
-        return next.nextImport()
+        return next.isPrevImport()
     }
 
-    return next as? SlintImportDefinition
+    return next is SlintImportDefinition
+}
+
+private fun PsiElement.isNextImport(): Boolean {
+    val next = this.nextSibling
+
+    if (next is PsiWhiteSpace) {
+        return next.isNextImport()
+    }
+
+    if (next is PsiComment) {
+        return next.isNextImport()
+    }
+
+    return next is SlintImportDefinition
 }

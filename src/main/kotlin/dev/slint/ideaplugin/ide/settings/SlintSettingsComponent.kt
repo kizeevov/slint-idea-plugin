@@ -58,11 +58,11 @@ class SlintSettingsComponent(lspSettings: SlintLspSettings) {
                         .bindSelected(lspSettings::noToolbar)
                 }
                 row("Style:") {
-                    comboBox(SlintStyle.values().toList())
+                    comboBox(SlintStyle.entries)
                         .bindItem(lspSettings::style.toNullableProperty())
                 }
                 row("Backend:") {
-                    comboBox(SlintBackend.values().toList())
+                    comboBox(SlintBackend.entries)
                         .bindItem(lspSettings::backend.toNullableProperty())
                 }
             }
