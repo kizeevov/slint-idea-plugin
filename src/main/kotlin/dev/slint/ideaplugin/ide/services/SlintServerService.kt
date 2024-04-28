@@ -6,9 +6,10 @@ import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import com.intellij.platform.lsp.api.LspServer
 import com.intellij.platform.lsp.api.LspServerManager
+import com.intellij.platform.lsp.api.LspServerState
 import dev.slint.ideaplugin.SlintBundle
-import dev.slint.ideaplugin.ide.lsp.SlintLanguageServer
 import dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider
+import org.eclipse.lsp4j.*
 
 @Service(Service.Level.PROJECT)
 @Suppress("UnstableApiUsage")
@@ -36,11 +37,35 @@ class SlintServerService(private val project: Project) {
         notifyRestart()
     }
 
-    fun getServers(): List<LspServer> {
+    fun previewComponent(path: String, component: String) {
+        val server = getActiveServer() ?: return
+
+        server.sendRequestSync {
+            it.workspaceService.executeCommand(
+                ExecuteCommandParams(
+                    "slint/showPreview",
+                    listOf(path, component)
+                )
+            )
+        }
+    }
+
+    fun formatting(path: String, tabSize: Int, insertSpaces: Boolean): List<TextEdit>? {
+        val server = getActiveServer() ?: return null
+
+        val params = DocumentFormattingParams(
+            TextDocumentIdentifier(path),
+            FormattingOptions(tabSize, insertSpaces)
+        )
+
+        return server.sendRequestSync { it.textDocumentService.formatting(params) }
+    }
+
+    private fun getActiveServer(): LspServer? {
         val servers = LspServerManager.getInstance(project)
             .getServersForProvider(SlintLspServerSupportProvider::class.java)
 
-        return servers.filter { it.lsp4jServer is SlintLanguageServer }
+        return servers.firstOrNull { it.state == LspServerState.Running }
     }
 
     private fun notifyRun() {

@@ -28,19 +28,15 @@ class SlintLspFormattingService : AsyncDocumentFormattingService() {
 
         val uriFile = Path(file.path).toUri()
 
-        val params = DocumentFormattingParams(
-            TextDocumentIdentifier(uriFile.toString()),
-            FormattingOptions(4, true)
-        )
-
-        val server = project.service<SlintServerService>().getServers().firstOrNull() ?: return null
+        val slintServerService = project.service<SlintServerService>()
         val fileEditorManager = FileEditorManager.getInstance(project)
         val editor = fileEditorManager.selectedTextEditor ?: return null
 
         return object : FormattingTask {
             override fun run() {
-                val edits = server.lsp4jServer.textDocumentService.formatting(params).join()
-                edits.forEach { textEdit ->
+                val edits = slintServerService.formatting(uriFile.toString(), 4, true)
+
+                edits?.forEach { textEdit ->
                     WriteCommandAction.runWriteCommandAction(project) {
                         FileEditorService.applyTextChanges(textEdit, editor)
                     }
@@ -50,7 +46,6 @@ class SlintLspFormattingService : AsyncDocumentFormattingService() {
             override fun cancel(): Boolean {
                 return true
             }
-
         }
     }
 
