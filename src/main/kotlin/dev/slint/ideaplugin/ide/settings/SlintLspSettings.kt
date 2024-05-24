@@ -10,7 +10,6 @@ data class SlintLspSettings(
     var noToolbar: Boolean = false,
     var includePaths: MutableList<String> = mutableListOf(),
     var useExternalLsp: Boolean = false,
-    var isRestartLsp: Boolean = true,
 )
 
 enum class SlintStyle {
