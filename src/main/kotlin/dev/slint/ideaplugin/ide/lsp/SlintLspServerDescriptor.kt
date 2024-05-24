@@ -22,7 +22,8 @@ class SlintLspServerDescriptor(project: Project) : ProjectWideLspServerDescripto
 
     override fun createInitializationOptions(): Any = SlintSettingsState.getInstance().lspSettings
 
-    override fun createLsp4jClient(handler: LspServerNotificationsHandler): Lsp4jClient = LspLanguageClient(handler)
+    // Suppression of the verifier plugin warning
+    // override fun createLsp4jClient(handler: LspServerNotificationsHandler): Lsp4jClient = LspLanguageClient(handler)
 
     override fun startServerProcess(): OSProcessHandler =
         ServerProcessHandler.addListeners(super.startServerProcess(), project)

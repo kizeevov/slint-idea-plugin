@@ -1,0 +1,33 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- LSP -->
+        <platform.lsp.serverSupportProvider implementation="dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider"/>
+
+        <!-- Formatter -->
+        <formattingService implementation="dev.slint.ideaplugin.ide.formatter.SlintLspFormattingService"/>
+
+        <notificationGroup id="Slint" displayType="BALLOON"/>
+        <statusBarWidgetFactory implementation="dev.slint.ideaplugin.ide.widgets.SlintStatusBarWidgetFactory"
+                                id="SlintWidget"/>
+    </extensions>
+    <actions>
+        <group id="SlintGroupedActions">
+            <separator/>
+            <add-to-group group-id="ProjectViewPopupMenu"/>
+
+            <action id="Slint.Preview"
+                    class="dev.slint.ideaplugin.ide.actions.PreviewAction"
+                    text="Show All Preview"
+                    icon="AllIcons.Actions.Preview"
+            />
+        </group>
+
+        <action id="Slint.RestartLspAction"
+                class="dev.slint.ideaplugin.ide.actions.RestartLspAction"
+                text="Restart Slint LSP"
+                description="Restart Slint LSP server"
+                icon="AllIcons.Actions.Restart">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>

@@ -7,7 +7,7 @@
 ## Description
 
 <!-- Plugin description -->
-[Slint](https://slint.dev) support for IDEs based on IntelliJ Platform. **Plugin is unofficial!**
+[Slint](https://slint.dev) support for IDEs based on IntelliJ Platform (simplified functionality for IDEA Community Edition). **Plugin is unofficial!**
 
 The following features are supported:
 - Syntax highlighting

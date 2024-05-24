@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+### Features
+
+- Support for IDEA 2024
+- Syntax highlighting support in IDEA Community Edition and Android Studio (2024 and above)
+- Slint-LSP binary v1.6.0
+
 ## [1.0.2] - 2024-03-23
 
 ### Fixed
