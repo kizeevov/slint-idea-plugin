@@ -11,8 +11,7 @@
     <vendor email="kizeev.ov@gmail.com" url="https://github.com/kizeevov/slint-idea-plugin">kizeev</vendor>
     <resource-bundle>messages.SlintBundle</resource-bundle>
 
-    <depends>com.intellij.modules.platform</depends>
-    <depends>com.intellij.modules.ultimate</depends>
+    <depends optional="true" config-file="slint-idea-lsp-support.xml">com.intellij.modules.ultimate</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Language -->
@@ -29,7 +28,6 @@
         <!--Syntax Highlighting-->
         <lang.syntaxHighlighter language="Slint"
                                 implementationClass="dev.slint.ideaplugin.ide.highlighting.SlintSyntaxHighlighter"/>
-<!--        <colorSettingsPage implementation="dev.slint.ideaplugin.highlighting.SlintColorSettingsPage"/>-->
 
         <!-- Editor -->
         <lang.braceMatcher language="Slint"
@@ -49,43 +47,14 @@
                              nonDefaultProject="false"
                              instance="dev.slint.ideaplugin.ide.settings.SlintSettingsConfigurable"/>
 
-        <!-- LSP -->
-        <platform.lsp.serverSupportProvider implementation="dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider"/>
-
         <!-- Line Marker Providers -->
         <runLineMarkerContributor language="Slint"
                                   implementationClass="dev.slint.ideaplugin.ide.lineMarkers.PreviewRunLineMarkerContributor"/>
-
-        <!-- Formatter -->
-        <formattingService implementation="dev.slint.ideaplugin.ide.formatter.SlintLspFormattingService"/>
-
-        <notificationGroup id="Slint" displayType="BALLOON"/>
-        <statusBarWidgetFactory implementation="dev.slint.ideaplugin.ide.widgets.SlintStatusBarWidgetFactory"
-                                id="SlintWidget"/>
     </extensions>
     <actions>
         <action id="Slint.NewSlintFile"
                 class="dev.slint.ideaplugin.ide.actions.SlintCreateFileAction">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
-        </action>
-
-        <group id="SlintGroupedActions">
-            <separator/>
-            <add-to-group group-id="ProjectViewPopupMenu"/>
-
-            <action id="Slint.Preview"
-                    class="dev.slint.ideaplugin.ide.actions.PreviewAction"
-                    text="Show All Preview"
-                    icon="AllIcons.Actions.Preview"
-            />
-        </group>
-
-        <action id="Slint.RestartLspAction"
-                class="dev.slint.ideaplugin.ide.actions.RestartLspAction"
-                text="Restart Slint LSP"
-                description="Restart Slint LSP server"
-                icon="AllIcons.Actions.Restart">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>
