@@ -4,6 +4,7 @@ import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.util.SystemInfo
+import com.intellij.util.system.CpuArch
 import dev.slint.ideaplugin.ide.settings.SlintBackend
 import dev.slint.ideaplugin.ide.settings.SlintSettingsState
 import dev.slint.ideaplugin.ide.settings.SlintStyle
@@ -68,19 +69,10 @@ object CommandLineHandler {
         if (SystemInfo.isMac) {
             programName = "Slint Live Preview.app/Contents/MacOS/slint-lsp"
         } else if (SystemInfo.isLinux) {
-            programName = when (SystemInfo.OS_ARCH) {
-                "x64" -> {
-                    "slint-lsp-x86_64-unknown-linux-gnu"
-                }
-
-                "arm" -> {
-                    "slint-lsp-armv7-unknown-linux-gnueabihf"
-                }
-
-                "arm64" -> {
-                    "slint-lsp-aarch64-unknown-linux-gnu"
-                }
-
+            programName = when (CpuArch.CURRENT) {
+                CpuArch.X86_64 -> "slint-lsp-x86_64-unknown-linux-gnu"
+                CpuArch.ARM32 -> "slint-lsp-armv7-unknown-linux-gnueabihf"
+                CpuArch.ARM64 -> "slint-lsp-aarch64-unknown-linux-gnu"
                 else -> {
                     return null
                 }
