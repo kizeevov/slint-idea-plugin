@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2024-07-30
+
 ### Features
 
 - Embedded preview by editor from the vscode plugin (experimental and only preview is supported)
@@ -89,7 +91,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/kizeevov/slint-idea-plugin/compare/v0.3.1...v1.0.1
