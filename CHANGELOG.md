@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+### Features
+
+- Embedded preview by editor from the vscode plugin (experimental and only preview is supported)
+- Slint-LSP binary v1.7.1
+
 ## [1.1.0] - 2024-06-01
 
 ### Features

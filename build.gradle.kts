@@ -155,5 +155,12 @@ tasks {
         from("${project.buildDir}/tmp/slint-vscode-plugin/extension/bin") {
             into("${intellij.pluginName.get()}/language-server/bin")
         }
+        from("${project.buildDir}/tmp/slint-vscode-plugin/extension/out") {
+            include("slint_lsp_wasm*")
+            into("${intellij.pluginName.get()}/language-server/wasm")
+        }
+        from("${project.projectDir}/src/main/resources/wasmPreview/index.html") {
+            into("${intellij.pluginName.get()}/language-server/wasm")
+        }
     }
 }

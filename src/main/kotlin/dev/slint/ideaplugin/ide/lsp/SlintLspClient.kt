@@ -10,4 +10,14 @@ class SlintLspClient(
     @JsonNotification("experimental/serverStatus")
     fun serverStatus(status: Any?) {
     }
+
+    @JsonNotification("slint/lsp_to_preview")
+    fun lspToPreview(message: Any) {
+        println("==== $message")
+    }
+
+    @JsonNotification("slint/preview_to_lsp")
+    fun previewToLsp(message: Any) {
+        println("==== $message")
+    }
 }
