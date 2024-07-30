@@ -50,6 +50,8 @@
         <!-- Line Marker Providers -->
         <runLineMarkerContributor language="Slint"
                                   implementationClass="dev.slint.ideaplugin.ide.lineMarkers.PreviewRunLineMarkerContributor"/>
+
+        <fileEditorProvider implementation="dev.slint.ideaplugin.ide.editor.SlintEditorProvider"/>
     </extensions>
     <actions>
         <action id="Slint.NewSlintFile"

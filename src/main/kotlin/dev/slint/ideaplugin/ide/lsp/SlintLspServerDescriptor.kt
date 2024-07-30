@@ -8,12 +8,13 @@ import com.intellij.platform.lsp.api.customization.LspCompletionSupport
 import com.intellij.platform.lsp.api.customization.LspFormattingSupport
 import dev.slint.ideaplugin.ide.settings.SlintSettingsState
 import dev.slint.ideaplugin.lang.SlintFileType
+import dev.slint.ideaplugin.lang.isSlint
 import org.eclipse.lsp4j.services.LanguageServer
 
 @Suppress("UnstableApiUsage")
 class SlintLspServerDescriptor(project: Project) : ProjectWideLspServerDescriptor(project, "Slint") {
 
-    override fun isSupportedFile(file: VirtualFile) = file.fileType == SlintFileType
+    override fun isSupportedFile(file: VirtualFile) = file.isSlint
 
     override fun createCommandLine(): GeneralCommandLine = CommandLineHandler.createCommandLine()
 

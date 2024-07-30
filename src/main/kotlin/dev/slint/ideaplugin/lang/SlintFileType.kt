@@ -1,6 +1,7 @@
 package dev.slint.ideaplugin.lang
 
 import com.intellij.openapi.fileTypes.LanguageFileType
+import com.intellij.openapi.vfs.VirtualFile
 import dev.slint.ideaplugin.SlintBundle
 import dev.slint.ideaplugin.SlintIcons
 import javax.swing.Icon
@@ -14,3 +15,6 @@ object SlintFileType : LanguageFileType(SlintLanguage) {
 
     override fun getIcon(): Icon = SlintIcons.SLINT
 }
+
+internal val VirtualFile.isSlint: Boolean
+    get() = fileType == SlintFileType

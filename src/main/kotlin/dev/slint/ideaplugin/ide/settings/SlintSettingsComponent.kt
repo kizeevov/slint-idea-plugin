@@ -56,6 +56,11 @@ class SlintSettingsComponent(lspSettings: SlintLspSettings) {
                     comboBox(SlintBackend.entries)
                         .bindItem(lspSettings::backend.toNullableProperty())
                 }
+                row {
+                    checkBox("Provided by editor")
+                        .comment("Instead of letting the Language Server display the preview in a native window, show the preview in an editor tab using web-assembly. You need to reopen previously opened files.<br>(EXPERIMENTAL AND ONLY PREVIEW IS SUPPORTED)")
+                        .bindSelected(lspSettings::providedByEditor)
+                }
             }
         }
     }
