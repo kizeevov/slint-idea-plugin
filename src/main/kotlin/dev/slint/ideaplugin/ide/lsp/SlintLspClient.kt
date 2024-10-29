@@ -8,7 +8,7 @@ class SlintLspClient(
     serverNotificationsHandler: LspServerNotificationsHandler
 ) : Lsp4jClient(serverNotificationsHandler) {
     @JsonNotification("experimental/serverStatus")
-    fun serverStatus(status: Any?) {
+    fun serverStatus(@Suppress("UNUSED_PARAMETER") status: Any?) {
     }
 
     @JsonNotification("slint/lsp_to_preview")

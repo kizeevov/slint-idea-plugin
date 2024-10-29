@@ -19,6 +19,7 @@ plugins {
 group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
 
+val jvmVersion = properties("jvmVersion").get()
 val slintLspVersion: String = properties("slintLspVersion").get()
 
 idea {
@@ -75,17 +76,16 @@ tasks {
         pathToParser = "dev/slint/ideaplugin/lang/parser/SlintParser.java"
         pathToPsiRoot = "dev/slint/ideaplugin/lang/psi"
         purgeOldFiles = true
-        // classpath(project(":$grammarKitFakePsiDeps").sourceSets.main.get().runtimeClasspath)
     }
 
     // Set the JVM compatibility versions
     withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
+        sourceCompatibility = jvmVersion
+        targetCompatibility = jvmVersion
         dependsOn(generateLexer, generateParser)
     }
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+        kotlinOptions.jvmTarget = jvmVersion
         dependsOn(generateLexer, generateParser)
     }
 
@@ -133,7 +133,7 @@ tasks {
         // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-        channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
+        // channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
     }
 
     task("downloadSlintLspVscodePlugin", type = Download::class) {

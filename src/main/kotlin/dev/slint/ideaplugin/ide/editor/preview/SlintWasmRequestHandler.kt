@@ -10,6 +10,7 @@ import org.cef.handler.*
 import org.cef.misc.BoolRef
 import org.cef.network.CefRequest
 import java.io.File
+import java.net.URI
 import java.net.URL
 import java.nio.file.Path
 
@@ -79,7 +80,7 @@ internal open class CefLocalRequestHandler(
             frame: CefFrame?,
             request: CefRequest
         ): CefResourceHandler {
-            val url = URL(request.url)
+            val url = URI(request.url).toURL()
             url.protocol
             if (!url.protocol.equals(protocol) || !url.authority.equals(authority)) {
                 return rejectingResourceHandler
