@@ -20,7 +20,7 @@ class SlintLspCompletionSupport : LspCompletionSupport() {
         val lookupElement = super.createLookupElement(parameters, item) as LookupElementBuilder
 
         if (item.kind == CompletionItemKind.Property) {
-            return lookupElement?.withInsertHandler { context, _ ->
+            return lookupElement.withInsertHandler { context, _ ->
                 EditorModificationUtil.insertStringAtCaret(context.editor, ": ;", false, 2)
             }
         }

@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+### Features
+
+- Slint-LSP binary v1.8.0
+
+### Fixed
+
+- Fixed `ActionUpdateThread.OLD_EDT` error ([issue](https://github.com/kizeevov/slint-idea-plugin/issues/61))
+
 ## [1.2.0] - 2024-07-30
 
 ### Features

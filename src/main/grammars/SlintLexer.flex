@@ -22,7 +22,6 @@ import static dev.slint.ideaplugin.lang.psi.SlintElementTypes.*;
 %type IElementType
 %unicode
 
-EOL=\R
 WHITE_SPACE=\s+
 
 STRING_LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")

@@ -1,13 +1,13 @@
 package dev.slint.ideaplugin.ide.actions
 
-import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.actionSystem.CommonDataKeys.VIRTUAL_FILE
 import com.intellij.openapi.components.service
 import dev.slint.ideaplugin.ide.services.SlintServerService
 import dev.slint.ideaplugin.lang.SlintLanguage
 import kotlin.io.path.Path
+
+
 
 internal class PreviewAction : AnAction() {
 
@@ -24,5 +24,9 @@ internal class PreviewAction : AnAction() {
         val slintServerService = project.service<SlintServerService>()
 
         slintServerService.previewComponent(uriFile.toString(), "")
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
     }
 }

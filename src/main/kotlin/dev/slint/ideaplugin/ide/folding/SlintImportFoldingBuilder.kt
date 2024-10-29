@@ -9,9 +9,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
-import com.intellij.refactoring.suggested.endOffset
-import com.intellij.refactoring.suggested.startOffset
-import com.jetbrains.rd.generator.nova.PredefinedType
 import dev.slint.ideaplugin.lang.psi.SlintFile
 import dev.slint.ideaplugin.lang.psi.SlintImportDefinition
 import dev.slint.ideaplugin.util.parser.childrenOfType
@@ -33,11 +30,11 @@ class SlintImportFoldingBuilder : CustomFoldingBuilder(), DumbAware {
 
         for (import in imports) {
             if (import.isPrevImport().not()) {
-                startOffset = import.startOffset;
+                startOffset = import.textRange.startOffset;
                 startImport = import
             }
             if (import.isNextImport().not() && startImport != null) {
-                descriptors += FoldingDescriptor(startImport, TextRange(startOffset, import.endOffset))
+                descriptors += FoldingDescriptor(startImport, TextRange(startOffset, import.textRange.endOffset))
             }
         }
     }

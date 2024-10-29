@@ -112,7 +112,6 @@ private TopLevelKeywords ::= EXPORT | IMPORT | STRUCT | COMPONENT | GLOBAL | ENU
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 private ExportDefinition ::= EXPORT (ComponentDefinition | EnumDefinition | StructDefinition | GlobalDefinition | ExportComponentDefinition) {
     pin=2
-
 }
 private ExportComponentDefinition ::= '{' Expression (',' (Expression | &'}'))* '}' {
     recoverWhile=Declaration_recover
