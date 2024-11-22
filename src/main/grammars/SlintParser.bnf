@@ -466,8 +466,12 @@ BuiltinFunctions ::=
     | RadialGradientFunction
     | LinearGradientFunction
     | ChildrenFunction
+    | TranslateFunction
 
 private ImageUrlFunction ::= '@image-url' '(' StringLiteral ')' {
+    pin=2
+}
+private TranslateFunction ::= '@tr' '(' StringLiteral ')' {
     pin=2
 }
 private RadialGradientFunction ::= '@radial-gradient' '(' Expression ',' GradientColorPercentageArgumentList ')' {
