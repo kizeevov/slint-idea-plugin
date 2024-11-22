@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2024-11-22
+
 ### Features
 
 - Slint-LSP binary v1.8.0
@@ -11,7 +13,7 @@
 ### Fixed
 
 - Fixed `ActionUpdateThread.OLD_EDT` error ([issue 61](https://github.com/kizeevov/slint-idea-plugin/issues/61))
-- Fixed @tr syntax ([issue 65](https://github.com/kizeevov/slint-idea-plugin/issues/65))
+- Fixed `@tr` syntax ([issue 65](https://github.com/kizeevov/slint-idea-plugin/issues/65))
 
 ## [1.2.0] - 2024-07-30
 
@@ -100,7 +102,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.0.1...v1.0.2
