@@ -10,7 +10,8 @@
 
 ### Fixed
 
-- Fixed `ActionUpdateThread.OLD_EDT` error ([issue](https://github.com/kizeevov/slint-idea-plugin/issues/61))
+- Fixed `ActionUpdateThread.OLD_EDT` error ([issue 61](https://github.com/kizeevov/slint-idea-plugin/issues/61))
+- Fixed @tr syntax ([issue 65](https://github.com/kizeevov/slint-idea-plugin/issues/65))
 
 ## [1.2.0] - 2024-07-30
 
