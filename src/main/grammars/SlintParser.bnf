@@ -389,6 +389,7 @@ Expression ::=
     | AnonymousStructExpression
     | ArrayAnonymousStructExpression
     | ArrayValExpression
+    | ArrayFunctionExpression
 
 MathematicalOperators ::=
     ADDITION
@@ -436,6 +437,7 @@ ArrayExpression ::= PropertyExpression '[' Expression ']'
 ArrayAnonymousStructExpression ::= ArrayAnonymousStruct
 AnonymousStructExpression ::= AnonymousStructDeclaration
 ArrayValExpression ::= '[' Expression? (',' (Expression | &']'))* ']'
+ArrayFunctionExpression ::= CallExpression '[' Expression ']'
 
 ParenthesizedExpression ::= '(' ParenthesizedExpressionEnd { pin=1 }
 private ParenthesizedExpressionEnd ::= Expression ')'
@@ -471,9 +473,10 @@ BuiltinFunctions ::=
 private ImageUrlFunction ::= '@image-url' '(' StringLiteral ')' {
     pin=2
 }
-private TranslateFunction ::= '@tr' '(' StringLiteral ')' {
+private TranslateFunction ::= '@tr' '(' TranslateArguments ')' {
     pin=2
 }
+private TranslateArguments ::= Expression? (',' (Expression | &']'))* {}
 private RadialGradientFunction ::= '@radial-gradient' '(' Expression ',' GradientColorPercentageArgumentList ')' {
     pin=2
 }

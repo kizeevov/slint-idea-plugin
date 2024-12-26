@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+### Features
+
+- Slint-LSP binary v1.9.1
+
+### Fixed
+
+- Fixed `@tr` syntax ([issue 65](https://github.com/kizeevov/slint-idea-plugin/issues/65))
+- Fixed `gradient-steps()` array syntax ([issue 65](https://github.com/kizeevov/slint-idea-plugin/issues/65))
+
 ## [1.3.0] - 2024-11-22
 
 ### Features
