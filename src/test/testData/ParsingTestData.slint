@@ -1,0 +1,79 @@
+import { TabWidget, ComboBox } from "std-widgets.slint";
+
+export struct VersionView {
+    name: string,
+    changelog: string,
+    installed: bool,
+}
+
+export component MainWindow inherits Window {
+    in property <bool> loading: true;
+    in property <bool> updating;
+
+    property <bool> settings-open: false;
+
+    callback update-clicked();
+    callback play-clicked();
+
+    title: @tr("TestWindow");
+    preferred-width: 560px;
+    preferred-height: self.width / 2;
+    background: @linear-gradient(
+        0,
+        gradient-steps()[0] 50%,
+        gradient-steps()[1] 70%
+    );
+
+    ProgressBar {
+        visible: true;
+        progress: up-to-date ? 1 : progress-factor;
+        ready-text: up-to-date
+            ? @tr("Up-to-date: {}", current-version)
+            : ready-size;
+        total-text: updating
+            ? total-size
+            : @tr("{} available, {} download", latest-version, total-size);
+
+        states [
+            needs-update when !up-to-date: {
+                ready-text: ready-size;
+            }
+            during-update when updating: {
+                total-text: total-size;
+            }
+        ]
+    }
+}
+
+export component TransparentIconButton inherits Rectangle {
+    callback clicked <=> i-touch-area.clicked;
+
+    in property <image> icon <=> i-icon.source;
+    in property <bool> selected: false;
+    in property <bool> enabled <=> i-touch-area.enabled;
+
+    VerticalLayout {
+        padding: 14px;
+        i-icon := Image {
+            preferred-width: 36px;
+            preferred-height: 36px;
+
+            colorize: Theme.palette.icon-button-normal;
+            animate colorize { duration: Theme.durations.medium; }
+        }
+    }
+
+    i-touch-area := TouchArea { }
+
+    states [
+        disabled when !root.enabled: {
+            opacity: 0.25;
+        }
+        pressed when i-touch-area.pressed: {
+            i-icon.colorize: Theme.palette.menu-button-pressed;
+        }
+        selected when root.selected: {
+            i-icon.colorize: Theme.palette.menu-button-pressed;
+        }
+    ]
+}
