@@ -34,6 +34,10 @@ kotlin {
             kotlin.srcDir("src")
             resources.srcDir("resources")
         }
+        test {
+            kotlin.srcDir("testSrc")
+            resources.srcDir("src/testData")
+        }
     }
 }
 
@@ -62,6 +66,11 @@ intellij {
 changelog {
     groups.empty()
     repositoryUrl = properties("pluginRepositoryUrl")
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks {
