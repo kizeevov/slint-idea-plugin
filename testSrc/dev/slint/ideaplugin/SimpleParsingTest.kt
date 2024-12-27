@@ -1,4 +1,4 @@
-package test.kotlin
+package dev.slint.ideaplugin
 
 import com.intellij.testFramework.ParsingTestCase
 import dev.slint.ideaplugin.lang.parser.SlintParserDefinition
@@ -10,7 +10,7 @@ class SimpleParsingTest : ParsingTestCase("", "slint", SlintParserDefinition()) 
     }
 
     override fun getTestDataPath(): String {
-        return "src/test/testData"
+        return "testData"
     }
 
     override fun includeRanges(): Boolean {
