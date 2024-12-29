@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.4.0] - 2024-12-29
+
 ### Features
 
 - Slint-LSP binary v1.9.1
@@ -111,7 +113,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.0.2...v1.1.0
