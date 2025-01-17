@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Features
+
+- Slint-LSP binary v1.9.2
+
 ## [1.4.0] - 2024-12-29
 
 ### Features
