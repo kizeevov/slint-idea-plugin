@@ -81,7 +81,6 @@
     NUMERIC_LITERAL = 'regexp:-?\d+(\.\d+)?'
     COLOR_LITERAL   = 'regexp:#([A-Fa-f0-9]{6,8}|[A-Fa-f0-9]{3,4})'
     IDENTIFIER      = 'regexp:[a-zA-Z][a-zA-Z0-9\-_]*'
-    PROPERTY_IDENTIFIER     = 'regexp:([a-zA-Z][a-zA-Z0-9\-_]*[\\.])+[a-zA-Z0-9\-_]*'
     WHITE_SPACE     = 'regexp:\s+'
 
     LINE_COMMENT = 'regexp://.*'
@@ -446,7 +445,12 @@ TernaryExpression ::= Expression '?' TernaryExpressionThen { pin=2 }
 private TernaryExpressionThen ::= Expression ':' TernaryExpressionElse
 private TernaryExpressionElse ::= Expression
 
-PropertyExpression ::= IDENTIFIER | PROPERTY_IDENTIFIER
+PropertyExpression ::= PropertyExpressionComposite | Identifier
+PropertyExpressionComposite ::= Identifier ('.' (Identifier | &')'))* {
+    pin(".*")=1
+}
+
+
 LiteralExpression ::=
     LengthLiteral
     | PhysicalLengthLiteral

@@ -15,16 +15,4 @@ class SlintLspCompletionSupport : LspCompletionSupport() {
     override fun getIcon(item: CompletionItem): Icon {
         return super.getIcon(item) ?: SlintIcons.SLINT
     }
-
-    override fun createLookupElement(parameters: CompletionParameters, item: CompletionItem): LookupElement? {
-        val lookupElement = super.createLookupElement(parameters, item) as LookupElementBuilder
-
-        if (item.kind == CompletionItemKind.Property) {
-            return lookupElement.withInsertHandler { context, _ ->
-                EditorModificationUtil.insertStringAtCaret(context.editor, ": ;", false, 2)
-            }
-        }
-
-        return lookupElement
-    }
 }
