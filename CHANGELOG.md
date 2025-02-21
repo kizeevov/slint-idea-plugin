@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed auto suggest of property ([issue 72](https://github.com/kizeevov/slint-idea-plugin/issues/72))
+
 ## [1.4.1] - 2025-01-18
 
 ### Features

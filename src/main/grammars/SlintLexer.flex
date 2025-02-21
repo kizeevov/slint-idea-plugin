@@ -97,7 +97,6 @@ DOC_COMMENT="/"\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+"/"
   {NUMERIC_LITERAL}           { return NUMERIC_LITERAL; }
   {COLOR_LITERAL}             { return COLOR_LITERAL; }
   {IDENTIFIER}                { return IDENTIFIER; }
-  {PROPERTY_IDENTIFIER}       { return PROPERTY_IDENTIFIER; }
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {LINE_COMMENT}              { return LINE_COMMENT; }
   {DOC_COMMENT}               { return DOC_COMMENT; }

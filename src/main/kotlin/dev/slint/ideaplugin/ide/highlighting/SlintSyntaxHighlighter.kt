@@ -21,7 +21,6 @@ class SlintSyntaxHighlighter : SyntaxHighlighterBase() {
             put(SlintElementTypes.STRING_LITERAL, SlintColors.STRING_LITERAL)
             put(SlintElementTypes.COLOR_LITERAL, SlintColors.NUMBER)
 
-            // put(SlintElementTypes.COLONEQ, SlintColors.OPERATION_SIGN)
             put(SlintElementTypes.EQ, SlintColors.OPERATION_SIGN)
 
             fillMap(this, SLINT_KEYWORDS, SlintColors.KEYWORD)
