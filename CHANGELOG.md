@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.4.2] - 2025-02-22
+
 ### Fixed
 
 - Fixed auto suggest of property ([issue 72](https://github.com/kizeevov/slint-idea-plugin/issues/72))
@@ -123,7 +125,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.1...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.2...HEAD
+[1.4.2]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.2.0...v1.3.0
