@@ -8,6 +8,7 @@
 
 - Property Change Callbacks
 - Named Arguments in Callbacks
+- Slint-LSP binary v1.10.0
 
 ### Fixed
 
