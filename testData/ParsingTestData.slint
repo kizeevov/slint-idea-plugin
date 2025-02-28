@@ -1,4 +1,4 @@
-import { TabWidget, ComboBox } from "std-widgets.slint";
+import { TabWidget, ComboBox, ProgressIndicator } from "std-widgets.slint";
 
 export struct VersionView {
     name: string,
@@ -6,9 +6,25 @@ export struct VersionView {
     installed: bool,
 }
 
+export component ProgressBar {
+    in property <float> progress;
+    in property <string> ready-text;
+    in property <string> total-text;
+}
+
 export component MainWindow inherits Window {
     in property <bool> loading: true;
     in property <bool> updating;
+    in property <bool> up-to-date;
+    in property <float> progress-factor;
+    in property <string> current-version;
+    in property <string> latest-version;
+    in property <string> humanized-ready-size;
+    in property <string> humanized-total-size;
+
+    pure function gradient-steps() -> [color] {
+        return [#FF4100, #FF4110];
+    }
 
     property <bool> settings-open: false;
 
@@ -29,20 +45,43 @@ export component MainWindow inherits Window {
         progress: up-to-date ? 1 : progress-factor;
         ready-text: up-to-date
             ? @tr("Up-to-date: {}", current-version)
-            : ready-size;
+            : humanized-ready-size;
         total-text: updating
-            ? total-size
-            : @tr("{} available, {} download", latest-version, total-size);
+            ? humanized-total-size
+            : @tr("{} available, {} download", latest-version, humanized-total-size);
 
         states [
             needs-update when !up-to-date: {
-                ready-text: ready-size;
+                ready-text: humanized-ready-size;
             }
             during-update when updating: {
-                total-text: total-size;
+                total-text: humanized-total-size;
             }
         ]
     }
+}
+
+export struct Palette {
+    menu-button-pressed: brush,
+    icon-button-normal: brush,
+}
+
+export struct Durations {
+    fast: duration,
+    medium: duration,
+    slow: duration,
+    change-dark-mode: duration,
+}
+
+export global Theme {
+    in property <Palette> palette;
+
+    in property <Durations> durations: {
+        fast: 125ms,
+        medium: 200ms,
+        slow: 500ms,
+        change-dark-mode: 500ms,
+    };
 }
 
 export component TransparentIconButton inherits Rectangle {

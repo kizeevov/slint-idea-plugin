@@ -436,7 +436,11 @@ ArrayExpression ::= PropertyExpression '[' Expression ']'
 ArrayAnonymousStructExpression ::= ArrayAnonymousStruct
 AnonymousStructExpression ::= AnonymousStructDeclaration
 ArrayValExpression ::= '[' Expression? (',' (Expression | &']'))* ']'
-ArrayFunctionExpression ::= CallExpression '[' Expression ']'
+ArrayFunctionExpression ::= CallExpression ArrayFunctionExpressionArgument
+
+ArrayFunctionExpressionArgument ::=  '[' Expression ']' {
+    pin=1
+}
 
 ParenthesizedExpression ::= '(' ParenthesizedExpressionEnd { pin=1 }
 private ParenthesizedExpressionEnd ::= Expression ')'
