@@ -7,6 +7,7 @@
 ### Features
 
 - Property Change Callbacks
+- Named Arguments in Callbacks
 
 ### Fixed
 
