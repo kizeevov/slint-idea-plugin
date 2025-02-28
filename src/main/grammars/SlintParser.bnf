@@ -37,6 +37,7 @@
     IN              = 'in'
     OUT             = 'out'
     IN_OUNT         = 'in-out'
+    CHANGED         = 'changed'
 
     IF              = 'if'
     ELSE            = 'else'
@@ -154,6 +155,7 @@ private ComponentMemberDefinition ::=
     | PropertyDefinition
     | CallbackDefinition
     | CallbackDeclaration
+    | ChangedCallbackDeclaration
     | AnimateDeclaration
     | StatesDefinition
     | FunctionDefinition
@@ -170,6 +172,7 @@ private ComponentMember_recover ::=
     | PROPERTY
     | PURE
     | CALLBACK
+    | CHANGED
     | ANIMATE
     | STATES
     | PUBLIC
@@ -218,6 +221,11 @@ private CallbackDeclaration ::= Identifier CallArgumentList? '=>' CallbackBody {
 CallbackBody ::= '{' CallbackMembers '}'
 private CallbackMembers ::= FunctionMemberDefinition* {
     recoverWhile="simple_scope_recover"
+}
+
+// Changed callback
+private ChangedCallbackDeclaration ::= CHANGED Identifier CallArgumentList? '=>' CallbackBody {
+    pin=4
 }
 
 // Animate

@@ -15,6 +15,7 @@ val SLINT_KEYWORDS = create(IMPORT, FROM, EXPORT, STRUCT, ENUM, GLOBAL, COMPONEN
 val SLINT_KEYWORDS_OTHER = create(
         PROPERTY,
         CALLBACK,
+        CHANGED,
         ANIMATE,
         STATES,
         TRANSITIONS,
