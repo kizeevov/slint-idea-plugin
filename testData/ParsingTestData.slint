@@ -1,4 +1,4 @@
-import { TabWidget, ComboBox, ProgressIndicator } from "std-widgets.slint";
+import { TabWidget, ComboBox, ProgressIndicator, LineEdit } from "std-widgets.slint";
 
 export struct VersionView {
     name: string,
@@ -115,4 +115,15 @@ export component TransparentIconButton inherits Rectangle {
             i-icon.colorize: Theme.palette.menu-button-pressed;
         }
     ]
+}
+
+// Property Change Callbacks
+export component Example inherits Window  {
+    VerticalLayout {
+        LineEdit {
+            // This callback is invoked when the `text` property of the LineEdit changes
+            changed text => { t.text = self.text; }
+        }
+        t := Text {}
+    }
 }
