@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+### Fixed
+- Fixed again `gradient-steps()` array syntax ([issue 65](https://github.com/kizeevov/slint-idea-plugin/issues/65))
+
 ## [1.4.2] - 2025-02-22
 
 ### Fixed
