@@ -127,3 +127,12 @@ export component Example inherits Window  {
         t := Text {}
     }
 }
+
+// Named Arguments in Callbacks
+export component NamedCallbackExample inherits Rectangle {
+    // Declare a callback with named argument
+    callback hello(foo: int, bar: string);
+    // The names can be overridden with
+    // anything when setting a handler
+    hello(aa, bb) => { /* ... */ }
+}
