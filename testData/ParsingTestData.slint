@@ -136,3 +136,12 @@ export component NamedCallbackExample inherits Rectangle {
     // anything when setting a handler
     hello(aa, bb) => { /* ... */ }
 }
+
+// Callbacks
+export component CallbackExample inherits Rectangle {
+    // Declare a callback with argument
+    callback hello(int, string);
+    // The names can be overridden with
+    // anything when setting a handler
+    hello(aa, bb) => { /* ... */ }
+}
