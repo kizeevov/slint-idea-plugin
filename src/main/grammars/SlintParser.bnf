@@ -208,9 +208,10 @@ private PropertyDefinitionInit::= (':' | '<=>') Expression
 private CallbackDefinition ::= PURE? CALLBACK Identifier (CallbackParametersDeclaration | CallbackBindingDeclaration)? ';' {
     pin=3
 }
-private CallbackParametersDeclaration ::= '(' CallbackNamedParameter? (',' (CallbackNamedParameter | &')'))* ')' CallbackReturnDeclaration? {
+private CallbackParametersDeclaration ::= '(' CallbackParameter? (',' (CallbackParameter | &')'))* ')' CallbackReturnDeclaration? {
     pin(".*")=1
 }
+private CallbackParameter ::= CallbackNamedParameter | Type
 private CallbackNamedParameter ::= Identifier ':' Type {
     pin=3
 }

@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed syntax callback with parameters ([issue 82](https://github.com/kizeevov/slint-idea-plugin/issues/82))
+
 ## [1.4.3] - 2025-02-28
 
 ### Features
