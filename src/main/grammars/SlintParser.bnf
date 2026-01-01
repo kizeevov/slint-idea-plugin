@@ -222,7 +222,8 @@ private CallbackBindingDeclaration ::= '<=>' PropertyExpression
 private CallbackDeclaration ::= Identifier CallArgumentList? '=>' CallbackBody {
     pin=3
 }
-CallbackBody ::= '{' CallbackMembers '}'
+CallbackBody ::= CallbackBodyWithBrackets | CallbackMembers
+CallbackBodyWithBrackets ::= '{' CallbackMembers '}'
 private CallbackMembers ::= FunctionMemberDefinition* {
     recoverWhile="simple_scope_recover"
 }
@@ -307,7 +308,7 @@ private FunctionArgument ::= Identifier ':' Type
 FunctionBody ::=  '{' FunctionMembers '}' {
     pin=1
 }
-private FunctionMembers ::=  FunctionMemberDefinition* {
+private FunctionMembers ::= FunctionMemberDefinition* {
     recoverWhile="simple_scope_recover"
 }
 
