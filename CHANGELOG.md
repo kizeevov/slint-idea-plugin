@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed syntax callback without brackets ([issue 91](https://github.com/kizeevov/slint-idea-plugin/issues/91))
+
 ## [1.4.6] - 2025-10-26
 
 ### Features

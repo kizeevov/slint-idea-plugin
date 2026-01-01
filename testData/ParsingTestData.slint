@@ -145,3 +145,11 @@ export component CallbackExample inherits Rectangle {
     // anything when setting a handler
     hello(aa, bb) => { /* ... */ }
 }
+export component CallbackBodyWithBracketsExample {
+    callback hello;
+
+    TouchArea {
+        // Callback without brackets {}
+        clicked => root.hello();
+    }
+}
