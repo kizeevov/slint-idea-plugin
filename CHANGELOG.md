@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.4.7] - 2026-01-01
+
 ### Fixed
 
 - Fixed syntax callback without brackets ([issue 91](https://github.com/kizeevov/slint-idea-plugin/issues/91))
@@ -159,7 +161,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.6...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.7...HEAD
+[1.4.7]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.6...v1.4.7
 [1.4.6]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.5...v1.4.6
 [1.4.5]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.4...v1.4.5
 [1.4.4]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.3...v1.4.4
