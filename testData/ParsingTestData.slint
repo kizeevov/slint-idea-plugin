@@ -1,4 +1,4 @@
-import { TabWidget, ComboBox, ProgressIndicator, LineEdit } from "std-widgets.slint";
+import { TabWidget, ComboBox, ProgressIndicator, LineEdit, Slider } from "std-widgets.slint";
 
 export struct VersionView {
     name: string,
@@ -125,6 +125,17 @@ export component Example inherits Window  {
             changed text => { t.text = self.text; }
         }
         t := Text {}
+    }
+}
+export component SliderCallbackChangedExample {
+    callback updated <=> item.changed;
+    item := Slider { }
+}
+export component SliderCallbackChangedExample2 {
+    Slider {
+        changed(value) => {
+            debug(value);
+        }
     }
 }
 

@@ -13,7 +13,11 @@ class SlintAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element.elementType == SlintElementTypes.FIELD_IDENTIFIER) {
             annotateWithInfo(element, holder, SlintColors.FIELD_NAME)
-        } else if (element.elementType == SlintElementTypes.DURATION_LITERAL
+        }
+        else if (element.elementType == SlintElementTypes.CHANGED_KEYWORD) {
+            annotateWithInfo(element, holder, SlintColors.KEYWORD)
+        }
+        else if (element.elementType == SlintElementTypes.DURATION_LITERAL
             || element.elementType == SlintElementTypes.LENGTH_LITERAL
             || element.elementType == SlintElementTypes.PHYSICAL_LENGTH_LITERAL
             || element.elementType == SlintElementTypes.ANGLE_LITERAL

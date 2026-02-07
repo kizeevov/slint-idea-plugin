@@ -37,7 +37,6 @@
     IN              = 'in'
     OUT             = 'out'
     IN_OUNT         = 'in-out'
-    CHANGED         = 'changed'
 
     IF              = 'if'
     ELSE            = 'else'
@@ -172,7 +171,6 @@ private ComponentMember_recover ::=
     | PROPERTY
     | PURE
     | CALLBACK
-    | CHANGED
     | ANIMATE
     | STATES
     | PUBLIC
@@ -229,9 +227,10 @@ private CallbackMembers ::= FunctionMemberDefinition* {
 }
 
 // Changed callback
-private ChangedCallbackDeclaration ::= CHANGED Identifier CallArgumentList? '=>' CallbackBody {
+private ChangedCallbackDeclaration ::= ChangedKeyword Identifier CallArgumentList? '=>' CallbackBody {
     pin=4
 }
+ChangedKeyword ::= 'changed' {}
 
 // Animate
 private AnimateDeclaration ::= ANIMATE AnimatePropertyName AnimateBody {
