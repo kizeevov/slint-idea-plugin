@@ -22,6 +22,7 @@ import static dev.slint.ideaplugin.lang.psi.SlintElementTypes.*;
 %type IElementType
 %unicode
 
+EOL=\R
 WHITE_SPACE=\s+
 
 STRING_LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
@@ -57,7 +58,6 @@ DOC_COMMENT="/"\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+"/"
   "in"                    { return IN; }
   "out"                   { return OUT; }
   "in-out"                { return IN_OUNT; }
-  "changed"               { return CHANGED; }
   "if"                    { return IF; }
   "else"                  { return ELSE; }
   "else if"               { return ELSE_IF; }

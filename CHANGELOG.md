@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Fixed callback with `changed` keyword ([issue 95](https://github.com/kizeevov/slint-idea-plugin/issues/95))
+
 ## [1.4.7] - 2026-01-01
 
 ### Fixed
