@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.4.9] - 2026-03-27
+
 ### Fixed
 
 - Fixed re-export types from other module ([issue 96](https://github.com/kizeevov/slint-idea-plugin/issues/96))
@@ -176,7 +178,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.8...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.9...HEAD
+[1.4.9]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.8...v1.4.9
 [1.4.8]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.7...v1.4.8
 [1.4.7]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.6...v1.4.7
 [1.4.6]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.5...v1.4.6
