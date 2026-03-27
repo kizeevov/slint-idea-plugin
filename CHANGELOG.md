@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed re-export types from other module ([issue 96](https://github.com/kizeevov/slint-idea-plugin/issues/96))
+- Slint-LSP binary v1.15.1
+
 ## [1.4.8] - 2026-02-08
 
 ### Features

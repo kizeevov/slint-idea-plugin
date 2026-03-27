@@ -24,7 +24,8 @@ val SLINT_KEYWORDS_OTHER = create(
         FUNCTION,
         IN,
         OUT,
-        IN_OUNT
+        IN_OUNT,
+        AS
 )
 val SLINT_KEYWORDS_CONTROL = create(IF, FOR, RETURN)
 val SLINT_BRACES = create(LBRACE, RBRACE)

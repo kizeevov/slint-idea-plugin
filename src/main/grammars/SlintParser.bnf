@@ -23,6 +23,7 @@
     GLOBAL          = 'global'
     COMPONENT       = 'component'
     INHERITS        = 'inherits'
+    AS              = 'as'
 
     PROPERTY        = 'property'
     CALLBACK        = 'callback'
@@ -94,6 +95,7 @@ Schema ::= Declaration*
 
 private Declaration ::=
     ImportDefinition
+    | ReExportDefinition
     | ExportDefinition
     | GlobalDefinition
     | ComponentDefinition
@@ -116,10 +118,11 @@ private ExportComponentDefinition ::= '{' Expression (',' (Expression | &'}'))* 
     recoverWhile=Declaration_recover
 }
 
-
 ImportDefinition ::= IMPORT ImportElementDefinitionBlock? ImportPathDeclaration ';'
+ReExportDefinition ::= EXPORT ImportElementDefinitionBlock? ImportPathDeclaration ';'
 private ImportPathDeclaration ::= STRING_LITERAL
-private ImportElementDefinitionBlock ::= '{' (ComponentName ','?)* '}' FROM
+private ImportElementDefinitionBlock ::= '{' (ImportComponentName ','?)* '}' FROM
+private ImportComponentName ::= (ComponentName AS ComponentName) | ComponentName
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Global

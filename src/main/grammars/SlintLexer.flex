@@ -45,6 +45,7 @@ DOC_COMMENT="/"\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+"/"
   "global"                { return GLOBAL; }
   "component"             { return COMPONENT; }
   "inherits"              { return INHERITS; }
+  "as"                    { return AS; }
   "property"              { return PROPERTY; }
   "callback"              { return CALLBACK; }
   "animate"               { return ANIMATE; }
