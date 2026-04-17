@@ -492,6 +492,7 @@ BuiltinFunctions ::=
     | LinearGradientFunction
     | ChildrenFunction
     | TranslateFunction
+    | KeysFunction
 
 private ImageUrlFunction ::= '@image-url' '(' StringLiteral ')' {
     pin=2
@@ -510,6 +511,11 @@ private GradientColorPercentageArgumentList ::= Expression Expression (',' Expre
     pin(".*")=1
 }
 private ChildrenFunction ::= '@children'
+private KeysFunction ::= '@keys' '(' KeysArgument ')' {
+    pin=2
+}
+private KeysArgument ::= KeysTerm ('+' KeysTerm)*
+private KeysTerm ::= StringLiteral | PropertyExpression '?'?
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Types
