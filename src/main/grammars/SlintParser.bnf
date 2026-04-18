@@ -493,6 +493,7 @@ BuiltinFunctions ::=
     | ChildrenFunction
     | TranslateFunction
     | KeysFunction
+    | MarkdownFunction
 
 private ImageUrlFunction ::= '@image-url' '(' StringLiteral ')' {
     pin=2
@@ -516,6 +517,9 @@ private KeysFunction ::= '@keys' '(' KeysArgument ')' {
 }
 private KeysArgument ::= KeysTerm ('+' KeysTerm)*
 private KeysTerm ::= StringLiteral | PropertyExpression '?'?
+private MarkdownFunction ::= '@markdown' '(' StringLiteral+ ')' {
+    pin=2
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Types
