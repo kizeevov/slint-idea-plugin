@@ -4,15 +4,9 @@
 
 ## [Unreleased]
 
-## [1.5.0] - 2026-04-17
-
 ### Features
 
-- Slint-LSP binary v1.16.0 (adds recognition of `@keys(...)` macro, `KeyBinding` element, `keys` type, `@markdown(...)`, `StyledText`, `ScaleRotateGestureHandler`, and other Slint 1.16 language additions)
-
-### Fixed
-
-- False-positive parser error `<expression> or '=' expected, got '@'` on `@keys(...)` expressions (e.g. `@keys(Control + Z)`) by adding the Slint 1.16 `@keys` macro to the grammar
+- Slint-LSP binary v1.16.0 (adds recognition of `@keys(...)` macro, `@markdown(...)` macro, `KeyBinding` element, `keys` type, `StyledText`, `ScaleRotateGestureHandler`, and other Slint 1.16 language additions)
 
 ## [1.4.9] - 2026-03-27
 
