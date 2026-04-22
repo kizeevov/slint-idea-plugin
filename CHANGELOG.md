@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-04-22
+
 ### Features
 
 - Slint-LSP binary v1.16.0 (adds recognition of `@keys(...)` macro, `@markdown(...)` macro, `KeyBinding` element, `keys` type, `StyledText`, `ScaleRotateGestureHandler`, and other Slint 1.16 language additions)
@@ -182,7 +184,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.9...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.9...v1.5.0
 [1.4.9]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.8...v1.4.9
 [1.4.8]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.7...v1.4.8
 [1.4.7]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.6...v1.4.7
