@@ -439,7 +439,7 @@ UnaryOperators ::=
     NOT
     | SUBTRACTION
 
-AssignmentExpression ::= PropertyExpression EQ Expression { pin=3 }
+AssignmentExpression ::= PostfixExpression EQ Expression { pin=3 }
 BinaryExpression ::= Expression Operators Expression { pin=3 }
 UnaryExpression ::= UnaryOperators Expression { pin=1 }
 CallBuiltinExpression ::= BuiltinFunctions
