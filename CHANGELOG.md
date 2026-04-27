@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [1.5.1] - 2026-04-27
+
+### Fixed
+
+- Parser no longer reports false-positive errors for chained postfix operations like `arr[i].field`, `f().field`, or `obj.method().result` in property default initializers and callback bodies. The grammar now models member access, function calls, and index access as composable postfix operations on a single `PostfixExpression` node, matching the upstream Slint compiler.
+
 ## [1.5.0] - 2026-04-22
 
 ### Features
