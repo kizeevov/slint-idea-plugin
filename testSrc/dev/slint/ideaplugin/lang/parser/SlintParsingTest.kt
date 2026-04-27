@@ -17,4 +17,5 @@ class SlintParsingTest : ParsingTestCase("parser", "slint", SlintParserDefinitio
     fun testStyledText() = doTest(true)
     fun testPostfixChainPropertyInit() = doTest(true)
     fun testPostfixChains() = doTest(true)
+    fun testPostfixInvalid() = doTest(true)
 }

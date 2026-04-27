@@ -1,0 +1,10 @@
+struct Item { name: string }
+
+component Test {
+    in property <[Item]> arr;
+
+    property <bool> a-dangling-dot:    arr.;
+    property <bool> b-empty-index:     arr[];
+    property <bool> c-dangling-chain:  arr[0].;
+    property <bool> d-dot-before-idx:  arr.[0];
+}
