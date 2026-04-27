@@ -1,0 +1,22 @@
+struct Item { name: string, value: int }
+
+component Test {
+    in property <[Item]> items;
+    in property <[[int]]> matrix;
+
+    // Property-Init Kontext
+    property <int>    a-member-after-index: items[0].value;
+    property <int>    b-index-after-member: items.length;
+    property <int>    c-index-after-index:  matrix[0][1];
+    property <bool>   d-unary-chain:        !items[0].name == "x";
+    property <int>    e-long-chain:         items[0].value + items[1].value;
+
+    callback clicked();
+    clicked => {
+        // Callback-Body Kontext
+        items[0].value;
+        matrix[0][1];
+        items.length;
+        !items[0].name;
+    }
+}

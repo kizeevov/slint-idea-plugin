@@ -395,15 +395,12 @@ Expression ::=
     | UnaryExpression
     | TernaryExpression
     | CallBuiltinExpression
-    | CallExpression
-    | PropertyExpression
+    | PostfixExpression
     | LiteralExpression
     | ParenthesizedExpression
-    | ArrayExpression
     | AnonymousStructExpression
     | ArrayAnonymousStructExpression
     | ArrayValExpression
-    | ArrayFunctionExpression
 
 MathematicalOperators ::=
     ADDITION
@@ -442,20 +439,22 @@ UnaryOperators ::=
     NOT
     | SUBTRACTION
 
-AssignmentExpression ::= PropertyExpression EQ Expression { pin=3 }
+AssignmentExpression ::= PostfixExpression EQ Expression { pin=3 }
 BinaryExpression ::= Expression Operators Expression { pin=3 }
 UnaryExpression ::= UnaryOperators Expression { pin=1 }
-CallExpression ::= PropertyExpression CallArgumentList { pin=1 }
 CallBuiltinExpression ::= BuiltinFunctions
-ArrayExpression ::= PropertyExpression '[' Expression ']'
 ArrayAnonymousStructExpression ::= ArrayAnonymousStruct
 AnonymousStructExpression ::= AnonymousStructDeclaration
 ArrayValExpression ::= '[' Expression? (',' (Expression | &']'))* ']'
-ArrayFunctionExpression ::= CallExpression ArrayFunctionExpressionArgument
 
-ArrayFunctionExpressionArgument ::=  '[' Expression ']' {
-    pin=1
+PostfixExpression ::= PostfixBase PostfixOp* {
+    pin(".*")=1
 }
+private PostfixBase ::= Identifier
+PostfixOp    ::= MemberAccess | FunctionCall | IndexAccess
+MemberAccess ::= '.' Identifier { pin=1 }
+FunctionCall ::= CallArgumentList
+IndexAccess  ::= '[' Expression ']' { pin=1 }
 
 ParenthesizedExpression ::= '(' ParenthesizedExpressionEnd { pin=1 }
 private ParenthesizedExpressionEnd ::= Expression ')'
