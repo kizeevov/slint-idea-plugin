@@ -1,0 +1,8 @@
+struct PortInfo { occupied: bool, is-add-slot: bool }
+
+component Test {
+    in property <[PortInfo]> ports;
+    property <bool> p0-occ: ports.length >= 1 && ports[0].occupied && !ports[0].is-add-slot;
+    property <bool> p1-occ: ports.length >= 2 && ports[1].occupied && !ports[1].is-add-slot;
+    property <bool> any-occupied: p0-occ || p1-occ;
+}
