@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.5.1] - 2026-05-08
+
 ### Fixed
 
 - Parser no longer reports false-positive errors for chained postfix operations like `arr[i].field`, `f().field`, or `obj.method().result` in property default initializers and callback bodies. The grammar now models member access, function calls, and index access as composable postfix operations on a single `PostfixExpression` node, matching the upstream Slint compiler.
@@ -188,7 +190,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.5.1...HEAD
+[1.5.1]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.9...v1.5.0
 [1.4.9]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.8...v1.4.9
 [1.4.8]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.4.7...v1.4.8
