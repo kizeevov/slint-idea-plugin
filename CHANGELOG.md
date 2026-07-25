@@ -8,6 +8,11 @@
 
 - Slint-LSP binary v1.17.1
 
+### Fixed
+
+- Fixed parsing identifiers with low line
+- Fixed parsing condition without brackets
+
 ## [1.5.1] - 2026-05-08
 
 ### Fixed

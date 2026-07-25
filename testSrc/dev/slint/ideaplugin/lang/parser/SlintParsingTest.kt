@@ -18,4 +18,6 @@ class SlintParsingTest : ParsingTestCase("parser", "slint", SlintParserDefinitio
     fun testPostfixChainPropertyInit() = doTest(true)
     fun testPostfixChains() = doTest(true)
     fun testPostfixInvalid() = doTest(true)
+    fun testIdentifiersWithLowline() = doTest(true)
+    fun testIfBrackets() = doTest(true)
 }
