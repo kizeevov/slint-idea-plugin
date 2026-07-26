@@ -2,6 +2,7 @@ package dev.slint.ideaplugin.ide.editor.preview
 
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.extensions.PluginId
 import org.cef.browser.CefBrowser
 import org.cef.browser.CefFrame
@@ -44,17 +45,12 @@ internal class SlintWasmRequestHandler(parent: Disposable) : CefLocalRequestHand
     }
 
     private fun resolveFile(path: String): File? {
-        val pluginManager = PluginManager
-            .getInstance()
-            .findEnabledPlugin(PluginId.getId(dev.slint.ideaplugin.SLINT_PLUGIN_ID)) ?: return null
-
-        val filePath = pluginManager
-            .pluginPath
+        val filePath = PathManager
+            .getPluginsDir()
+            .resolve("slint-idea-plugin")
             .resolve("language-server/wasm")
             .resolve(path)
-
-        print(filePath)
-
+        
         return filePath.toFile()
     }
 }
