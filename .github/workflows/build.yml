@@ -3,7 +3,7 @@
 # - Run 'test' and 'verifyPlugin' tasks.
 # - Run Qodana inspections.
 # - Run the 'buildPlugin' task and prepare artifact for further tests.
-# - Run the 'runPluginVerifier' task.
+# - Run the 'verifyPlugin' task.
 # - Create a draft release.
 #
 # The workflow is triggered on push and pull_request events.
@@ -49,7 +49,7 @@ jobs:
 
       # Setup Gradle
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       # Set environment variables
       - name: Export Properties
@@ -67,7 +67,7 @@ jobs:
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-          ./gradlew listProductsReleases # prepare list of IDEs for Plugin Verifier
+          ./gradlew printProductsReleases # prepare list of IDEs for Plugin Verifier
 
       # Build plugin
       - name: Build plugin
@@ -111,7 +111,7 @@ jobs:
 
       # Setup Gradle
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           gradle-home-cache-cleanup: true
 
@@ -196,7 +196,7 @@ jobs:
 
       # Setup Gradle
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           gradle-home-cache-cleanup: true
 
@@ -209,7 +209,7 @@ jobs:
 
       # Run Verify Plugin task and IntelliJ Plugin Verifier tool
       - name: Run Plugin Verification tasks
-        run: ./gradlew runPluginVerifier -Dplugin.verifier.home.dir=${{ needs.build.outputs.pluginVerifierHomeDir }}
+        run: ./gradlew verifyPlugin -Dplugin.verifier.home.dir=${{ needs.build.outputs.pluginVerifierHomeDir }}
 
       # Collect Plugin Verifier Result
       - name: Collect Plugin Verifier Result
