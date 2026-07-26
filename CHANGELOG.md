@@ -10,8 +10,9 @@
 
 ### Fixed
 
-- Fixed parsing identifiers with low line
-- Fixed parsing condition without brackets
+- Fixed parsing identifiers with low line ([issue 107](https://github.com/kizeevov/slint-idea-plugin/issues/107))
+- Fixed parsing condition without brackets ([issue 107](https://github.com/kizeevov/slint-idea-plugin/issues/107))
+- Update to IntelliJ Platform Gradle Plugin (2.x)
 
 ## [1.5.1] - 2026-05-08
 

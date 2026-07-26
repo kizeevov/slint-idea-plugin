@@ -170,6 +170,6 @@ internal class SlintPreview(val project: Project, private val file: VirtualFile,
             override fun bulkUpdateFinished(document: Document) {
                 preview()
             }
-        })
+        }, this)
     }
 }
