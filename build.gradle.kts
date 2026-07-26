@@ -1,26 +1,29 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.intellij.tasks.PatchPluginXmlTask
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import de.undercouch.gradle.tasks.download.Download
+import org.jetbrains.intellij.platform.gradle.tasks.PatchPluginXmlTask
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
-fun properties(key: String) = providers.gradleProperty(key)
+fun properties(key: String) = project.findProperty(key).toString()
 fun environment(key: String) = providers.environmentVariable(key)
 
 plugins {
     id("java")
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.intellij)
+    alias(libs.plugins.platform)
     alias(libs.plugins.grammarkit)
     alias(libs.plugins.changelog)
     alias(libs.plugins.download)
 }
 
-group = properties("pluginGroup").get()
-version = properties("pluginVersion").get()
+group = properties("pluginGroup")
+version = properties("pluginVersion")
 
-val jvmVersion = properties("jvmVersion").get()
-val slintLspVersion: String = properties("slintLspVersion").get()
+val jvmVersion = properties("jvmVersion")
+val slintLspVersion: String = properties("slintLspVersion")
 
 idea {
     module {
@@ -52,15 +55,9 @@ java {
 
 repositories {
     mavenCentral()
-}
-
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    pluginName = properties("pluginName")
-    version = properties("platformVersion")
-    type = properties("platformType")
-    plugins = properties("platformPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) }
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 changelog {
@@ -71,6 +68,33 @@ changelog {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    intellijPlatform {
+        intellijIdea(properties("platformVersion"))
+        bundledPlugin("com.intellij.java")
+        plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
+    }
+}
+
+intellijPlatform {
+    pluginConfiguration {
+        name = properties("pluginName")
+        version = project.version.toString()
+
+        ideaVersion {
+            sinceBuild = properties("pluginSinceBuild")
+            untilBuild = properties("pluginUntilBuild")
+        }
+    }
+
+    pluginVerification {
+        failureLevel.set(
+            listOf(
+                VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS,
+                VerifyPluginTask.FailureLevel.INVALID_PLUGIN,
+                VerifyPluginTask.FailureLevel.INTERNAL_API_USAGES,
+            )
+        )
+    }
 }
 
 tasks {
@@ -94,7 +118,8 @@ tasks {
         dependsOn(generateLexer, generateParser)
     }
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = jvmVersion
+        compilerOptions.jvmTarget.set(JvmTarget.fromTarget(jvmVersion))
+        compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_2_3)
         dependsOn(generateLexer, generateParser)
     }
 
@@ -118,7 +143,7 @@ tasks {
 
         val changelog = project.changelog // local variable for configuration cache compatibility
         // Get the latest available change notes from the changelog file
-        changeNotes = properties("pluginVersion").map { pluginVersion ->
+        changeNotes = providers.gradleProperty("pluginVersion").map { pluginVersion ->
             with(changelog) {
                 renderItem(
                     (getOrNull(pluginVersion) ?: getUnreleased())
@@ -145,31 +170,33 @@ tasks {
         // channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
     }
 
-    task("downloadSlintLspVscodePlugin", type = Download::class) {
+    register<Download>("downloadSlintLspVscodePlugin") {
+        description = "Downloads the Slint LSP binary from the remote repository"
         src("https://Slint.gallery.vsassets.io/_apis/public/gallery/publisher/Slint/extension/slint/${slintLspVersion}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage")
-        dest("${project.buildDir}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")
+        dest("${layout.buildDirectory.asFile.get()}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")
         onlyIfModified(true)
         overwrite(false)
     }
 
-    task("extractSlintLspVscodePlugin", type = Copy::class) {
+    register<Copy>("extractSlintLspVscodePlugin") {
+        description = ""
         dependsOn("downloadSlintLspVscodePlugin")
-        from(zipTree("${project.buildDir}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")) {
-            destinationDir = file("${project.buildDir}/tmp/slint-vscode-plugin")
+        from(zipTree("${layout.buildDirectory.asFile.get()}/tmp/slint-${slintLspVersion}-vscode-plugin.zip")) {
+            destinationDir = file("${layout.buildDirectory.asFile.get()}/tmp/slint-vscode-plugin")
         }
     }
 
     prepareSandbox {
         dependsOn("extractSlintLspVscodePlugin")
-        from("${project.buildDir}/tmp/slint-vscode-plugin/extension/bin") {
-            into("${intellij.pluginName.get()}/language-server/bin")
+        from("${layout.buildDirectory.asFile.get()}/tmp/slint-vscode-plugin/extension/bin") {
+            into("${pluginName.get()}/language-server/bin")
         }
-        from("${project.buildDir}/tmp/slint-vscode-plugin/extension/out") {
+        from("${layout.buildDirectory.asFile.get()}/tmp/slint-vscode-plugin/extension/out") {
             include("slint_lsp_wasm*")
-            into("${intellij.pluginName.get()}/language-server/wasm")
+            into("${pluginName.get()}/language-server/wasm")
         }
         from("${project.projectDir}/src/main/resources/wasmPreview/index.html") {
-            into("${intellij.pluginName.get()}/language-server/wasm")
+            into("${pluginName.get()}/language-server/wasm")
         }
     }
 }
