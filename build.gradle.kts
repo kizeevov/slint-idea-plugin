@@ -1,6 +1,7 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import de.undercouch.gradle.tasks.download.Download
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.tasks.PatchPluginXmlTask
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -66,12 +67,12 @@ changelog {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("junit:junit:4.13.2")
     intellijPlatform {
         intellijIdea(properties("platformVersion"))
         bundledPlugin("com.intellij.java")
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
+        testFramework(TestFrameworkType.Platform)
     }
 }
 
