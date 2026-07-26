@@ -19,7 +19,7 @@ class SlintServerService(private val project: Project) {
     fun previewComponent(path: String, component: String) {
         val server = getActiveServer() ?: return
 
-        server.sendRequestSync {
+        server.sendRequestSync(2_000) {
             it.workspaceService.executeCommand(
                 ExecuteCommandParams(
                     "slint/showPreview",

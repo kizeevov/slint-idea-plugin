@@ -2,6 +2,8 @@ package dev.slint.ideaplugin.ide.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.ide.plugins.PluginManager
+import com.intellij.openapi.application.PathManager
+import com.intellij.openapi.application.PluginPathManager
 import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.util.system.CpuArch
@@ -59,11 +61,6 @@ object CommandLineHandler {
     }
 
     private fun getEmbeddedLspPath(): Path? {
-        val pluginManager = PluginManager
-            .getInstance()
-            .findEnabledPlugin(PluginId.getId(dev.slint.ideaplugin.SLINT_PLUGIN_ID))
-            ?: return null
-
         val programName: String
 
         if (SystemInfo.isMac) {
@@ -82,9 +79,10 @@ object CommandLineHandler {
         } else {
             return null
         }
-
-        val lspPath = pluginManager
-            .pluginPath
+        
+        val lspPath = PathManager
+            .getPluginsDir()
+            .resolve("slint-idea-plugin")
             .resolve("language-server/bin")
             .resolve(programName)
 
