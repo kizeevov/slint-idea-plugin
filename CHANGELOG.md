@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Disabled provided by editor feature
+
 ## [1.6.0] - 2026-07-26
 
 ### Features
