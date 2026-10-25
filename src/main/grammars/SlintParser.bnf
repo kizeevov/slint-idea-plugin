@@ -327,7 +327,7 @@ private FunctionMember_recover ::=
     | Expression
     | '}'
 )
-private FunctionReturnDeclaration ::= RETURN Expression SEMICOLON?
+private FunctionReturnDeclaration ::= RETURN Expression? SEMICOLON?
 private FunctionExpressionDeclaration ::= Expression SEMICOLON?
 
 private IfDeclaration ::= IF IfExpression IfBody ElIfBlock* (ELSE IfBody)? { pin=2 }
