@@ -2,6 +2,14 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- LSP -->
         <platform.lsp.serverSupportProvider implementation="dev.slint.ideaplugin.ide.lsp.SlintLspServerSupportProvider"/>
+
+        <!-- WASM preview -->
+        <toolWindow id="Slint Preview"
+                    anchor="right"
+                    icon="/icons/slint.svg"
+                    doNotActivateOnStart="true"
+                    canCloseContents="false"
+                    factoryClass="dev.slint.ideaplugin.ide.preview.SlintPreviewToolWindowFactory"/>
     </extensions>
     <actions>
         <group id="SlintGroupedActions">
