@@ -61,7 +61,6 @@ DOC_COMMENT="/"\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+"/"
   "in-out"                { return IN_OUNT; }
   "if"                    { return IF; }
   "else"                  { return ELSE; }
-  "else if"               { return ELSE_IF; }
   "for"                   { return FOR; }
   "return"                { return RETURN; }
   "{"                     { return LBRACE; }
