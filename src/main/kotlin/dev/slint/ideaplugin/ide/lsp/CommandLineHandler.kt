@@ -2,7 +2,6 @@ package dev.slint.ideaplugin.ide.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.ide.plugins.PluginManager
-import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.application.PluginPathManager
 import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.util.SystemInfo
@@ -80,11 +79,7 @@ object CommandLineHandler {
             return null
         }
         
-        val lspPath = PathManager
-            .getPluginsDir()
-            .resolve("slint-idea-plugin")
-            .resolve("language-server/bin")
-            .resolve(programName)
+        val lspPath = SlintPluginPaths.binDir.resolve(programName)
 
         if (!lspPath.isExecutable()) {
             lspPath.setPosixFilePermissions(

@@ -20,8 +20,7 @@ class SlintLspServerDescriptor(project: Project) : ProjectWideLspServerDescripto
 
     override fun createInitializationOptions(): Any = SlintSettingsState.getInstance().lspSettings
 
-    // Waiting for fix https://youtrack.jetbrains.com/issue/MP-6574
-    // override fun createLsp4jClient(handler: LspServerNotificationsHandler): Lsp4jClient = SlintLspClient(handler)
+    override fun createLsp4jClient(handler: LspServerNotificationsHandler): Lsp4jClient = SlintLspClient(handler, project)
 
     override val lsp4jServerClass: Class<out LanguageServer> = SlintLspServer::class.java
     override val lspServerListener: LspServerListener = SlintLspServerListener(project)

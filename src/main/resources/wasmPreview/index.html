@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Based on getPreviewHtml() of the Slint VS Code extension (editors/vscode/src/wasm_preview.ts) -->
 <html lang="en" style="height: 100%; width: 100%;">
 <head>
     <meta charset="UTF-8">
@@ -8,19 +9,38 @@
         "use strict";
         import * as slint_preview from './slint_lsp_wasm.js';
 
+        // Replaced by the IDE with a JBCefJSQuery call taking the `request` string
+        function sendToIde(message) {
+            const request = JSON.stringify(message);
+            /*SEND_TO_IDE*/
+        }
+
+        let preview_connector = null;
+        const pending_mapping_requests = {};
+
+        // Called by the IDE
+        window.slintIdeReceive = (message) => {
+            if (message.command === "slint/lsp_to_preview") {
+                preview_connector?.process_lsp_to_preview_message(message.params);
+            } else if (message.command === "map_response") {
+                const resolve = pending_mapping_requests[message.original];
+                delete pending_mapping_requests[message.original];
+                if (resolve) {
+                    resolve(message.mapped ?? undefined);
+                }
+            }
+        };
+
         await slint_preview.default();
 
         try {
             slint_preview.run_event_loop();
         } catch (_) {
-            // This is actually not an error:-/
+            // Not an error, the event loop keeps running in the browser
         }
 
         const canvas_id = "canvas";
-
         const canvas = document.createElement("canvas");
-
-        const pending_mapping_requests = {};
 
         canvas.id = canvas_id;
         canvas.className = canvas_id;
@@ -44,32 +64,23 @@
             canvas.style.maxHeight = "100%";
         }).observe(document.body);
 
-        let preview_connector = await slint_preview.PreviewConnector.create(
-            (data) => {},
-            (url) => {
-                return new Promise((resolve, _) => {
-                    pending_mapping_requests[url] = resolve;
-                    console.log(url)
-                })
-            },
-            "native",
-            false // ${experimental ? "true" : "false"}
+        preview_connector = await slint_preview.PreviewConnector.create(
+            (data) => sendToIde({ command: "slint/preview_to_lsp", params: data }),
+            (url) => new Promise((resolve, _) => {
+                pending_mapping_requests[url] = resolve;
+                sendToIde({ command: "map_url", url: url });
+            }),
+            "/*DEFAULT_STYLE*/",
+            undefined
         );
-
-        window.addEventListener('slint.lspToPreview', async (event) => {
-            preview_connector.process_lsp_to_preview_message(
-                event.detail.message,
-            );
-        });
 
         preview_connector.show_ui().then(() => {
             canvas.style.width = "100%";
             canvas.style.height = "100%";
-
-            window.dispatchEvent(new Event('slint.showUi'));
+            sendToIde({ command: "preview_ready" });
         });
     </script>
 </head>
-<body style="padding: 0; height: 100%; width: 100%" data-vscode-context='{"webviewSection": "slint-previewer"}'>>
+<body style="padding: 0; margin: 0; height: 100%; width: 100%; overflow: hidden">
 </body>
 </html>

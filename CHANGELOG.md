@@ -7,6 +7,7 @@
 ### Features
 
 - Slint-LSP binary v1.18.1
+- Live preview inside the IDE (experimental)
 
 ### Fixed
 

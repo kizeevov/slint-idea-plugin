@@ -192,13 +192,9 @@ tasks {
         from("${layout.buildDirectory.asFile.get()}/tmp/slint-vscode-plugin/extension/bin") {
             into("${pluginName.get()}/language-server/bin")
         }
-//        Disabled before planned development
-//        from("${layout.buildDirectory.asFile.get()}/tmp/slint-vscode-plugin/extension/out") {
-//            include("slint_lsp_wasm*")
-//            into("${pluginName.get()}/language-server/wasm")
-//        }
-//        from("${project.projectDir}/src/main/resources/wasmPreview/index.html") {
-//            into("${pluginName.get()}/language-server/wasm")
-//        }
+        from("${layout.buildDirectory.asFile.get()}/tmp/slint-vscode-plugin/extension/out") {
+            include("slint_lsp_wasm*")
+            into("${pluginName.get()}/language-server/wasm")
+        }
     }
 }

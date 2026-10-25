@@ -5,6 +5,7 @@ import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.project.Project
 import dev.slint.ideaplugin.SlintBundle
+import dev.slint.ideaplugin.ide.preview.SlintPreviewService
 import dev.slint.ideaplugin.ide.services.SlintServerService
 import javax.swing.JComponent
 
@@ -31,6 +32,8 @@ class SlintSettingsConfigurable(internal val project: Project) : Configurable, S
 
         val slintServerService = project.service<SlintServerService>()
         slintServerService.restartServer()
+
+        project.service<SlintPreviewService>().onSettingsChanged()
     }
 
     override fun reset() {
