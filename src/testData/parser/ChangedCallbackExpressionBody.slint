@@ -1,0 +1,6 @@
+export component TestComponent inherits Text {
+    changed text => debug(self.text);
+    init => debug("sup");
+    changed width => debug(self.width);
+    changed height => debug(self.height);
+}
