@@ -15,6 +15,7 @@ import org.cef.browser.CefFrame
 import org.cef.callback.CefCallback
 import org.cef.handler.CefRequestHandlerAdapter
 import org.cef.handler.CefResourceHandler
+import org.cef.handler.CefResourceHandlerAdapter
 import org.cef.handler.CefResourceRequestHandler
 import org.cef.handler.CefResourceRequestHandlerAdapter
 import org.cef.misc.BoolRef
@@ -125,7 +126,7 @@ internal class SlintPreviewResourceHandler(
             .replace("\"/*DEFAULT_STYLE*/\"", JsonPrimitive(style).toString())
     }
 
-    private class StreamResourceHandler(private val stream: InputStream, private val mimeType: String) : CefResourceHandler {
+    private class StreamResourceHandler(private val stream: InputStream, private val mimeType: String) : CefResourceHandlerAdapter() {
         override fun processRequest(request: CefRequest, callback: CefCallback): Boolean {
             callback.Continue()
             return true
@@ -165,7 +166,7 @@ internal class SlintPreviewResourceHandler(
         }
     }
 
-    private object RejectingResourceHandler : CefResourceHandler {
+    private object RejectingResourceHandler : CefResourceHandlerAdapter() {
         override fun processRequest(request: CefRequest, callback: CefCallback): Boolean {
             callback.cancel()
             return false
