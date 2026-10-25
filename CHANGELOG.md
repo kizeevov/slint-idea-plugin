@@ -4,6 +4,17 @@
 
 ## [Unreleased]
 
+### Features
+
+- Slint-LSP binary v1.18.1
+
+### Fixed
+
+- [[Issue 115](https://github.com/kizeevov/slint-idea-plugin/issues/115)] Fixed parsing `else if` without brackets and highlighting of `else` keyword
+- [[Issue 116](https://github.com/kizeevov/slint-idea-plugin/issues/116)] Fixed parsing bare `return` without a value
+- [[Issue 117](https://github.com/kizeevov/slint-idea-plugin/issues/117)] Fixed parsing callback and `changed` handlers without braces (`init => fn();`)
+- [[Issue 119](https://github.com/kizeevov/slint-idea-plugin/issues/119)] Fixed parsing trailing comma in enum declarations
+
 ## [1.6.1] - 2026-08-02
 
 ### Fixed
