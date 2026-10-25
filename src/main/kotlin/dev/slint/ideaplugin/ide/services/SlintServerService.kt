@@ -33,6 +33,8 @@ class SlintServerService(private val project: Project) {
                 )
             )
         }
+
+        project.service<SlintPreviewService>().suggestPreviewInsideIde(path, component)
     }
 
     fun sendPreviewMessage(message: JsonElement): Boolean {
