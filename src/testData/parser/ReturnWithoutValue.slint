@@ -1,0 +1,15 @@
+import { LineEdit } from "std-widgets.slint";
+export component TestComponent2 inherits LineEdit {
+    edited(text) => {
+        if text.is-empty {
+            return;
+        }
+        return;
+    }
+    pure function check(value: int) -> bool {
+        if value > 0 {
+            return true;
+        }
+        return false;
+    }
+}
