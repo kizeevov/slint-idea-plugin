@@ -4,12 +4,13 @@
 
 ## [Unreleased]
 
-## [1.7.1] - 2026-10-25
+## [1.7.2] - 2026-10-25
 
 ### Features
 
 - Slint-LSP binary v1.18.1
 - Live preview inside the IDE (experimental)
+- Support for 2026.3 IDEs
 
 ### Fixed
 
@@ -17,6 +18,7 @@
 - [[Issue 116](https://github.com/kizeevov/slint-idea-plugin/issues/116)] Fixed parsing bare `return` without a value
 - [[Issue 117](https://github.com/kizeevov/slint-idea-plugin/issues/117)] Fixed parsing callback and `changed` handlers without braces (`init => fn();`)
 - [[Issue 119](https://github.com/kizeevov/slint-idea-plugin/issues/119)] Fixed parsing trailing comma in enum declarations
+- [[Issue 114](https://github.com/kizeevov/slint-idea-plugin/issues/114)] Fixed starting the language server for WSL
 
 ## [1.6.1] - 2026-08-02
 

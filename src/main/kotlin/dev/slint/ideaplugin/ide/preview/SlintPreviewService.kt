@@ -12,6 +12,7 @@ import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Disposer
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.ui.components.JBPanelWithEmptyText
@@ -31,7 +32,7 @@ class SlintPreviewService(private val project: Project) {
     private var panel: SlintPreviewPanel? = null
 
     val isEnabled: Boolean
-        get() = SlintSettingsState.getInstance().lspSettings.providedByEditor && JBCefApp.isSupported()
+        get() = SlintSettingsState.getInstance().lspSettings.providedByEditor && isJcefSupported()
 
     fun onLspToPreview(message: JsonElement) {
         if (message is JsonObject && message.has("ShowPreview")) {
@@ -69,8 +70,8 @@ class SlintPreviewService(private val project: Project) {
         toolWindow.isAvailable = false
     }
 
-    fun suggestPreviewInsideIde(path: String, component: String) {
-        if (isEnabled || !JBCefApp.isSupported()) return
+    fun suggestPreviewInsideIde(file: VirtualFile, component: String) {
+        if (isEnabled || !isJcefSupported()) return
 
         val properties = PropertiesComponent.getInstance()
         if (properties.getBoolean(PREVIEW_INSIDE_IDE_SUGGESTED_KEY)) return
@@ -86,7 +87,7 @@ class SlintPreviewService(private val project: Project) {
             .addAction(NotificationAction.createSimpleExpiring(SlintBundle.message("preview.inside.ide.notification.enable")) {
                 SlintSettingsState.getInstance().lspSettings.providedByEditor = true
                 onSettingsChanged()
-                project.service<SlintServerService>().previewComponent(path, component)
+                project.service<SlintServerService>().previewComponent(file, component)
             })
             .notify(project)
     }
@@ -123,6 +124,12 @@ class SlintPreviewService(private val project: Project) {
         val toolWindow = getToolWindow() ?: return
         toolWindow.isAvailable = true
         toolWindow.show { ensurePreview(toolWindow) }
+    }
+
+    private fun isJcefSupported(): Boolean = try {
+        JBCefApp.isSupported()
+    } catch (e: NoClassDefFoundError) {
+        false
     }
 
     private fun getToolWindow(): ToolWindow? =

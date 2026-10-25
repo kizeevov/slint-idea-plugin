@@ -4,6 +4,7 @@ import com.google.gson.JsonElement
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.LspServer
 import com.intellij.platform.lsp.api.LspServerManager
 import com.intellij.platform.lsp.api.LspServerState
@@ -20,8 +21,9 @@ class SlintServerService(private val project: Project) {
             .stopAndRestartIfNeeded(SlintLspServerSupportProvider::class.java)
     }
 
-    fun previewComponent(path: String, component: String) {
+    fun previewComponent(file: VirtualFile, component: String) {
         val server = getActiveServer() ?: return
+        val uri = server.descriptor.getFileUri(file)
 
         project.service<SlintPreviewService>().updatePreviewTarget()
 
@@ -29,12 +31,12 @@ class SlintServerService(private val project: Project) {
             it.workspaceService.executeCommand(
                 ExecuteCommandParams(
                     "slint/showPreview",
-                    listOf(path, component)
+                    listOf(uri, component)
                 )
             )
         }
 
-        project.service<SlintPreviewService>().suggestPreviewInsideIde(path, component)
+        project.service<SlintPreviewService>().suggestPreviewInsideIde(file, component)
     }
 
     fun sendPreviewMessage(message: JsonElement): Boolean {
