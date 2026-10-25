@@ -7,7 +7,7 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 
 class SlintPreviewToolWindowFactory : ToolWindowFactory, DumbAware {
-    override fun shouldBeAvailable(project: Project): Boolean = false
+    override fun shouldBeAvailable(project: Project): Boolean = project.service<SlintPreviewService>().isEnabled
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         project.service<SlintPreviewService>().ensureContent(toolWindow)

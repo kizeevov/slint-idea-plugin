@@ -10,6 +10,8 @@
                     doNotActivateOnStart="true"
                     canCloseContents="false"
                     factoryClass="dev.slint.ideaplugin.ide.preview.SlintPreviewToolWindowFactory"/>
+
+        <notificationGroup id="Slint" displayType="BALLOON" bundle="messages.SlintBundle" key="notification.group.slint"/>
     </extensions>
     <actions>
         <group id="SlintGroupedActions">
