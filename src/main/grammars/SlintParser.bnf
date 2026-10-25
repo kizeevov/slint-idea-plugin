@@ -41,7 +41,6 @@
 
     IF              = 'if'
     ELSE            = 'else'
-    ELSE_IF         = 'else if'
     FOR             = 'for'
     RETURN          = 'return'
 
@@ -334,7 +333,7 @@ private FunctionExpressionDeclaration ::= Expression SEMICOLON?
 private IfDeclaration ::= IF IfExpression IfBody ElIfBlock* (ELSE IfBody)? { pin=2 }
 private IfExpression ::= Expression | '(' Expression ')'
 private IfBody ::= '{' FunctionMembers '}'
-private ElIfBlock ::= ELSE_IF '(' Expression ')' IfBody
+private ElIfBlock ::= ELSE IF IfExpression IfBody { pin=2 }
 
 // Repetition
 private RepetitionDefinition ::= FOR Expression IN Expression ':' {
