@@ -6,7 +6,7 @@
         <!-- WASM preview -->
         <toolWindow id="Slint Preview"
                     anchor="right"
-                    icon="/icons/slint.svg"
+                    icon="/icons/toolWindowSlintPreview.svg"
                     doNotActivateOnStart="true"
                     canCloseContents="false"
                     factoryClass="dev.slint.ideaplugin.ide.preview.SlintPreviewToolWindowFactory"/>
