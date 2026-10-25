@@ -4,6 +4,7 @@ import de.undercouch.gradle.tasks.download.Download
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.tasks.PatchPluginXmlTask
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
@@ -121,6 +122,7 @@ tasks {
     withType<KotlinCompile> {
         compilerOptions.jvmTarget.set(JvmTarget.fromTarget(jvmVersion))
         compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_2_3)
+        compilerOptions.jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
         dependsOn(generateLexer, generateParser)
     }
 

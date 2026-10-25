@@ -1,6 +1,9 @@
 package dev.slint.ideaplugin.ide.settings
 
+import com.intellij.openapi.fileChooser.FileChooser
+import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.ui.DialogPanel
+import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.dsl.builder.*
 
@@ -18,7 +21,7 @@ class SlintSettingsComponent(lspSettings: SlintLspSettings) {
                 }
                 indent {
                     row {
-                        textFieldWithBrowseButton()
+                        cell(createLspPathField())
                             .label("LSP path:")
                             .bindText(lspSettings::path)
                             .enabledIf(useExternalLspCheckBox.selected)
@@ -67,5 +70,13 @@ class SlintSettingsComponent(lspSettings: SlintLspSettings) {
 
     fun getPanel(): DialogPanel? {
         return panel
+    }
+
+    // Row.textFieldWithBrowseButton() has incompatible signatures in 2024.2 and 2024.3+
+    private fun createLspPathField(): TextFieldWithBrowseButton = TextFieldWithBrowseButton().apply {
+        addActionListener {
+            val descriptor = FileChooserDescriptor(true, false, false, false, false, false)
+            FileChooser.chooseFile(descriptor, null, null) { file -> text = file.path }
+        }
     }
 }

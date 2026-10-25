@@ -81,10 +81,10 @@ internal class SlintPreviewResourceHandler(
         }
 
         val file = LocalFileSystem.getInstance().findFileByNioFile(path) ?: return false
-        return ReadAction.compute<Boolean, RuntimeException> {
+        return ReadAction.nonBlocking<Boolean> {
             val index = ProjectFileIndex.getInstance(project)
             index.isInContent(file) || index.isInLibrary(file)
-        }
+        }.executeSynchronously()
     }
 
     private fun resolve(url: String): CefResourceHandler? {
