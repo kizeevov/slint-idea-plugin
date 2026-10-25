@@ -222,11 +222,12 @@ private CallbackBindingDeclaration ::= '<=>' PropertyExpression
 private CallbackDeclaration ::= Identifier CallArgumentList? '=>' CallbackBody {
     pin=3
 }
-CallbackBody ::= CallbackBodyWithBrackets | CallbackMembers
+CallbackBody ::= CallbackBodyWithBrackets | CallbackExpressionBody
 CallbackBodyWithBrackets ::= '{' CallbackMembers '}'
 private CallbackMembers ::= FunctionMemberDefinition* {
     recoverWhile="simple_scope_recover"
 }
+private CallbackExpressionBody ::= Expression ';'
 
 // Changed callback
 private ChangedCallbackDeclaration ::= ChangedKeyword Identifier CallArgumentList? '=>' CallbackBody {

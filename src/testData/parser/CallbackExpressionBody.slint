@@ -1,0 +1,15 @@
+export component SomeComponent inherits Text {
+    function fn() {}
+
+    init => fn();
+
+    text: "hi";
+
+    changed text => fn();
+    init => { fn(); }
+
+    TouchArea {
+        clicked => root.fn();
+        width: 10px;
+    }
+}
