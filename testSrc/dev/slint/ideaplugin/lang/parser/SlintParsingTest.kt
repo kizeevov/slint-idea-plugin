@@ -23,6 +23,7 @@ class SlintParsingTest : ParsingTestCase("parser", "slint", SlintParserDefinitio
     fun testIfElseChain() = doTest(true)
     fun testReturnWithoutValue() = doTest(true)
     fun testCallbackExpressionBody() = doTest(true)
+    fun testChangedCallbackExpressionBody() = doTest(true)
     fun testEnumTrailingComma() = doTest(true)
     fun testParsingTest() = doTest(true)
 }
