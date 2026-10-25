@@ -16,7 +16,7 @@ class SlintLspServerDescriptor(project: Project) : ProjectWideLspServerDescripto
 
     override fun isSupportedFile(file: VirtualFile) = file.isSlint
 
-    override fun createCommandLine(): GeneralCommandLine = CommandLineHandler.createCommandLine()
+    override fun createCommandLine(): GeneralCommandLine = CommandLineHandler.createCommandLine(project)
 
     override fun createInitializationOptions(): Any = SlintSettingsState.getInstance().lspSettings
 

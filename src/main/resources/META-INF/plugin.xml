@@ -12,6 +12,7 @@
     <resource-bundle>messages.SlintBundle</resource-bundle>
 
     <depends optional="true" config-file="slint-idea-lsp-support.xml">com.intellij.modules.ultimate</depends>
+    <depends optional="true" config-file="slint-jcef.xml">com.intellij.modules.jcef</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Language -->

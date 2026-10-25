@@ -1,22 +1,25 @@
 package dev.slint.ideaplugin.ide.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
+import com.intellij.execution.wsl.WSLDistribution
+import com.intellij.execution.wsl.WslPath
 import com.intellij.ide.plugins.PluginManager
+import com.intellij.openapi.application.ApplicationInfo
 import com.intellij.openapi.application.PluginPathManager
 import com.intellij.openapi.extensions.PluginId
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.util.system.CpuArch
 import dev.slint.ideaplugin.ide.settings.SlintBackend
 import dev.slint.ideaplugin.ide.settings.SlintSettingsState
 import dev.slint.ideaplugin.ide.settings.SlintStyle
-import java.nio.file.Path
 import java.nio.file.attribute.PosixFilePermission
 import kotlin.io.path.getPosixFilePermissions
 import kotlin.io.path.isExecutable
 import kotlin.io.path.setPosixFilePermissions
 
 object CommandLineHandler {
-    fun createCommandLine(): GeneralCommandLine {
+    fun createCommandLine(project: Project): GeneralCommandLine {
         val settingState = SlintSettingsState.getInstance().lspSettings
 
         val parameters = mutableListOf<String>()
@@ -49,7 +52,7 @@ object CommandLineHandler {
         val path = if (settingState.useExternalLsp) {
             settingState.path
         } else {
-            getEmbeddedLspPath().toString()
+            getEmbeddedLspPath(project).toString()
         }
 
         return GeneralCommandLine(path).apply {
@@ -59,26 +62,22 @@ object CommandLineHandler {
         }
     }
 
-    private fun getEmbeddedLspPath(): Path? {
-        val programName: String
+    private fun getEmbeddedLspPath(project: Project): String? {
+        getWslDistribution(project)?.let { distribution ->
+            val programName = getLinuxProgramName() ?: return null
+            return distribution.getWslPath(SlintPluginPaths.binDir.resolve(programName))
+        }
 
-        if (SystemInfo.isMac) {
-            programName = "Slint Live Preview.app/Contents/MacOS/slint-lsp"
+        val programName = if (SystemInfo.isMac) {
+            "Slint Live Preview.app/Contents/MacOS/slint-lsp"
         } else if (SystemInfo.isLinux) {
-            programName = when (CpuArch.CURRENT) {
-                CpuArch.X86_64 -> "slint-lsp-x86_64-unknown-linux-gnu"
-                CpuArch.ARM32 -> "slint-lsp-armv7-unknown-linux-gnueabihf"
-                CpuArch.ARM64 -> "slint-lsp-aarch64-unknown-linux-gnu"
-                else -> {
-                    return null
-                }
-            }
+            getLinuxProgramName() ?: return null
         } else if (SystemInfo.isWindows) {
-            programName = "slint-lsp-x86_64-pc-windows-msvc.exe"
+            "slint-lsp-x86_64-pc-windows-msvc.exe"
         } else {
             return null
         }
-        
+
         val lspPath = SlintPluginPaths.binDir.resolve(programName)
 
         if (!lspPath.isExecutable()) {
@@ -88,6 +87,19 @@ object CommandLineHandler {
             )
         }
 
-        return lspPath
+        return lspPath.toString()
+    }
+
+    private fun getLinuxProgramName(): String? = when (CpuArch.CURRENT) {
+        CpuArch.X86_64 -> "slint-lsp-x86_64-unknown-linux-gnu"
+        CpuArch.ARM32 -> "slint-lsp-armv7-unknown-linux-gnueabihf"
+        CpuArch.ARM64 -> "slint-lsp-aarch64-unknown-linux-gnu"
+        else -> null
+    }
+
+    private fun getWslDistribution(project: Project): WSLDistribution? {
+        if (!SystemInfo.isWindows || ApplicationInfo.getInstance().build.baselineVersion < 263) return null
+        val basePath = project.basePath ?: return null
+        return WslPath.getDistributionByWindowsUncPath(basePath)
     }
 }

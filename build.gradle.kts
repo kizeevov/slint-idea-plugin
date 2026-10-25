@@ -1,8 +1,10 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import de.undercouch.gradle.tasks.download.Download
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.tasks.PatchPluginXmlTask
+import org.jetbrains.intellij.platform.gradle.tasks.PrepareSandboxTask
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -189,7 +191,7 @@ tasks {
         }
     }
 
-    prepareSandbox {
+    withType<PrepareSandboxTask> {
         dependsOn("extractSlintLspVscodePlugin")
         from("${layout.buildDirectory.asFile.get()}/tmp/slint-vscode-plugin/extension/bin") {
             into("${pluginName.get()}/language-server/bin")
