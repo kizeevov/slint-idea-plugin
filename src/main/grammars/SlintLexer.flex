@@ -58,7 +58,7 @@ DOC_COMMENT="/"\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+"/"
   "function"              { return FUNCTION; }
   "in"                    { return IN; }
   "out"                   { return OUT; }
-  "in-out"                { return IN_OUNT; }
+  "in-out" | "in_out"     { return IN_OUNT; }
   "if"                    { return IF; }
   "else"                  { return ELSE; }
   "for"                   { return FOR; }

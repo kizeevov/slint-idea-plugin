@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- [[Issue 127](https://github.com/kizeevov/slint-idea-plugin/issues/127)] Fixed parsing `in_out` property modifier
+
 ## [1.7.2] - 2026-10-25
 
 ### Features

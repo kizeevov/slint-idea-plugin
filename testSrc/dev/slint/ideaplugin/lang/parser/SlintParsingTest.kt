@@ -25,5 +25,6 @@ class SlintParsingTest : ParsingTestCase("parser", "slint", SlintParserDefinitio
     fun testCallbackExpressionBody() = doTest(true)
     fun testChangedCallbackExpressionBody() = doTest(true)
     fun testEnumTrailingComma() = doTest(true)
+    fun testInOutUnderscore() = doTest(true)
     fun testParsingTest() = doTest(true)
 }
