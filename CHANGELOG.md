@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.7.3] - 2026-10-30
+
 ### Fixed
 
 - [[Issue 127](https://github.com/kizeevov/slint-idea-plugin/issues/127)] Fixed parsing `in_out` property modifier
@@ -228,7 +230,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.7.2...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.7.3...HEAD
+[1.7.3]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.7.2...v1.7.3
 [1.7.2]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.6.1...v1.7.2
 [1.7.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.6.0...v1.6.1
