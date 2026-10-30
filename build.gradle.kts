@@ -74,6 +74,8 @@ dependencies {
     intellijPlatform {
         intellijIdea(properties("platformVersion"))
         bundledPlugin("com.intellij.java")
+        // For future versions
+        // bundledPlugin("com.intellij.modules.jcef")
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
         testFramework(TestFrameworkType.Platform)
     }

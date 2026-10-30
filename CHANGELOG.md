@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Features
+
+- [[Issue 120](https://github.com/kizeevov/slint-idea-plugin/issues/120)] Color picker for color literals in the gutter. The color picker can be disabled in settings
+
 ## [1.7.3] - 2026-10-30
 
 ### Fixed

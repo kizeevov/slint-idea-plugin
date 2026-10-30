@@ -4,8 +4,7 @@ import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.*
-import com.intellij.platform.lsp.api.customization.LspCompletionSupport
-import com.intellij.platform.lsp.api.customization.LspFormattingSupport
+import com.intellij.platform.lsp.api.customization.LspCustomization
 import dev.slint.ideaplugin.ide.settings.SlintSettingsState
 import dev.slint.ideaplugin.lang.SlintFileType
 import dev.slint.ideaplugin.lang.isSlint
@@ -24,6 +23,5 @@ class SlintLspServerDescriptor(project: Project) : ProjectWideLspServerDescripto
 
     override val lsp4jServerClass: Class<out LanguageServer> = SlintLspServer::class.java
     override val lspServerListener: LspServerListener = SlintLspServerListener(project)
-    override val lspCompletionSupport: LspCompletionSupport = SlintLspCompletionSupport()
-    override val lspFormattingSupport: LspFormattingSupport = SlintLspFormattingSupport()
+    override val lspCustomization: LspCustomization = SlintLspCustomization()
 }
