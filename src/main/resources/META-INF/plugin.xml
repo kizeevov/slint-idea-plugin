@@ -24,6 +24,7 @@
         <lang.parserDefinition language="Slint"
                                implementationClass="dev.slint.ideaplugin.lang.parser.SlintParserDefinition"/>
         <annotator language="Slint" implementationClass="dev.slint.ideaplugin.ide.annotator.SlintAnnotator"/>
+        <colorProvider implementation="dev.slint.ideaplugin.ide.color.SlintColorProvider"/>
         <internalFileTemplate name="Slint File"/>
 
         <!--Syntax Highlighting-->

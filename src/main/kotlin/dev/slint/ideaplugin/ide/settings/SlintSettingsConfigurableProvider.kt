@@ -1,5 +1,6 @@
 package dev.slint.ideaplugin.ide.settings
 
+import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.openapi.components.service
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.SearchableConfigurable
@@ -34,6 +35,8 @@ class SlintSettingsConfigurable(internal val project: Project) : Configurable, S
         slintServerService.restartServer()
 
         project.service<SlintPreviewService>().onSettingsChanged()
+
+        DaemonCodeAnalyzer.getInstance(project).restart()
     }
 
     override fun reset() {

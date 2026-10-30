@@ -44,6 +44,11 @@ class SlintSettingsComponent(lspSettings: SlintLspSettings) {
                         .onApply { pathsTablePanel.onApply(lspSettings.includePaths) }
                         .onReset { pathsTablePanel.onReset(lspSettings.includePaths) }
                 }
+                row {
+                    checkBox("Enable color picker")
+                        .comment("Shows a color icon in the gutter that opens the color picker. When disabled, the LSP server shows colors next to color values instead.")
+                        .bindSelected(lspSettings::colorPicker)
+                }
             }
             group("Preview") {
                 row {
