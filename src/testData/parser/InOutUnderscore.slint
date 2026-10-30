@@ -1,0 +1,8 @@
+component SearchTextInput {
+    in_out property <string> text <=> text_input.text;
+    in-out property <string> value;
+    in property <string> placeholder_text;
+    property <length> computed_x;
+
+    text_input := TextInput { }
+}
