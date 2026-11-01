@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.7.4] - 2026-11-01
+
 ### Features
 
 - [[Issue 120](https://github.com/kizeevov/slint-idea-plugin/issues/120)] Color picker for color literals in the gutter. The color picker can be disabled in settings
@@ -234,7 +236,8 @@
 
 - added highlighting of numeric values with units;
 
-[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.7.3...HEAD
+[Unreleased]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.7.4...HEAD
+[1.7.4]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.7.3...v1.7.4
 [1.7.3]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.7.2...v1.7.3
 [1.7.2]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.6.1...v1.7.2
 [1.7.0]: https://github.com/kizeevov/slint-idea-plugin/compare/v1.6.1...v1.7.0
